@@ -1,2 +1,2 @@
 # cdisc360i-poc
-CDISC 360i POCs
+CDISC 360i Proof of Concepts

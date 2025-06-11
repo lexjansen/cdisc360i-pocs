@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>CDISC360i CDASH POC Study  </title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta name="Author" content="J&#248;rgen Mangor Iversen"/>
+    <style>
+          html          { margin: 1em 1em 1em 1em; }
+          *             { font-family: Helvetica, Arial, sans-serif !important; }
+          h1, h2, h3, p { text-align: center; }
+          table         { solid DarkGrey; border-spacing: 0; border-collapse: collapse; page-break-inside: auto; }
+          tr            { page-break-inside:avoid; page-break-after:auto; }
+          th, td        { border: 1px solid DarkGrey; }
+          a:link        { color: black; background-color: transparent; text-decoration: none; }
+          a:visited     { color: black; background-color: transparent; text-decoration: none; }
+          a:hover       { color: blue;  background-color: transparent; text-decoration: underline; }
+          .nohover      { pointer-events: none; }
+          @media print  { .noprint { display: none; } thead { display: table-header-group; } .rotate { padding: 0px 0px 0px 0px; margin: 0px; } }
+          .noprint      { position: fixed; bottom: 0.5em; right: 0.5em; z-index: 99; }
+          .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+          .noborder     { border: none; }
+          .center       { margin-left: auto; margin-right: auto; }
+          .matrix       { text-align: center; }
+          .check        { color: DarkGreen; }
+          .hidden       { visibility: hidden; display: none; }
+          .maintable    { border: 1px; width: 100%; }
+          .crfhead      { background-color: Gainsboro; }
+          .left         { text-align: left; }
+          .formtitle    { font-style: bold;   font-weight: bold;   font-size: 1.2em; }
+          .note         { font-style: italic; font-weight: normal; font-size: 0.8em; }
+          .plain        { font-weight: normal; }
+          .small        { font-size: 0.7em; vertical-align: midddle;}
+          .inpw         { width: 40%; }
+          .maxw         { width: 100%; }
+          .seqw         { width: 5em !important; }
+          .cdash        { background-color: lightblue; padding: 2px; color: Blue; border: 2px double Blue !important; }
+          
+              .anno     { background-color: LightYellow; }
+              .quew     { width: 30%; }
+              .answ     { width: 25%; }
+              .annw     { width: 40%; }
+              .desw     { width: 60%; }
+            </style>
+  </head>
+  <body>
+    <table class="noprint">
+      <tr>
+        <td class="noborder">
+          <button onClick="for(var element of document.querySelectorAll('[id=anno]')) element.style.visibility   = (element.style.visibility   == 'collapse') ? 'visible' : 'collapse';                              for(var element of document.querySelectorAll('[id=anno]')) element.style.borderRight  = (element.style.borderRight  == '0px') ? '1px solid Darkgrey' : '0px';                              for(var element of document.querySelectorAll('[id=anno]')) element.style.borderBottom = (element.style.borderBottom == '0px') ? '1px solid Darkgrey' : '0px';                              for(var element of document.querySelectorAll('[id=anno]')) element.style.borderTop    = (element.style.borderTop    == '0px') ? '1px solid Darkgrey' : '0px';">
+              SDTM annotations Off and On
+            </button>
+        </td>
+        <td class="noborder">
+          <button onClick="for(var element of document.querySelectorAll('[id=internal]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
+              Internal notes Off and On
+            </button>
+        </td>
+        <td class="noborder">
+          <button onClick="for(var element of document.querySelectorAll('[id=implement]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
+              Implementation notes Off and On
+            </button>
+        </td>
+        <td class="noborder">
+          <button onClick="document.documentElement.scrollTop = 0">
+            Scroll to the top
+          </button>
+        </td>
+      </tr>
+    </table>
+    <h1>Study</h1>
+    <h1>CRF Specification for CDISC360i CDASH POC Study</h1>
+    <p>CDISC360i CDASH POC Study</p>
+    <h2>Protocol Name: CDISC360i CDASH POC Study protocol</h2>
+    <p>
+        Creation date: 2025-06-11
+        time: 21:26:09.498991</p>
+    <p>
+        Valid from date: 2025-06-11
+        time: 21:26:09.498991</p>
+    <h3/>
+    <p>
+      <img src="data:image/png;base64,"/>
+    </p>
+    <p style="page-break-before: always; margin-top: 0;"/>
+    <table class="center maxw">
+      <thead>
+        <tr>
+          <td class="noborder" colspan="3">
+            <h2 class="center">Table of Contents</h2>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3" class="noborder matrix">
+            <a href="#IG.SIXMW1">
+              <span>Six Minute Walk Test Form</span>
+            </a>
+            <p/>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="maintable">
+      <p style="page-break-before: always;"/>
+      <thead>
+        <tr>
+          <th colspan="4" class="noborder">
+            <div class="left formtitle">
+              <a class="nohover" id="IG.SIXMW1">
+                <span>Six Minute Walk Test Form</span>
+              </a>
+            </div>
+          </th>
+        </tr>
+        <tr id="internal">
+          <th colspan="4" class="noborder">
+            <div id="internal" class="left note">Six Minute Walk Test Form</div>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="4" class="noborder">
+            <br/>
+          </th>
+        </tr>
+        <tr>
+          <th class="crfhead seqw left">Ref</th>
+          <th class="crfhead quew">CRF Question</th>
+          <th class="crfhead answ">Data Collected</th>
+          <th class="crfhead annw" id="anno">SDTM Annotations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="seqw">1.2</td>
+          <td class="quew">Was the Six Minute Walk Test performed?</td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW1_PERF.FTPERF.C66742"/>
+            <label for="CL.SIXMW1_PERF.FTPERF.C66742">No<span class="note"> (N)</span></label>
+            <br/>
+            <input type="radio" name="CL.SIXMW1_PERF.FTPERF.C66742"/>
+            <label for="CL.SIXMW1_PERF.FTPERF.C66742">Yes<span class="note"> (Y)</span></label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #[NOT"/><a class="nohover" id="[NOT"/><a href="&#10;          #SUBMITTED];"/><a class="nohover" id="SUBMITTED];"/><a href="&#10;          #FTSTAT"/><a class="nohover" id="FTSTAT"/><a href="&#10;          #NOT"/><a class="nohover" id="NOT"/><a href="&#10;          #DONE"/><a class="nohover" id="DONE"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #FTALL"/><a class="nohover" id="FTALL"/>[NOT SUBMITTED]; FTSTAT = NOT DONE when FTTESTCD = FTALL</td>
+        </tr>
+        <tr>
+          <td class="seqw">1.3</td>
+          <td class="quew">
+            <p>Date of Assessment</p>
+          </td>
+          <td class="answ">
+            <input type="text" placeholder="DD-MMM-YYYY"/>
+            <span class="note"> Date</span>
+            <p class="note left">
+          Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM
+        </p>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTDTC"/><a class="nohover" id="FTDTC"/>FTDTC</td>
+        </tr>
+        <tr>
+          <td class="seqw">1.4</td>
+          <td class="quew">
+            <p>Assisted Device</p>
+          </td>
+          <td class="answ">
+            <input type="text"/>
+            <span class="note"> Text</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTASTDEV"/><a class="nohover" id="FTASTDEV"/><a href="&#10;          #in"/><a class="nohover" id="in"/><a href="&#10;          #SUPPFT"/><a class="nohover" id="SUPPFT"/>FTASTDEV in SUPPFT</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.1</td>
+          <td class="quew">
+            <p>Distance at 1 Minute</p>
+          </td>
+          <td class="answ">
+            <input type="number"/>
+            <span class="note"> Integer</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRES"/><a class="nohover" id="FTORRES"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW101"/><a class="nohover" id="SIXMW101"/>FTORRES when FTTESTCD = SIXMW101</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.2</td>
+          <td class="quew">
+            <p>Unit</p>
+          </td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW101.FTORRESU.C71620"/>
+            <label for="CL.SIXMW101.FTORRESU.C71620">
+              <span class="note">m</span>
+            </label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRESU"/><a class="nohover" id="FTORRESU"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW101"/><a class="nohover" id="SIXMW101"/>FTORRESU when FTTESTCD = SIXMW101</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.3</td>
+          <td class="quew">
+            <p>Distance at 2 Minutes</p>
+          </td>
+          <td class="answ">
+            <input type="number"/>
+            <span class="note"> Integer</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRES"/><a class="nohover" id="FTORRES"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW102"/><a class="nohover" id="SIXMW102"/>FTORRES when FTTESTCD = SIXMW102</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.4</td>
+          <td class="quew">
+            <p>Unit</p>
+          </td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW102.FTORRESU.C71620"/>
+            <label for="CL.SIXMW102.FTORRESU.C71620">
+              <span class="note">m</span>
+            </label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRESU"/><a class="nohover" id="FTORRESU"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW102"/><a class="nohover" id="SIXMW102"/>FTORRESU when FTTESTCD = SIXMW102</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.5</td>
+          <td class="quew">
+            <p>Distance at 3 Minutes</p>
+          </td>
+          <td class="answ">
+            <input type="number"/>
+            <span class="note"> Integer</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRES"/><a class="nohover" id="FTORRES"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW103"/><a class="nohover" id="SIXMW103"/>FTORRES when FTTESTCD = SIXMW103</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.6</td>
+          <td class="quew">
+            <p>Unit</p>
+          </td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW103.FTORRESU.C71620"/>
+            <label for="CL.SIXMW103.FTORRESU.C71620">
+              <span class="note">m</span>
+            </label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRESU"/><a class="nohover" id="FTORRESU"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW103"/><a class="nohover" id="SIXMW103"/>FTORRESU when FTTESTCD = SIXMW103</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.7</td>
+          <td class="quew">
+            <p>Distance at 4 Minutes</p>
+          </td>
+          <td class="answ">
+            <input type="number"/>
+            <span class="note"> Integer</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRES"/><a class="nohover" id="FTORRES"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW104"/><a class="nohover" id="SIXMW104"/>FTORRES when FTTESTCD = SIXMW104</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.8</td>
+          <td class="quew">
+            <p>Unit</p>
+          </td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW104.FTORRESU.C71620"/>
+            <label for="CL.SIXMW104.FTORRESU.C71620">
+              <span class="note">m</span>
+            </label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRESU"/><a class="nohover" id="FTORRESU"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW104"/><a class="nohover" id="SIXMW104"/>FTORRESU when FTTESTCD = SIXMW104</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.9</td>
+          <td class="quew">
+            <p>Distance at 5 Minutes</p>
+          </td>
+          <td class="answ">
+            <input type="number"/>
+            <span class="note"> Integer</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRES"/><a class="nohover" id="FTORRES"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW105"/><a class="nohover" id="SIXMW105"/>FTORRES when FTTESTCD = SIXMW105</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.10</td>
+          <td class="quew">
+            <p>Unit</p>
+          </td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW105.FTORRESU.C71620"/>
+            <label for="CL.SIXMW105.FTORRESU.C71620">
+              <span class="note">m</span>
+            </label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRESU"/><a class="nohover" id="FTORRESU"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW105"/><a class="nohover" id="SIXMW105"/>FTORRESU when FTTESTCD = SIXMW105</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.11</td>
+          <td class="quew">
+            <p>Distance at 6 Minutes</p>
+          </td>
+          <td class="answ">
+            <input type="number"/>
+            <span class="note"> Integer</span>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRES"/><a class="nohover" id="FTORRES"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW106"/><a class="nohover" id="SIXMW106"/>FTORRES when FTTESTCD = SIXMW106</td>
+        </tr>
+        <tr>
+          <td class="seqw">2.12</td>
+          <td class="quew">
+            <p>Unit</p>
+          </td>
+          <td class="answ">
+            <input type="radio" name="CL.SIXMW106.FTORRESU.C71620"/>
+            <label for="CL.SIXMW106.FTORRESU.C71620">
+              <span class="note">m</span>
+            </label>
+            <br/>
+          </td>
+          <td id="anno" class="annw anno"><a href="&#10;          #FTORRESU"/><a class="nohover" id="FTORRESU"/><a href="&#10;          #when"/><a class="nohover" id="when"/><a href="&#10;          #FTTESTCD"/><a class="nohover" id="FTTESTCD"/><a href="&#10;          #SIXMW106"/><a class="nohover" id="SIXMW106"/>FTORRESU when FTTESTCD = SIXMW106</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

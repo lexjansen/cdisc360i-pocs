@@ -1,0 +1,11 @@
+.idea/
+.DS_Store
+.vscode/
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+*.egg-info/
+dist/
+config/config.ini
+config/config-save.ini

@@ -15,8 +15,12 @@ class AppSettings:
         config = configparser.ConfigParser()
         config_file = self._get_config_file()
         config.read(config_file)
-        self.metadata_path = config.get('Metadata', 'metadata_path')
         self.crf_path = config.get('CRF', 'crf_path')
+        if config.has_section('Metadata'):
+            if config.has_option('Metadata', 'collection_dss_metadata_excel'):
+                self.collection_dss_metadata_excel = config.get('Metadata', 'collection_dss_metadata_excel')
+            if config.has_option('Metadata', 'forms_metadata_excel'):
+                self.forms_metadata_excel = config.get('Metadata', 'forms_metadata_excel')
         if config.has_section('Schema'):
             if config.has_option('Schema', 'odm132_xml'):
                 self.odm132_schema = config.get('Schema', 'odm132_xml')

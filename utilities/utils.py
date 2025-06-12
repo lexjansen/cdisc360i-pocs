@@ -2,6 +2,7 @@
 This module contains utility functions
 that can be reused.
 """
+import os
 from odmlib import odm_parser as P
 from odmlib import odm_loader as OL, loader as LO
 from lxml import etree
@@ -46,14 +47,15 @@ def transform_xml(xml_path, xsl_path, output_path):
 def transform_xml_saxonche(file_path, xsl_path, output_path):
     saxonhe = PySaxonProcessor(license=False)
     print(saxonhe.version)
+
     saxonproc = saxonhe.new_xslt30_processor()
 
-    executable = saxonproc.compile_stylesheet(stylesheet_file=xsl_path)
+    executable = saxonproc.compile_stylesheet(stylesheet_file=str(xsl_path))
 
 
-    document = saxonhe.parse_xml(xml_file_name=file_path)
+    document = saxonhe.parse_xml(xml_file_name=str(file_path))
 
-    executable.transform_to_file(output_file=output_path, xdm_node=document)
+    executable.transform_to_file(output_file=str(output_path), xdm_node=document)
 
 
 def create_crf_html(odm_file, verbose):

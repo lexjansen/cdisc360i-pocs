@@ -10,6 +10,16 @@ from utilities.utils import (
     transform_xml_saxonche
 )
 
+SCRIPT_PATH = Path.cwd()
+sys.path.append(str(SCRIPT_PATH))
+from config.config import AppSettings as CFG
+
+__config = CFG()
+
+CRF_PATH = Path(__config.crf_path)
+
+COLLECTION_DSS_METADATA_EXCEL = Path(__config.collection_dss_metadata_excel)
+FORMS_METADATA_EXCEL = Path(__config.forms_metadata_excel)
 
 MANDATORY_MAP = {
     "Y": "Yes",
@@ -170,166 +180,182 @@ def create_codelist(row):
     return codelist
 
 
-SCRIPT_PATH = Path.cwd()
-sys.path.append(str(SCRIPT_PATH))
-from config.config import AppSettings as CFG
+def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
+    """
+    Reads form and collection metadata from Excel files, processes and merges the data, and returns DataFrames for further use.
+    Args:
+        forms_metadata (str): Path to the Excel file containing forms metadata.
+        collection_metadata (str): Path to the Excel file containing collection metadata.
+        collection_form (str, optional): Name of the sheet in the forms metadata Excel file to read. Defaults to COLLECTION_FORM.
+    Returns:
+        tuple:
+            - pd.DataFrame: Merged DataFrame containing collection specializations and form information.
+            - pd.DataFrame: DataFrame containing unique forms with selected columns.
+    Side Effects:
+        Prints the processed forms DataFrame and the first 100 rows of the merged DataFrame for inspection.
+    """
+     # Read forms from Excel
+    df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=collection_form, keep_default_na =False)
+    df_forms = df_forms_bcs.drop_duplicates(subset=['form_id', 'order_number_form', 'form_label'])
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'order_number_form', 'form_label'])]]
+    print(df_forms)
 
-__config = CFG()
+    # Read Collection Specializations from Excel
+    df = pd.read_excel(open(collection_metadata, 'rb'), sheet_name='Collection Specializations', keep_default_na =False)
 
-METADATA_PATH = Path(__config.metadata_path)
-CRF_PATH = Path(__config.crf_path)
+    # Merge Collection Specializations with forms
+    df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
+    df.sort_values(['form_id', 'order_number_bc', 'collection_group_id', 'order_number'], ascending=[True, True, True, True], inplace=True)
+    print(df.head(100))
 
-COLLECTION_FORM ="SIXMW1"
-FORM_NAME = "Six Minute Walk Test"
-COLLECTION_FORM ="EG1"
-FORM_NAME = "ECG"
+    return df, df_forms
 
-# Read forms from Excel
-df_forms_bcs = pd.read_excel(open(Path(METADATA_PATH).joinpath('cdisc_collection_forms.xlsx'), 'rb'), sheet_name=COLLECTION_FORM, keep_default_na =False)
-df_forms = df_forms_bcs.drop_duplicates(subset=['form_id', 'order_number_form', 'form_label'])
-df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'order_number_form', 'form_label'])]]
-print(df_forms)
+def create_odm(df, df_forms):
 
-# Read Collection Specializations from Excel
-df = pd.read_excel(open(Path(METADATA_PATH).joinpath('cdisc_collection_dataset_specializations_draft.xlsx'), 'rb'), sheet_name='Collection Specializations', keep_default_na =False)
+    item_group_refs = []
+    for i, row in df_forms.iterrows():
+        item_group_ref = ODM.ItemGroupRef(
+            ItemGroupOID=create_oid("FORM", row),
+            OrderNumber=row["order_number_form"],
+            Mandatory="Yes")           # Add the FormDef to the list of forms
+        item_group_refs.append(item_group_ref)
 
-# Merge Collection Specializations with forms
-df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
-df.sort_values(['form_id', 'order_number_bc', 'collection_group_id', 'order_number'], ascending=[True, True, True, True], inplace=True)
-print(df.head(100))
+    form = ODM.ItemGroupDef(
+            OID=f"IG.{COLLECTION_FORM}",
+            Name=f"{FORM_NAME} Form",
+            Repeating="No",
+            Type="Form",
+            Description=create_description(f"{FORM_NAME} Form"),
+            ItemGroupRef=item_group_refs)
 
-item_group_refs = []
-for i, row in df_forms.iterrows():
-    item_group_ref = ODM.ItemGroupRef(
-        ItemGroupOID=create_oid("FORM", row),
-        OrderNumber=row["order_number_form"],
-        Mandatory="Yes")           # Add the FormDef to the list of forms
-    item_group_refs.append(item_group_ref)
+    forms = {}
+    for i, row in df_forms.iterrows():
+        # Define a FormDef
+        form_def = ODM.ItemGroupDef(
+            OID=create_oid("FORM", row),
+            Name=row["form_label"],
+            Repeating="No",
+            Type="Section",
+            Description=create_description(row["form_label"])
+        )
+        # Add the FormDef to the list of forms
+        forms[row["form_id"]] = form_def
 
-form = ODM.ItemGroupDef(
-        OID=f"IG.{COLLECTION_FORM}",
-        Name=f"{FORM_NAME} Form",
-        Repeating="No",
-        Type="Form",
-        Description=create_description(f"{FORM_NAME} Form"),
-        ItemGroupRef=item_group_refs)
+    item_group_refs = []
+    item_group_defs = []
+    item_refs = []
+    item_defs = []
+    codelists = []
+    collection_group_id = ""
+    form_id = ""
+    bc_id = ""
+    for i, row in df.iterrows():
 
-forms = {}
-for i, row in df_forms.iterrows():
-    # Define a FormDef
-    form_def = ODM.ItemGroupDef(
-        OID=create_oid("FORM", row),
-        Name=row["form_label"],
-        Repeating="No",
-        Type="Section",
-        Description=create_description(row["form_label"])
-    )
-    # Add the FormDef to the list of forms
-    forms[row["form_id"]] = form_def
+        if row["collection_group_id"] != collection_group_id: # New Collection Group
+            print(row["collection_group_id"] + " " + str(row["bc_id"]))
 
-item_group_refs = []
-item_group_defs = []
-item_refs = []
-item_defs = []
-codelists = []
-collection_group_id = ""
-form_id = ""
-bc_id = ""
-for i, row in df.iterrows():
+            if collection_group_id:
+                item_group_defs.append(item_group_def)
 
-    if row["collection_group_id"] != collection_group_id: # New Collection Group
-        print(row["collection_group_id"] + " " + str(row["bc_id"]))
+            collection_group_id = row["collection_group_id"]
+            form_id = row["form_id"]
+            bc_id = row["bc_id"]
+            item_refs = []
 
-        if collection_group_id:
-            item_group_defs.append(item_group_def)
+            if row["display_hidden"] != "Y":
+                item_ref = create_item_ref(row)
+                item_refs.append(item_ref)
 
-        collection_group_id = row["collection_group_id"]
-        form_id = row["form_id"]
-        bc_id = row["bc_id"]
-        item_refs = []
+            item_group_def = create_item_group_def(row, "Concept", itemrefs=item_refs)
+            item_group_ref = create_item_group_ref(row, "Section")
 
-        if row["display_hidden"] != "Y":
-            item_ref = create_item_ref(row)
-            item_refs.append(item_ref)
+            forms[row["form_id"]].ItemGroupRef.append(item_group_ref)
 
-        item_group_def = create_item_group_def(row, "Concept", itemrefs=item_refs)
-        item_group_ref = create_item_group_ref(row, "Section")
+        else:
+            if row["display_hidden"] != "Y":
+                item_ref = create_item_ref(row)
+                item_refs.append(item_ref)
 
-        forms[row["form_id"]].ItemGroupRef.append(item_group_ref)
+        if row["collection_item"] != "":
+            item_def = create_item_def(row)
+            item_defs.append(item_def)
 
-    else:
-        if row["display_hidden"] != "Y":
-            item_ref = create_item_ref(row)
-            item_refs.append(item_ref)
+        if row["codelist"] != "":
+            codelist = create_codelist(row)
+            codelists.append(codelist)
 
-    if row["collection_item"] != "":
-        item_def = create_item_def(row)
-        item_defs.append(item_def)
+    item_group_defs.append(item_group_def)
 
-    if row["codelist"] != "":
-        codelist = create_codelist(row)
-        codelists.append(codelist)
-
-item_group_defs.append(item_group_def)
-
-# Create a new ODM object
-current_datetime = datetime.datetime.now(datetime.UTC).isoformat()
-odm = ODM.ODM(FileOID=create_oid("ODM", []),
-              Granularity="Metadata",
-              AsOfDateTime=current_datetime,
-              CreationDateTime=current_datetime,
-              ODMVersion="2.0",
-              FileType="Snapshot",
-              Originator="Lex Jansen",
-              SourceSystem="odmlib",
-              SourceSystemVersion="0.1")
+    # Create a new ODM object
+    current_datetime = datetime.datetime.now(datetime.UTC).isoformat()
+    odm = ODM.ODM(FileOID=create_oid("ODM", []),
+                Granularity="Metadata",
+                AsOfDateTime=current_datetime,
+                CreationDateTime=current_datetime,
+                ODMVersion="2.0",
+                FileType="Snapshot",
+                Originator="Lex Jansen",
+                SourceSystem="odmlib",
+                SourceSystemVersion="0.1")
 
 
-mdv = []
-mdv.append(ODM.MetaDataVersion(OID=create_oid("MDV", []),
-                          Name="CDISC360i CDASH POC Study Metadata Version",
-                          Description=create_description("CDISC360i CDASH ODM 2.0 metadata version")))
+    mdv = []
+    mdv.append(ODM.MetaDataVersion(OID=create_oid("MDV", []),
+                            Name="CDISC360i CDASH POC Study Metadata Version",
+                            Description=create_description("CDISC360i CDASH ODM 2.0 metadata version")))
 
-mdv[0].ItemGroupDef.append(form)
+    mdv[0].ItemGroupDef.append(form)
 
-# Add the ItemGroupDef to the MetaDataVersion
-for value in forms.values():
-    # Add the Form to the ItemGroupDef
-    mdv[0].ItemGroupDef.append(value)
+    # Add the ItemGroupDef to the MetaDataVersion
+    for value in forms.values():
+        # Add the Form to the ItemGroupDef
+        mdv[0].ItemGroupDef.append(value)
 
-for item_group_def in item_group_defs:
-    mdv[0].ItemGroupDef.append(item_group_def)
-for item_def in item_defs:
-    mdv[0].ItemDef.append(item_def)
-for codelist in codelists:
-    mdv[0].CodeList.append(codelist)
+    for item_group_def in item_group_defs:
+        mdv[0].ItemGroupDef.append(item_group_def)
+    for item_def in item_defs:
+        mdv[0].ItemDef.append(item_def)
+    for codelist in codelists:
+        mdv[0].CodeList.append(codelist)
 
-study = ODM.Study(OID=create_oid("STUDY", []),
-                  StudyName="CDISC360i CDASH POC Study",
-                  Description=create_description("CDISC360i CDASH POC Study"),
-                  ProtocolName="CDISC360i CDASH POC Study protocol",
-                  MetaDataVersion = mdv)
+    study = ODM.Study(OID=create_oid("STUDY", []),
+                    StudyName="CDISC360i CDASH POC Study",
+                    Description=create_description("CDISC360i CDASH POC Study"),
+                    ProtocolName="CDISC360i CDASH POC Study protocol",
+                    MetaDataVersion = mdv)
 
-odm.Study.append(study)
+    odm.Study.append(study)
 
-project_path = os.path.abspath(os.path.join(__file__, '..'))
+    return odm
 
-odm_xml_file = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}.xml")
-odm_json_file = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}.json")
-odm_xml_schema_file = Path(__config.odm20_schema)
+def main():
 
-odm.write_xml(odm_file=odm_xml_file)
-odm.write_json(odm_file=odm_json_file)
+    ODM_XML_SCHEMA_FILE = Path(__config.odm20_schema)
+    XSL_FILE = Path(__config.odm20_stylesheet)
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}.json")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}_xsl.html")
 
-validate_odm_xml_file(odm_xml_file, odm_xml_schema_file, verbose=True)
+    df, df_forms = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, COLLECTION_FORM)
 
-odm_xml_file = str(CRF_PATH) + f"/cdash_demo_v20_{COLLECTION_FORM}.xml"
-odm_json_file = str(CRF_PATH) + f"/cdash_demo_v20_{COLLECTION_FORM}.json"
-xsl_file = str(Path(__config.odm20_stylesheet))
-odm_html_file_xsl = str(CRF_PATH) + f"/cdash_demo_v20_{COLLECTION_FORM}_xsl.html"
+    odm = create_odm(df, df_forms)
 
-transform_xml_saxonche(odm_xml_file, xsl_file, odm_html_file_xsl)
+    odm.write_xml(odm_file=ODM_XML_FILE)
+    odm.write_json(odm_file=ODM_JSON_FILE)
 
-loader = LO.ODMLoader(OL.XMLODMLoader(model_package="odm_2_0", ns_uri="http://www.cdisc.org/ns/odm/v2.0"))
-loader.open_odm_document(odm_xml_file)
-odm = loader.load_odm()
+    validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
+
+    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL)
+
+    loader = LO.ODMLoader(OL.XMLODMLoader(model_package="odm_2_0", ns_uri="http://www.cdisc.org/ns/odm/v2.0"))
+    loader.open_odm_document(ODM_XML_FILE)
+    odm = loader.load_odm()
+
+if __name__ == "__main__":
+
+    COLLECTION_FORM ="SIXMW1"
+    FORM_NAME = "Six Minute Walk Test"
+    # COLLECTION_FORM ="EG1"
+    # FORM_NAME = "ECG"
+
+    main()

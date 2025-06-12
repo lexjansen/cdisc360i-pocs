@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>360i ODM CRF View</title>
+    <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+            .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
+            .item { margin: 5px 0; }
+            label { display: inline-block; min-width: 200px; }
+        </style>
+  </head>
+  <body>
+    <h1>360i ODM CRFs</h1>
+    <div class="study-section">
+      <h2>Study: CDISC360i CDASH POC Study</h2>
+      <div class="metadata-version">
+        <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
+        <div class="form-section">
+          <h5>Form: ECG Form</h5>
+          <div class="item-group">
+            <h5>ECG Performed</h5>
+            <div class="item">
+              <label>Was an ECG performed?</label>
+              <select name="NY">
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+            </div>
+            <div class="item">
+              <label>Date of Assessment</label>
+              <input name="IT.EGPERF.EGDAT" placeholder="EGDAT" type="text">
+              <input name="IT.EGPERF.EGDAT.SDTM" placeholder="SDTM: EGDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>Mean Heart Rate by Electrocardiogram (Horizontal)</h5>
+            <div class="item">
+              <label>Date of Assessment</label>
+              <input name="IT.EGHRMN_HORIZONTAL.EGDAT" placeholder="EGDAT" type="text">
+              <input name="IT.EGHRMN_HORIZONTAL.EGDAT.SDTM" placeholder="SDTM: EGDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Method</label>
+              <select name="EGMETHOD">
+                <option value="12 LEAD STANDARD">12 Lead Standard</option>
+              </select>
+              <input name="IT.EGHRMN_HORIZONTAL.EGMETHOD.SDTM" placeholder="SDTM: EGMETHOD" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Position</label>
+              <select name="POSITION">
+                <option value="SEMI-FOWLERS">Semi-Fowlers</option>
+                <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
+                <option value="SITTING">Sitting</option>
+                <option value="STANDING">Standing</option>
+                <option value="SUPINE">Supine</option>
+              </select>
+              <input name="IT.EGHRMN_HORIZONTAL.EGPOS.SDTM" placeholder="SDTM: EGPOS" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>ECG Mean Heart Rate Result</label>
+              <input name="IT.EGHRMN_HORIZONTAL.EGHRMN_EGORRES" placeholder="EGHRMN_EGORRES" type="text">
+              <input name="IT.EGHRMN_HORIZONTAL.EGHRMN_EGORRES.SDTM" placeholder="SDTM: EGORRES when EGTESTCD = EGHRMN" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Unit</label>
+              <select name="UNIT">
+                <option value="beats/min">beats/min</option>
+              </select>
+              <input name="IT.EGHRMN_HORIZONTAL.EGHRMN_EGORRESU.SDTM" placeholder="SDTM: EGORRESU when EGTESTCD = EGHRMN" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Date of Assessment</label>
+              <input name="IT.EGINTP_HORIZONTAL.EGDAT" placeholder="EGDAT" type="text">
+              <input name="IT.EGINTP_HORIZONTAL.EGDAT.SDTM" placeholder="SDTM: EGDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Interpretation</label>
+              <select name="NORMABNM">
+                <option value="ABNORMAL">Abnormal</option>
+                <option value="NORMAL">Normal</option>
+              </select>
+              <input name="IT.EGINTP_HORIZONTAL.EGINTP_EGORRES.SDTM" placeholder="SDTM: EGORRES when EGTESTCD = EGINTP" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Was the ECG clinically significant?</label>
+              <select name="NY">
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.EGINTP_HORIZONTAL.EGCLSIG.SDTM" placeholder="SDTM: EGCLSIG" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Evaluator</label>
+              <select name="EVAL">
+                <option value="ADJUDICATION COMMITTEE">Adjudication Committee</option>
+                <option value="INDEPENDENT ASSESSOR">Independent Assessor</option>
+                <option value="INVESTIGATOR">Investigator</option>
+              </select>
+              <input name="IT.EGINTP_HORIZONTAL.EGEVAL.SDTM" placeholder="SDTM: EGEVAL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Date of Assessment</label>
+              <input name="IT.PRAG_HORIZONTAL.EGDAT" placeholder="EGDAT" type="text">
+              <input name="IT.PRAG_HORIZONTAL.EGDAT.SDTM" placeholder="SDTM: EGDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Method</label>
+              <select name="EGMETHOD">
+                <option value="12 LEAD STANDARD">12 Lead Standard</option>
+              </select>
+              <input name="IT.PRAG_HORIZONTAL.EGMETHOD.SDTM" placeholder="SDTM: EGMETHOD" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Position</label>
+              <select name="POSITION">
+                <option value="SEMI-FOWLERS">Semi-Fowlers</option>
+                <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
+                <option value="SITTING">Sitting</option>
+                <option value="STANDING">Standing</option>
+                <option value="SUPINE">Supine</option>
+              </select>
+              <input name="IT.PRAG_HORIZONTAL.EGPOS.SDTM" placeholder="SDTM: EGPOS" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>PR Interval, Single Beat Result</label>
+              <input name="IT.PRAG_HORIZONTAL.PRAG_EGORRES" placeholder="PRAG_EGORRES" type="text">
+              <input name="IT.PRAG_HORIZONTAL.PRAG_EGORRES.SDTM" placeholder="SDTM: EGORRES when EGTESTCD = PRAG" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Unit</label>
+              <select name="UNIT">
+                <option value="ms">msec</option>
+                <option value="/s">per sec</option>
+              </select>
+              <input name="IT.PRAG_HORIZONTAL.PRAG_EGORRESU.SDTM" placeholder="SDTM: EGORRESU when EGTESTCD = PRAG" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

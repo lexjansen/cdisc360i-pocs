@@ -77,12 +77,21 @@ def create_item_group_ref(row, type):
     return item_group_ref
 
 def create_item_group_def(row, type, itemrefs=[]):
-    item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
-                                      Name=row["short_name"],
-                                      Repeating="No",
-                                      Type=type,
-                                      Description=create_description(row["short_name"]),
-                                      ItemRef=itemrefs)
+
+    if type.upper() == "SECTION":
+        item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
+                                        Name=row["form_label"],
+                                        Repeating="No",
+                                        Type=type,
+                                        Description=create_description(row["short_name"]),
+                                        ItemRef=itemrefs)
+    if type.upper() == "CONCEPT":
+        item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
+                                        Name=row["short_name"],
+                                        Repeating="No",
+                                        Type=type,
+                                        Description=create_description(row["short_name"]),
+                                        ItemRef=itemrefs)
     codings = []
     if row["bc_id"] != "":
         codings = add_coding(codings, system=f"/mdr/bc/biomedicalconcepts/{row['bc_id']}",
@@ -182,15 +191,15 @@ def create_codelist(row):
 
 def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     """
-    Reads form and collection metadata from Excel files, processes and merges the data, and returns DataFrames for further use.
+    Reads form and collection metadata from Excel files, processes and merges the data, and returns the resulting DataFrames.
     Args:
         forms_metadata (str): Path to the Excel file containing forms metadata.
         collection_metadata (str): Path to the Excel file containing collection metadata.
-        collection_form (str, optional): Name of the sheet in the forms metadata Excel file to read. Defaults to COLLECTION_FORM.
+        collection_form (str): Name of the sheet in the forms metadata Excel file to read.
     Returns:
         tuple:
-            - pd.DataFrame: Merged DataFrame containing collection specializations and form information.
-            - pd.DataFrame: DataFrame containing unique forms with selected columns.
+            - pd.DataFrame: Merged DataFrame of collection specializations and forms.
+            - pd.DataFrame: DataFrame of unique forms with selected columns.
     Side Effects:
         Prints the processed forms DataFrame and the first 100 rows of the merged DataFrame for inspection.
     """
@@ -210,8 +219,26 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
 
     return df, df_forms
 
-def create_odm(df, df_forms):
-
+def create_odm(df, df_forms, collection_form, form_name):
+    """
+    Creates an ODM (Operational Data Model) object from the provided dataframes and form information.
+    This function constructs an ODM-compliant metadata structure using the input dataframes for forms and items,
+    and additional parameters specifying the collection form and form name. It builds the necessary ODM elements
+    such as ItemGroupDefs, ItemDefs, CodeLists, and assembles them into a complete ODM object representing the
+    study metadata.
+    Args:
+        df (pd.DataFrame): DataFrame containing item-level metadata, including collection groups, items, and codelists.
+        df_forms (pd.DataFrame): DataFrame containing form-level metadata, including form labels and order numbers.
+        collection_form (str): Identifier for the collection form to be used as the main form.
+        form_name (str): Name of the form to be used in the ODM metadata.
+    Returns:
+        odm (ODM.ODM): An ODM object populated with the study metadata, including forms, item groups, items, and codelists.
+    Notes:
+        - Assumes the existence of helper functions such as `create_oid`, `create_description`, `create_item_ref`,
+          `create_item_group_def`, `create_item_group_ref`, `create_item_def`, and `create_codelist`.
+        - Relies on the ODM Python library (e.g., odmlib) for ODM element classes.
+        - The function prints collection group transitions for debugging purposes.
+    """
     item_group_refs = []
     for i, row in df_forms.iterrows():
         item_group_ref = ODM.ItemGroupRef(
@@ -221,11 +248,11 @@ def create_odm(df, df_forms):
         item_group_refs.append(item_group_ref)
 
     form = ODM.ItemGroupDef(
-            OID=f"IG.{COLLECTION_FORM}",
-            Name=f"{FORM_NAME} Form",
+            OID=f"IG.{collection_form}",
+            Name=f"{form_name} Form",
             Repeating="No",
             Type="Form",
-            Description=create_description(f"{FORM_NAME} Form"),
+            Description=create_description(f"{form_name} Form"),
             ItemGroupRef=item_group_refs)
 
     forms = {}
@@ -328,17 +355,33 @@ def create_odm(df, df_forms):
 
     return odm
 
-def main():
+def main(collection_form, form_name):
+    """
+    Main function to generate, validate, and transform an ODM 2.0 XML file from Excel metadata.
+    Args:
+        collection_form (str): The name or identifier of the collection form to process.
+        form_name (str): The name of the form to be used in the ODM document.
+    Workflow:
+        1. Loads configuration for schema, stylesheet, and output file paths.
+        2. Reads metadata from Excel files and creates DataFrames.
+        3. Generates an ODM object from the metadata.
+        4. Writes the ODM object to XML and JSON files.
+        5. Validates the generated XML file against the ODM 2.0 schema.
+        6. Transforms the XML file to HTML using the provided XSL stylesheet.
+        7. Loads and parses the ODM XML file using the specified loader.
+    Raises:
+        Any exceptions raised by the underlying functions (e.g., file I/O, validation, transformation).
+    """
 
     ODM_XML_SCHEMA_FILE = Path(__config.odm20_schema)
     XSL_FILE = Path(__config.odm20_stylesheet)
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}.json")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{COLLECTION_FORM}_xsl.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.json")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}_xsl.html")
 
-    df, df_forms = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, COLLECTION_FORM)
+    df, df_forms = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
-    odm = create_odm(df, df_forms)
+    odm = create_odm(df, df_forms, collection_form, form_name)
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)
@@ -353,9 +396,5 @@ def main():
 
 if __name__ == "__main__":
 
-    COLLECTION_FORM ="SIXMW1"
-    FORM_NAME = "Six Minute Walk Test"
-    # COLLECTION_FORM ="EG1"
-    # FORM_NAME = "ECG"
-
-    main()
+    main("SIXMW1", "Six Minute Walk Test")
+    # main("EG1", "ECG")

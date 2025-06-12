@@ -87,7 +87,7 @@ def create_item_group_ref(row, type):
 
 def create_item_group_def(row, type, itemrefs=[]):
     item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
-                                      Name=row["short_name"],
+                                      Name=row["form_label"],
                                       Repeating="No",
                                       ItemRef=itemrefs)
     return item_group_def
@@ -169,17 +169,17 @@ def create_codelist(row):
 
 def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     """
-    Reads form and collection metadata from Excel files, processes and merges the data, and returns DataFrames for further use.
+    Reads form and collection metadata from Excel files, processes and merges them into DataFrames.
     Args:
-        forms_metadata (str): Path to the Excel file containing forms metadata.
+        forms_metadata (str): Path to the Excel file containing form metadata.
         collection_metadata (str): Path to the Excel file containing collection metadata.
-        collection_form (str, optional): Name of the sheet in the forms metadata Excel file to read. Defaults to COLLECTION_FORM.
+        collection_form (str): Name of the sheet in the forms metadata Excel file to read.
     Returns:
         tuple:
-            - pd.DataFrame: Merged DataFrame containing collection specializations and form information.
+            - pd.DataFrame: Merged DataFrame containing collection specializations and form metadata.
             - pd.DataFrame: DataFrame containing unique forms with selected columns.
     Side Effects:
-        Prints the processed forms DataFrame and the first 100 rows of the merged DataFrame for inspection.
+        Prints the intermediate DataFrames for debugging purposes.
     """
      # Read forms from Excel
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=collection_form, keep_default_na =False)
@@ -197,7 +197,21 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
 
     return df, df_forms
 
-def create_odm(df, df_forms):
+def create_odm(df, df_forms, collection_form, form_name):
+    """
+    Creates an ODM (Operational Data Model) object representing study metadata, forms, item groups, items, and codelists.
+    Args:
+        df (pandas.DataFrame): DataFrame containing item-level metadata, including form, group, item, and codelist information.
+        df_forms (pandas.DataFrame): DataFrame containing form-level metadata.
+        collection_form (str): Identifier for the collection form to be used in the ODM FormDef OID.
+        form_name (str): Name of the form to be used in the ODM FormDef Name and Description.
+    Returns:
+        odm (odmlib.ODM): An ODM object populated with study metadata, forms, item groups, items, and codelists.
+    Notes:
+        - Relies on several helper functions (e.g., create_item_group_ref, create_description, create_oid, create_item_ref, create_item_group_def, create_item_def, create_codelist).
+        - Assumes the presence of an ODM Python library (e.g., odmlib) for ODM object construction.
+        - The function builds the ODM structure according to CDISC 1.3.2 standards.
+    """
 
     item_group_refs = []
     for i, row in df_forms.iterrows():
@@ -205,10 +219,10 @@ def create_odm(df, df_forms):
         item_group_refs.append(item_group_ref)
 
     form = ODM.FormDef(
-            OID=f"IG.{COLLECTION_FORM}",
-            Name=f"{FORM_NAME} Form",
+            OID=f"FORM.{collection_form}",
+            Name=f"{form_name} Form",
             Repeating="No",
-            Description=create_description(f"{FORM_NAME} Form"),
+            Description=create_description(f"{form_name} Form"),
             ItemGroupRef=item_group_refs)
 
     forms = {}
@@ -306,16 +320,32 @@ def create_odm(df, df_forms):
 
     return odm
 
-def main():
+def main(collection_form, form_name):
+    """
+    Main function to generate and process ODM files for a given collection form and form name.
+    This function performs the following steps:
+    1. Constructs file paths for XML, JSON, and HTML outputs based on the collection form.
+    2. Loads metadata from Excel files and creates dataframes for forms and form metadata.
+    3. Generates an ODM object from the metadata and writes it to XML and JSON files.
+    4. Validates the generated ODM XML file against a schema.
+    5. Transforms the XML file into an HTML file using XSLT.
+    6. Creates a CRF HTML document from the ODM XML and writes it to file.
+    7. Loads the ODM XML file using an ODM loader for further processing.
+    Args:
+        collection_form (str): The identifier for the collection form to process.
+        form_name (str): The name of the form to generate.
+    Returns:
+        None
+    """
 
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{COLLECTION_FORM}.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{COLLECTION_FORM}.json")
-    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{COLLECTION_FORM}_dom.html")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{COLLECTION_FORM}_xsl.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}.json")
+    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_dom.html")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl.html")
 
-    df, df_forms = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, COLLECTION_FORM)
+    df, df_forms = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
-    odm = create_odm(df, df_forms)
+    odm = create_odm(df, df_forms, collection_form, form_name)
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)
@@ -332,9 +362,5 @@ def main():
 
 if __name__ == "__main__":
 
-    COLLECTION_FORM ="SIXMW1"
-    FORM_NAME = "Six Minute Walk Test"
-    # COLLECTION_FORM ="EG1"
-    # FORM_NAME = "ECG"
-
-    main()
+    main("SIXMW1", "Six Minute Walk Test")
+    # main("EG1", "ECG")

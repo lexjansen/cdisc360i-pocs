@@ -1,8 +1,13 @@
-import odmlib.odm_1_3_2.model as ODM
-from odmlib import odm_loader as OL, loader as LO
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
+
+# Add top-level folder to path so that project folder can be found
+SCRIPT_PATH = Path.cwd()
+sys.path.append(str(SCRIPT_PATH))
+import odmlib.odm_1_3_2.model as ODM
+from odmlib import odm_loader as OL, loader as LO
+
 import datetime
 import pandas as pd
 import csv
@@ -14,8 +19,6 @@ from utilities.utils import (
     gen_codelist_items
 )
 
-SCRIPT_PATH = Path.cwd()
-sys.path.append(str(SCRIPT_PATH))
 from config.config import AppSettings as CFG
 
 __config = CFG()
@@ -23,7 +26,9 @@ __config = CFG()
 CRF_PATH = Path(__config.crf_path)
 
 COLLECTION_DSS_METADATA_EXCEL = Path(__config.collection_dss_metadata_excel)
+COLLECTION_DSS_METADATA_EXCEL_SHEET = __config.collection_dss_metadata_excel_sheet
 FORMS_METADATA_EXCEL = Path(__config.forms_metadata_excel)
+FORMS_METADATA_EXCEL_SHEET = __config.forms_metadata_excel_sheet
 
 ODM_XML_SCHEMA_FILE = Path(__config.odm132_schema)
 XSL_FILE = Path(__config.odm132_stylesheet)
@@ -41,9 +46,9 @@ def create_oid(type, row):
     elif type.upper() == "MDV":
         return "ODM.CDASH.STUDY.MDV"
     elif type.upper() == "FORM":
-        return f"{row['form_id']}"
+        return f"{row['form_section_id']}"
     elif type.upper() == "SECTION":
-        return f"{row['form_id']}"
+        return f"{row['form_section_id']}"
     elif type.upper() == "CONCEPT":
         return f"{row['collection_group_id']}"
     elif type.upper() == "ITEM":
@@ -59,21 +64,6 @@ def create_description(text, lang="en", type="text/plain"):
     description.TranslatedText.append(translatedText)
     return description
 
-def create_coding(system="", **kwargs):
-    coding_list = []
-    coding  = {}
-    coding["System"] = system
-    for k,v in kwargs.items():
-        if k == "code":
-            coding["Code"] = v
-        elif k == "systemName":
-            coding["SystemName"] = v
-        else:
-            raise ValueError(f"Invalid argumnent specified: {k} = {v}")
-
-    coding_list.append(ODM.Coding(**coding))
-    return coding_list
-
 def create_alias(context, name):
     alias = ODM.Alias(Context=context, Name=name)
     return alias
@@ -81,13 +71,13 @@ def create_alias(context, name):
 def create_item_group_ref(row, type):
     item_group_ref = ODM.ItemGroupRef(
         ItemGroupOID=create_oid(type.upper(), row),
-        OrderNumber=row["order_number_form"],
+        OrderNumber=row["form_section_order_number"],
         Mandatory="Yes")
     return item_group_ref
 
 def create_item_group_def(row, type, itemrefs=[]):
     item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
-                                      Name=row["form_label"],
+                                      Name=row["form_section_label"],
                                       Repeating="No",
                                       ItemRef=itemrefs)
     return item_group_def
@@ -131,12 +121,6 @@ def create_question(text, lang="en", type="text/plain"):
     question.TranslatedText.append(translatedText)
     return question
 
-def create_prompt(text, lang="en", type="text/plain"):
-    prompt = ODM.Prompt()
-    translatedText = ODM.TranslatedText(_content=text, lang=lang)
-    prompt.TranslatedText.append(translatedText)
-    return prompt
-
 def create_decode(text, lang="en", type="text/plain"):
     decode = ODM.Decode()
     translatedText = ODM.TranslatedText(_content=text, lang=lang)
@@ -163,7 +147,7 @@ def create_codelist(row):
     else:
         if row["prepopulated_term"] != "":
             enumerated_item = ODM.EnumeratedItem(CodedValue=row["prepopulated_term"])
-        enumerated_items.append(enumerated_item)
+            enumerated_items.append(enumerated_item)
         codelist.EnumeratedItem = enumerated_items
     return codelist
 
@@ -178,24 +162,33 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
         tuple:
             - pd.DataFrame: Merged DataFrame containing collection specializations and form metadata.
             - pd.DataFrame: DataFrame containing unique forms with selected columns.
+            - str: Name of the form corresponding to the collection form.
     Side Effects:
         Prints the intermediate DataFrames for debugging purposes.
     """
      # Read forms from Excel
-    df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=collection_form, keep_default_na =False)
-    df_forms = df_forms_bcs.drop_duplicates(subset=['form_id', 'order_number_form', 'form_label'])
-    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'order_number_form', 'form_label'])]]
-    print(df_forms)
+    df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
+    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form]
+
+    form_name = None
+    for i, row in df_forms_bcs.iterrows():
+        form_name = row['form_label']
+    if form_name is None and not df_forms_bcs.empty:
+        form_name = df_forms_bcs.iloc[0]['form_label']
+    elif form_name is None:
+        form_name = ""
+
+    df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number', 'form_section_label'])]]
 
     # Read Collection Specializations from Excel
-    df = pd.read_excel(open(collection_metadata, 'rb'), sheet_name='Collection Specializations', keep_default_na =False)
+    df = pd.read_excel(open(collection_metadata, 'rb'), sheet_name=COLLECTION_DSS_METADATA_EXCEL_SHEET, keep_default_na =False)
 
     # Merge Collection Specializations with forms
     df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
-    df.sort_values(['form_id', 'order_number_bc', 'collection_group_id', 'order_number'], ascending=[True, True, True, True], inplace=True)
-    print(df.head(100))
+    df.sort_values(['form_section_id', 'bc_order_number', 'collection_group_id', 'order_number'], ascending=[True, True, True, True], inplace=True)
 
-    return df, df_forms
+    return df, df_forms, form_name
 
 def create_odm(df, df_forms, collection_form, form_name):
     """
@@ -220,9 +213,9 @@ def create_odm(df, df_forms, collection_form, form_name):
 
     form = ODM.FormDef(
             OID=f"FORM.{collection_form}",
-            Name=f"{form_name} Form",
+            Name=f"{form_name}",
             Repeating="No",
-            Description=create_description(f"{form_name} Form"),
+            Description=create_description(f"{form_name}"),
             ItemGroupRef=item_group_refs)
 
     forms = {}
@@ -230,12 +223,12 @@ def create_odm(df, df_forms, collection_form, form_name):
         # Define a FormDef
         form_def = ODM.ItemGroupDef(
             OID=create_oid("FORM", row),
-            Name=row["form_label"],
+            Name=row["form_section_label"],
             Repeating="No",
-            Description=create_description(row["form_label"])
+            Description=create_description(row["form_section_label"])
         )
         # Add the FormDef to the list of forms
-        forms[row["form_id"]] = form_def
+        forms[row["form_section_id"]] = form_def
 
     item_group_refs = []
     item_group_defs = []
@@ -243,18 +236,20 @@ def create_odm(df, df_forms, collection_form, form_name):
     item_defs = []
     codelists = []
     collection_group_id = ""
-    form_id = ""
+    form_section_id = ""
+    item_group_def = None
+    counter = 0
     for i, row in df.iterrows():
 
-        if row["form_id"] != form_id: # New Collection Group
+        if row["form_section_id"] != form_section_id: # New Collection Group
             counter = 1
-            print(row["form_id"])
+            print(row["form_section_id"] + " - " + row["form_section_label"] + " - " + row["collection_group_id"] + " - " + str(row["bc_id"]))
 
-            if form_id:
+            if form_section_id and item_group_def is not None:
                 item_group_defs.append(item_group_def)
 
             collection_group_id = row["collection_group_id"]
-            form_id = row["form_id"]
+            form_section_id = row["form_section_id"]
             item_refs = []
 
             if row["display_hidden"] != "Y":
@@ -320,7 +315,7 @@ def create_odm(df, df_forms, collection_form, form_name):
 
     return odm
 
-def main(collection_form, form_name):
+def main(collection_form):
     """
     Main function to generate and process ODM files for a given collection form and form name.
     This function performs the following steps:
@@ -343,7 +338,7 @@ def main(collection_form, form_name):
     ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_dom.html")
     ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl.html")
 
-    df, df_forms = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
+    df, df_forms, form_name = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
     odm = create_odm(df, df_forms, collection_form, form_name)
 
@@ -362,5 +357,6 @@ def main(collection_form, form_name):
 
 if __name__ == "__main__":
 
-    main("SIXMW1", "Six Minute Walk Test")
-    # main("EG1", "ECG")
+    # main("SIXMW1")
+    # main("ECG1")
+    main("QS_EQ5D02")

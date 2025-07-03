@@ -32,16 +32,16 @@ def transform_xml(xml_path, xsl_path, output_path):
         output_path (str, optional): Path to save the transformed XML.
                                     If None, prints to console.
     """
-    xml_tree = etree.parse(xml_path)
-    xsl_tree = etree.parse(xsl_path)
+    xml_tree = etree.parse(xml_path, parser=etree.XMLParser())
+    xsl_tree = etree.parse(xsl_path, parser=etree.XMLParser())
     transform = etree.XSLT(xsl_tree)
     result_tree = transform(xml_tree)
 
     if output_path:
         with open(output_path, 'wb') as f:
-            f.write(etree.tostring(result_tree, pretty_print=True))
+            f.write(etree.tostring(result_tree))
     else:
-        print(etree.tostring(result_tree, pretty_print=True).decode())
+        print(etree.tostring(result_tree).decode())
 
 
 def transform_xml_saxonche(file_path, xsl_path, output_path):

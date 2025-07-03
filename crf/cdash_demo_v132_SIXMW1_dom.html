@@ -17,7 +17,7 @@
       <div class="metadata-version">
         <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
         <div class="form-section">
-          <h5>Form: Six Minute Walk Test Form</h5>
+          <h5>Form: Six Minute Walk Test</h5>
           <div class="item-group">
             <h5>6 Minute Walk Test - Lead Question</h5>
             <div class="item">
@@ -26,12 +26,19 @@
                 <option value="N">No</option>
                 <option value="Y">Yes</option>
               </select>
-              <input name="IT.SIXMW1_PERF.FTPERF.SDTM" placeholder="SDTM: [NOT SUBMITTED]; FTSTAT = NOT DONE when FTTESTCD = FTALL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.SIXMW1.FTPERF.SDTM" placeholder="SDTM: [NOT SUBMITTED]; FTSTAT = NOT DONE when FTTESTCD = FTALL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Date of Assessment</label>
-              <input name="IT.SIXMW1_PERF.FTDAT" placeholder="FTDAT" type="text">
-              <input name="IT.SIXMW1_PERF.FTDAT.SDTM" placeholder="SDTM: FTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.SIXMW1.FTDAT" placeholder="FTDAT" type="text">
+              <input name="IT.SIXMW1.FTDAT.SDTM" placeholder="SDTM: FTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Category</label>
+              <select name="FTCAT">
+                <option value="SIX MINUTE WALK">SIX MINUTE WALK</option>
+              </select>
+              <input name="IT.SIXMW1.FTCAT.SDTM" placeholder="SDTM: FTCAT" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Assisted Device</label>

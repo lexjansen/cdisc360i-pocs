@@ -19,8 +19,12 @@ class AppSettings:
         if config.has_section('Metadata'):
             if config.has_option('Metadata', 'collection_dss_metadata_excel'):
                 self.collection_dss_metadata_excel = config.get('Metadata', 'collection_dss_metadata_excel')
+            if config.has_option('Metadata', 'collection_dss_metadata_excel_sheet'):
+                self.collection_dss_metadata_excel_sheet = config.get('Metadata', 'collection_dss_metadata_excel_sheet')
             if config.has_option('Metadata', 'forms_metadata_excel'):
                 self.forms_metadata_excel = config.get('Metadata', 'forms_metadata_excel')
+            if config.has_option('Metadata', 'forms_metadata_excel_sheet'):
+                self.forms_metadata_excel_sheet = config.get('Metadata', 'forms_metadata_excel_sheet')
         if config.has_section('Schema'):
             if config.has_option('Schema', 'odm132_xml'):
                 self.odm132_schema = config.get('Schema', 'odm132_xml')
@@ -43,4 +47,4 @@ class AppSettings:
         if not Path(config_file).absolute().exists():
             self.logger.error(f"360i {config_file} file not found. You cannot continue without the config.ini file.")
             raise Exception("config.ini file not found. You cannot continue with the config.ini file.")
-        return config_file
+        return str(config_file)

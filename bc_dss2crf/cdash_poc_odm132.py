@@ -55,6 +55,8 @@ def create_oid(type, row):
         return f"IT.{row['collection_group_id']}.{row['collection_item']}"
     elif type.upper() == "CODELIST":
         return f"CL.{row['collection_group_id']}.{row['variable_name']}.{row['codelist']}"
+    elif type.upper() == "CODELIST_VL":
+        return f"CL.{row['collection_group_id']}.{row['variable_name']}"
     else:
         raise ValueError("Invalid type specified")
 
@@ -103,6 +105,8 @@ def create_item_def(row):
         item_def.Question = create_question((row["question_text"]))
     if row["codelist"] != "":
         item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST", row))
+    elif row["value_display_list"] != "":
+        item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST_VL", row))
 
     alias_list = []
     if row["prompt"] != "":
@@ -130,6 +134,30 @@ def create_decode(text, lang="en", type="text/plain"):
 def create_codelist(row):
     codelist = ODM.CodeList(OID=create_oid("CODELIST", row),
                             Name=row["codelist_submission_value"],
+                            DataType=row["data_type"])
+    codelist_items = []
+    enumerated_items = []
+    if row["value_list"] != "":
+        codelist_item_value_list = row["value_list"].split(";")
+        codelist_item_value_display_list = row["value_display_list"].split(";")
+        for item in codelist_item_value_list:
+            codelist_item = ODM.CodeListItem(CodedValue=item)
+
+            decode = create_decode(codelist_item_value_display_list[codelist_item_value_list.index(item)], lang="en", type="text/plain")
+            codelist_item.Decode = decode
+
+            codelist_items.append(codelist_item)
+            codelist.CodeListItem = codelist_items
+    else:
+        if row["prepopulated_term"] != "":
+            enumerated_item = ODM.EnumeratedItem(CodedValue=row["prepopulated_term"])
+            enumerated_items.append(enumerated_item)
+        codelist.EnumeratedItem = enumerated_items
+    return codelist
+
+def create_codelist_from_valuelist(row):
+    codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
+                            Name=row["vlm_group_id"]+"-"+row["variable_name"],
                             DataType=row["data_type"])
     codelist_items = []
     enumerated_items = []
@@ -270,6 +298,9 @@ def create_odm(df, df_forms, collection_form, form_name):
 
         if row["codelist"] != "":
             codelist = create_codelist(row)
+            codelists.append(codelist)
+        elif row["value_display_list"] != "":
+            codelist = create_codelist_from_valuelist(row)
             codelists.append(codelist)
 
     item_group_defs.append(item_group_def)

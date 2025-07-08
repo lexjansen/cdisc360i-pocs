@@ -23,6 +23,7 @@
             <div class="item">
               <label>Category of Questionnaire</label>
               <select name="QSCAT">
+                <option value="">--select--</option>
                 <option value="EQ-5D-5L">EQ-5D-5L</option>
               </select>
               <input name="IT.EQ5D02.QSCAT.SDTM" placeholder="SDTM: QSCAT" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
@@ -30,6 +31,7 @@
             <div class="item">
               <label>Was the EQ-5D-5L questionnaire performed?</label>
               <select name="NY">
+                <option value="">--select--</option>
                 <option value="N">No</option>
                 <option value="Y">Yes</option>
               </select>
@@ -45,27 +47,62 @@
             <h5>EQ-5D-5L Questionnaire - Question 1-4</h5>
             <div class="item">
               <label>MOBILITY</label>
-              <input name="IT.EQ5D0201.EQ5D0201_QSORRES" placeholder="EQ5D0201_QSORRES" type="text">
+              <select name="EQ5D0201-QSORRES">
+                <option value="">--select--</option>
+                <option value="I have no problems walking">I have no problems walking</option>
+                <option value="I have slight problems walking">I have slight problems walking</option>
+                <option value="I have moderate problems walking">I have moderate problems walking</option>
+                <option value="I have severe problems walking">I have severe problems walking</option>
+                <option value="I am unable to walk">I am unable to walk</option>
+              </select>
               <input name="IT.EQ5D0201.EQ5D0201_QSORRES.SDTM" placeholder="SDTM: QSORRES where QSTESTCD = EQ5D0201" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>SELF-CARE</label>
-              <input name="IT.EQ5D0202.EQ5D0202_QSORRES" placeholder="EQ5D0202_QSORRES" type="text">
+              <select name="EQ5D0202-QSORRES">
+                <option value="">--select--</option>
+                <option value="I have no problems washing or dressing myself">I have no problems washing or dressing myself</option>
+                <option value="I have slight problems washing or dressing myself">I have slight problems washing or dressing myself</option>
+                <option value="I have moderate problems washing or dressing myself">I have moderate problems washing or dressing myself</option>
+                <option value="I have severe problems washing or dressing myself">I have severe problems washing or dressing myself</option>
+                <option value="I am unable to wash or dress myself">I am unable to wash or dress myself</option>
+              </select>
               <input name="IT.EQ5D0202.EQ5D0202_QSORRES.SDTM" placeholder="SDTM: QSORRES where QSTESTCD = EQ5D0202" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>USUAL ACTIVITIES (e.g. work, study, housework, family or leisure activities)</label>
-              <input name="IT.EQ5D0203.EQ5D0203_QSORRES" placeholder="EQ5D0203_QSORRES" type="text">
+              <select name="EQ5D0203-QSORRES">
+                <option value="">--select--</option>
+                <option value="I have no problems doing my usual activities">I have no problems doing my usual activities</option>
+                <option value="I have slight problems doing my usual activities">I have slight problems doing my usual activities</option>
+                <option value="I have moderate problems doing my usual activities">I have moderate problems doing my usual activities</option>
+                <option value="I have severe problems doing my usual activities">I have severe problems doing my usual activities</option>
+                <option value="I am unable to do my usual activities">I am unable to do my usual activities</option>
+              </select>
               <input name="IT.EQ5D0203.EQ5D0203_QSORRES.SDTM" placeholder="SDTM: QSORRES where QSTESTCD = EQ5D0203" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>PAIN / DISCOMFORT</label>
-              <input name="IT.EQ5D0204.EQ5D0204_QSORRES" placeholder="EQ5D0204_QSORRES" type="text">
+              <select name="EQ5D0204-QSORRES">
+                <option value="">--select--</option>
+                <option value="I have no pain or discomfort">I have no pain or discomfort</option>
+                <option value="I have slight pain or discomfort">I have slight pain or discomfort</option>
+                <option value="I have moderate pain or discomfort">I have moderate pain or discomfort</option>
+                <option value="I have severe pain or discomfort">I have severe pain or discomfort</option>
+                <option value="I have extreme pain or discomfort">I have extreme pain or discomfort</option>
+              </select>
               <input name="IT.EQ5D0204.EQ5D0204_QSORRES.SDTM" placeholder="SDTM: QSORRES where QSTESTCD = EQ5D0204" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>ANXIETY / DEPRESSION</label>
-              <input name="IT.EQ5D0205.EQ5D0205_QSORRES" placeholder="EQ5D0205_QSORRES" type="text">
+              <select name="EQ5D0205-QSORRES">
+                <option value="">--select--</option>
+                <option value="I am not anxious or depressed">I am not anxious or depressed</option>
+                <option value="I am slightly anxious or depressed">I am slightly anxious or depressed</option>
+                <option value="I am moderately anxious or depressed">I am moderately anxious or depressed</option>
+                <option value="I am severely anxious or depressed">I am severely anxious or depressed</option>
+                <option value="I am extremely anxious or depressed">I am extremely anxious or depressed</option>
+              </select>
               <input name="IT.EQ5D0205.EQ5D0205_QSORRES.SDTM" placeholder="SDTM: QSORRES where QSTESTCD = EQ5D0205" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
           </div>

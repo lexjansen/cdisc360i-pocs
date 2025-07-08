@@ -27,7 +27,7 @@
                     .field-label { font-weight: bold; color: #2c3e50; min-width: 150px; }
                     .field-value { padding: 5px; }
                     input[type="text"], input[type="date"], input[type="number"], select {
-                        width: 200px; padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px;
+                        width: 250px; padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px;
                         font-size: 14px;
                     }
                     input:focus, select:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }

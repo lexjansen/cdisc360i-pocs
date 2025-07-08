@@ -19,7 +19,7 @@
                     .field-label { font-weight: bold; color: #2c3e50; min-width: 150px; }
                     .field-value { padding: 5px; }
                     input[type="text"], input[type="date"], input[type="number"], select {
-                        width: 200px; padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px;
+                        width: 250px; padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px;
                         font-size: 14px;
                     }
                     input:focus, select:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
@@ -113,12 +113,19 @@
                         <tbody>
                            <tr>
                               <td class="field-label">MOBILITY<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="text" name="EQ5D0201_QSORRES" maxlength="200"></td>
+                              <td class="field-value"><select name="EQ5D0201_QSORRES">
+                                    <option value="">-- Select --</option>
+                                    <option value="I have no problems walking">I have no problems walking</option>
+                                    <option value="I have slight problems walking">I have slight problems walking</option>
+                                    <option value="I have moderate problems walking">I have moderate problems walking</option>
+                                    <option value="I have severe problems walking">I have severe problems walking</option>
+                                    <option value="I am unable to walk">I am unable to walk</option></select></td>
                               <td>
                                  <div><strong>Type:</strong>text
                                     (200)
                                     </div>
                                  <div><strong>SDTM: </strong>QSORRES where QSTESTCD = EQ5D0201</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>EQ5D0201-QSORRES</div>
                               </td>
                            </tr>
                         </tbody>
@@ -141,12 +148,19 @@
                         <tbody>
                            <tr>
                               <td class="field-label">SELF-CARE<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="text" name="EQ5D0202_QSORRES" maxlength="200"></td>
+                              <td class="field-value"><select name="EQ5D0202_QSORRES">
+                                    <option value="">-- Select --</option>
+                                    <option value="I have no problems washing or dressing myself">I have no problems washing or dressing myself</option>
+                                    <option value="I have slight problems washing or dressing myself">I have slight problems washing or dressing myself</option>
+                                    <option value="I have moderate problems washing or dressing myself">I have moderate problems washing or dressing myself</option>
+                                    <option value="I have severe problems washing or dressing myself">I have severe problems washing or dressing myself</option>
+                                    <option value="I am unable to wash or dress myself">I am unable to wash or dress myself</option></select></td>
                               <td>
                                  <div><strong>Type:</strong>text
                                     (200)
                                     </div>
                                  <div><strong>SDTM: </strong>QSORRES where QSTESTCD = EQ5D0202</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>EQ5D0202-QSORRES</div>
                               </td>
                            </tr>
                         </tbody>
@@ -169,12 +183,19 @@
                         <tbody>
                            <tr>
                               <td class="field-label">USUAL ACTIVITIES (e.g. work, study, housework, family or leisure activities)<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="text" name="EQ5D0203_QSORRES" maxlength="200"></td>
+                              <td class="field-value"><select name="EQ5D0203_QSORRES">
+                                    <option value="">-- Select --</option>
+                                    <option value="I have no problems doing my usual activities">I have no problems doing my usual activities</option>
+                                    <option value="I have slight problems doing my usual activities">I have slight problems doing my usual activities</option>
+                                    <option value="I have moderate problems doing my usual activities">I have moderate problems doing my usual activities</option>
+                                    <option value="I have severe problems doing my usual activities">I have severe problems doing my usual activities</option>
+                                    <option value="I am unable to do my usual activities">I am unable to do my usual activities</option></select></td>
                               <td>
                                  <div><strong>Type:</strong>text
                                     (200)
                                     </div>
                                  <div><strong>SDTM: </strong>QSORRES where QSTESTCD = EQ5D0203</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>EQ5D0203-QSORRES</div>
                               </td>
                            </tr>
                         </tbody>
@@ -197,12 +218,19 @@
                         <tbody>
                            <tr>
                               <td class="field-label">PAIN / DISCOMFORT<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="text" name="EQ5D0204_QSORRES" maxlength="200"></td>
+                              <td class="field-value"><select name="EQ5D0204_QSORRES">
+                                    <option value="">-- Select --</option>
+                                    <option value="I have no pain or discomfort">I have no pain or discomfort</option>
+                                    <option value="I have slight pain or discomfort">I have slight pain or discomfort</option>
+                                    <option value="I have moderate pain or discomfort">I have moderate pain or discomfort</option>
+                                    <option value="I have severe pain or discomfort">I have severe pain or discomfort</option>
+                                    <option value="I have extreme pain or discomfort">I have extreme pain or discomfort</option></select></td>
                               <td>
                                  <div><strong>Type:</strong>text
                                     (200)
                                     </div>
                                  <div><strong>SDTM: </strong>QSORRES where QSTESTCD = EQ5D0204</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>EQ5D0204-QSORRES</div>
                               </td>
                            </tr>
                         </tbody>
@@ -225,12 +253,19 @@
                         <tbody>
                            <tr>
                               <td class="field-label">ANXIETY / DEPRESSION<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="text" name="EQ5D0205_QSORRES" maxlength="200"></td>
+                              <td class="field-value"><select name="EQ5D0205_QSORRES">
+                                    <option value="">-- Select --</option>
+                                    <option value="I am not anxious or depressed">I am not anxious or depressed</option>
+                                    <option value="I am slightly anxious or depressed">I am slightly anxious or depressed</option>
+                                    <option value="I am moderately anxious or depressed">I am moderately anxious or depressed</option>
+                                    <option value="I am severely anxious or depressed">I am severely anxious or depressed</option>
+                                    <option value="I am extremely anxious or depressed">I am extremely anxious or depressed</option></select></td>
                               <td>
                                  <div><strong>Type:</strong>text
                                     (200)
                                     </div>
                                  <div><strong>SDTM: </strong>QSORRES where QSTESTCD = EQ5D0205</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>EQ5D0205-QSORRES</div>
                               </td>
                            </tr>
                         </tbody>

@@ -136,7 +136,7 @@ def write_html_doc(doc, output_file_path, verbose=False):
         f.write(str(doc))
 
 def gen_codelist_items(cl) -> list:
-    options_list = []
+    options_list = [["--select--", ""]]
     if cl.EnumeratedItem:
         for ei in cl.EnumeratedItem:
             options_list.append([ei.CodedValue, ei.CodedValue])

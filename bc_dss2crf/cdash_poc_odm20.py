@@ -1,10 +1,11 @@
 import os
 import sys
+import click
 from pathlib import Path
 
 # Add top-level folder to path so that project folder can be found
-SCRIPT_PATH = Path.cwd()
-sys.path.append(str(SCRIPT_PATH))
+SCRIPT_DIR = Path.cwd()
+sys.path.append(str(SCRIPT_DIR))
 import odmlib.odm_2_0.model as ODM
 from odmlib import odm_loader as OL, loader as LO
 
@@ -264,28 +265,47 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
      # Read forms from Excel
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
     df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form]
+    if len(df_forms_bcs) == 0:
+        print(f"No data found in the forms metadata for the specified collection form ({collection_form}).")
+        sys.exit()
 
     form_name = None
     for i, row in df_forms_bcs.iterrows():
-        form_name = row['form_label']
+        if row['form_label'] != "":
+            form_name = row['form_label']
+            break
     if form_name is None and not df_forms_bcs.empty:
         form_name = df_forms_bcs.iloc[0]['form_label']
     elif form_name is None:
         form_name = ""
 
+    form_annotation = None
+    for i, row in df_forms_bcs.iterrows():
+        if row['form_annotation'] != "":
+            form_annotation = row['form_annotation']
+            break
+    if form_annotation is None and not df_forms_bcs.empty:
+        form_annotation = df_forms_bcs.iloc[0]['form_annotation']
+    elif form_annotation is None:
+        form_annotation = ""
+
     df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
-    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number', 'form_section_label'])]]
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number',
+                                                                'form_section_label', 'form_section_annotation', 'form_section_completion_instruction'])]]
+    df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
     # Read Collection Specializations from Excel
     df = pd.read_excel(open(collection_metadata, 'rb'), sheet_name=COLLECTION_DSS_METADATA_EXCEL_SHEET, keep_default_na =False)
 
-    # Merge Collection Specializations with forms
     df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
-    df.sort_values(['form_section_id', 'bc_order_number', 'collection_group_id', 'order_number'], ascending=[True, True, True, True], inplace=True)
+    if len(df) == 0:
+        print(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
+        sys.exit()
+    df.sort_values(['form_section_order_number', 'bc_order_number', 'order_number'], ascending=[True, True, True], inplace=True)
 
-    return df, df_forms, form_name
+    return df, df_forms, form_name, form_annotation
 
-def create_odm(df, df_forms, collection_form, form_name):
+def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     """
     Creates an ODM (Operational Data Model) object from the provided dataframes and form information.
     This function constructs an ODM-compliant metadata structure using the input dataframes for forms and items,
@@ -297,6 +317,7 @@ def create_odm(df, df_forms, collection_form, form_name):
         df_forms (pd.DataFrame): DataFrame containing form-level metadata, including form labels and order numbers.
         collection_form (str): Identifier for the collection form to be used as the main form.
         form_name (str): Name of the form to be used in the ODM metadata.
+        form_annotation (str): Annotation on the form to be used in the ODM metadata.
     Returns:
         odm (ODM.ODM): An ODM object populated with the study metadata, including forms, item groups, items, and codelists.
     Notes:
@@ -321,6 +342,13 @@ def create_odm(df, df_forms, collection_form, form_name):
             Description=create_description(f"{form_name}"),
             ItemGroupRef=item_group_refs)
 
+    if form_annotation != "":
+        alias_list = []
+        form_alias = create_alias("formAnnotation", form_annotation)
+        alias_list.append(form_alias)
+        form.Alias = alias_list
+
+
     forms = {}
     for i, row in df_forms.iterrows():
         # Define a FormDef
@@ -331,6 +359,7 @@ def create_odm(df, df_forms, collection_form, form_name):
             Type="Section",
             Description=create_description(row["form_section_label"])
         )
+
         # Add the FormDef to the list of forms
         forms[row["form_section_id"]] = form_def
 
@@ -381,6 +410,16 @@ def create_odm(df, df_forms, collection_form, form_name):
             codelist = create_codelist_from_valuelist(row)
             codelists.append(codelist)
 
+    for i, row in df_forms.iterrows():
+        alias_list = []
+        if row["form_section_annotation"] != "":
+            form_alias = create_alias("formSectionAnnotation", row["form_section_annotation"])
+            alias_list.append(form_alias)
+        if row["form_section_completion_instruction"] != "":
+            form_alias = create_alias("formSectionCompletionInstruction", row["form_section_completion_instruction"])
+            alias_list.append(form_alias)
+        forms[row["form_section_id"]].Alias = alias_list
+
     item_group_defs.append(item_group_def)
 
     # Create a new ODM object
@@ -425,7 +464,16 @@ def create_odm(df, df_forms, collection_form, form_name):
 
     return odm
 
-def main(collection_form):
+@click.command(help="Generate eCRF renditions")
+@click.option(
+    "--form",
+    "-f",
+    "collection_form",
+    default="SIXMW1",
+    help="The ID of the coleection form to process."
+    )
+
+def main(collection_form: str):
     """
     Main function to generate, validate, and transform an ODM 2.0 XML file from Excel metadata.
     Args:
@@ -448,9 +496,9 @@ def main(collection_form):
     ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.json")
     ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}_xsl.html")
 
-    df, df_forms, form_name = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
+    df, df_forms, form_name, form_annotation = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
-    odm = create_odm(df, df_forms, collection_form, form_name)
+    odm = create_odm(df, df_forms, collection_form, form_name, form_annotation)
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)
@@ -465,6 +513,7 @@ def main(collection_form):
 
 if __name__ == "__main__":
 
+    main()
     # main("SIXMW1")
     # main("ECG1")
-    main("QS_EQ5D02")
+    # main("QS_EQ5D02")

@@ -20,7 +20,7 @@ class ValueSet:
         "ItemRef.Mandatory": ["Yes", "No"],
         "StudyEventRef.Mandatory": ["Yes", "No"],
         "ItemGroupDef.IsReferenceData": ["Yes", "No"],
-        "ItemDef.DataType": ["text", "integer", "float", "date", "time", "datetime", "string", "boolean", "double",
+        "ItemDef.DataType": ["text", "integer", "decimal", "float", "date", "time", "datetime", "string", "boolean", "double",
                              "hexBinary", "base64Binary", "hexFloat", "base64Float", "partialDate", "partialTime",
                              "partialDatetime", "durationDatetime", "intervalDatetime", "incompleteDatetime",
                              "incompleteDate", "incompleteTime", "URI"],

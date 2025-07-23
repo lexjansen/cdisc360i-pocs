@@ -11,7 +11,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="//odm:Study/@StudyName"/></title>
+                <title><xsl:value-of select="//odm:ItemGroupDef[@Type='Form']/@Name"/></title>
                 <style>
                     body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
                     .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -35,6 +35,7 @@
                     .prespecified { background-color: #e8f5e8; font-weight: bold; }
                     .mandatory { color: #e74c3c; }
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
+                    .annotation {background-color: LightYellow; border: 1px solid #ccc;}
                 </style>
             </head>
             <body>
@@ -56,6 +57,9 @@
         <div class="form-section">
             <h2><xsl:value-of select="@Name"/></h2>
             <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
+            <xsl:if test="odm:Alias[@Context='formAnnotation']">
+                <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formAnnotation']/@Name"/></div>
+            </xsl:if>
 
             <xsl:for-each select="odm:ItemGroupRef">
                 <xsl:variable name="groupOID" select="@ItemGroupOID"/>
@@ -65,6 +69,14 @@
     </xsl:template>
 
     <xsl:template match="odm:ItemGroupDef[@Type='Section']">
+
+        <xsl:if test="odm:Alias[@Context='formSectionAnnotation']">
+            <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/></div>
+        </xsl:if>
+        <xsl:if test="odm:Alias[@Context='formSectionCompletionInstruction']">
+            <div><xsl:value-of select="odm:Alias[@Context='formSectionCompletionInstruction']/@Name"/></div>
+        </xsl:if>
+
         <div class="section">
           <!-- 
             <h3>
@@ -179,7 +191,7 @@
                                 </div>
 
                                 <xsl:if test="$itemDef/odm:Alias[@Context='SDTM']">
-                                    <div><strong>SDTM: </strong> <xsl:value-of select="$itemDef/odm:Alias/@Name"/></div>
+                                    <div class='annotation'><xsl:value-of select="$itemDef/odm:Alias/@Name"/></div>
                                 </xsl:if>
 
                                 <xsl:if test="$itemDef/odm:CodeListRef">

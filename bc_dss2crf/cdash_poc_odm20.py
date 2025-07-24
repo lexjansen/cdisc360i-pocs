@@ -470,7 +470,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     "-f",
     "collection_form",
     default="SIXMW1",
-    help="The ID of the coleection form to process."
+    help="The ID of the collection form to process."
     )
 
 def main(collection_form: str):
@@ -505,7 +505,7 @@ def main(collection_form: str):
 
     validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
 
-    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL)
+    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, '{"displayDataTypeLength":"1", "displayAnnotations":"1"}')
 
     loader = LO.ODMLoader(OL.XMLODMLoader(model_package="odm_2_0", ns_uri="http://www.cdisc.org/ns/odm/v2.0"))
     loader.open_odm_document(ODM_XML_FILE)

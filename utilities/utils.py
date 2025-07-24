@@ -44,11 +44,18 @@ def transform_xml(xml_path, xsl_path, output_path):
         print(etree.tostring(result_tree).decode())
 
 
-def transform_xml_saxonche(file_path, xsl_path, output_path):
+def transform_xml_saxonche(file_path, xsl_path, output_path, parameters:str = None):
+
     saxonhe = PySaxonProcessor(license=False)
     print(saxonhe.version)
 
     saxonproc = saxonhe.new_xslt30_processor()
+
+    value = saxonhe.make_integer_value(1)
+    saxonproc.set_parameter('displayDataTypeLength', value)
+
+    value = saxonhe.make_integer_value(1)
+    saxonproc.set_parameter('displayAnnotations', value)
 
     executable = saxonproc.compile_stylesheet(stylesheet_file=str(xsl_path))
 
@@ -57,6 +64,7 @@ def transform_xml_saxonche(file_path, xsl_path, output_path):
 
     executable.transform_to_file(output_file=str(output_path), xdm_node=document)
 
+    print(f"HTML transformation completed successfully... {output_path}")
 
 def create_crf_html(odm_file, verbose):
     loader = LO.ODMLoader(OL.XMLODMLoader())

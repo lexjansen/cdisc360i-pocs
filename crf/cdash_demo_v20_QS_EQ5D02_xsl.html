@@ -27,7 +27,7 @@
                     .prespecified { background-color: #e8f5e8; font-weight: bold; }
                     .mandatory { color: #e74c3c; }
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
-                    .annotation {background-color: LightYellow; border: 1px solid #ccc;}
+                    .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
                 </style>
    </head>
    <body>
@@ -40,8 +40,8 @@
             <div class="form-section">
                <h2>EQ-5D-5L Questionnaire</h2>
                <div class="annotation">DOMAIN = QS; QSCAT = EQ-5D-5L</div>
-               <div>Under each heading, please check the ONE box that best describes your health TODAY.</div>
                <div class="section">
+                  <div>Under each heading, please check the ONE box that best describes your health TODAY.</div>
                   <div class="concept-group">
                      <h4>EQ-5D-5L Questionnaire</h4>
                      <div class="coding-info">CDISC Biomedical Concept: C102117 (/mdr/bc/biomedicalconcepts/C102117)
@@ -59,9 +59,6 @@
                               <td class="field-label">Category of Questionnaire<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D02_QSCAT" value="EQ-5D-5L" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
                                  <div class="annotation">QSCAT = EQ-5D-5L</div>
                                  <div class="coding-info"><strong>CodeList: </strong>QSCAT
                                     (C100129)
@@ -75,9 +72,6 @@
                                     <option value="N">No</option>
                                     <option value="Y">Yes</option></select></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (1)
-                                    </div>
                                  <div class="annotation">[NOT SUBMITTED]; QSSTAT = NOT DONE when QSTESTCD = QSALL</div>
                                  <div class="coding-info"><strong>CodeList: </strong>NY
                                     (C66742)
@@ -88,9 +82,6 @@
                               <td class="field-label">Date of Assessment<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="date" name="EQ5D02_QSDAT"></td>
                               <td>
-                                 <div><strong>Type:</strong>date
-                                    (10)
-                                    </div>
                                  <div class="annotation">QSDTC</div>
                               </td>
                            </tr>
@@ -98,9 +89,6 @@
                               <td class="field-label">Collected Evaluation Interval<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D02_QSEVINTX" value="TODAY" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (5)
-                                    </div>
                                  <div class="annotation">QSEVINTX = TODAY</div>
                               </td>
                            </tr>
@@ -108,8 +96,8 @@
                      </table>
                   </div>
                </div>
-               <div>Under each heading, please check the ONE box that best describes your health TODAY.</div>
                <div class="section">
+                  <div>Under each heading, please check the ONE box that best describes your health TODAY.</div>
                   <div class="concept-group">
                      <h4>EQ5D02-Mobility</h4>
                      <div class="coding-info">CDISC Biomedical Concept: C102067 (/mdr/bc/biomedicalconcepts/C102067)
@@ -135,9 +123,6 @@
                                     <option value="I have severe problems walking">I have severe problems walking</option>
                                     <option value="I am unable to walk">I am unable to walk</option></select></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (200)
-                                    </div>
                                  <div class="annotation">QSORRES where QSTESTCD = EQ5D0201</div>
                                  <div class="coding-info"><strong>CodeList: </strong>EQ5D0201-QSORRES</div>
                               </td>
@@ -170,9 +155,6 @@
                                     <option value="I have severe problems washing or dressing myself">I have severe problems washing or dressing myself</option>
                                     <option value="I am unable to wash or dress myself">I am unable to wash or dress myself</option></select></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (200)
-                                    </div>
                                  <div class="annotation">QSORRES where QSTESTCD = EQ5D0202</div>
                                  <div class="coding-info"><strong>CodeList: </strong>EQ5D0202-QSORRES</div>
                               </td>
@@ -205,9 +187,6 @@
                                     <option value="I have severe problems doing my usual activities">I have severe problems doing my usual activities</option>
                                     <option value="I am unable to do my usual activities">I am unable to do my usual activities</option></select></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (200)
-                                    </div>
                                  <div class="annotation">QSORRES where QSTESTCD = EQ5D0203</div>
                                  <div class="coding-info"><strong>CodeList: </strong>EQ5D0203-QSORRES</div>
                               </td>
@@ -240,9 +219,6 @@
                                     <option value="I have severe pain or discomfort">I have severe pain or discomfort</option>
                                     <option value="I have extreme pain or discomfort">I have extreme pain or discomfort</option></select></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (200)
-                                    </div>
                                  <div class="annotation">QSORRES where QSTESTCD = EQ5D0204</div>
                                  <div class="coding-info"><strong>CodeList: </strong>EQ5D0204-QSORRES</div>
                               </td>
@@ -275,9 +251,6 @@
                                     <option value="I am severely anxious or depressed">I am severely anxious or depressed</option>
                                     <option value="I am extremely anxious or depressed">I am extremely anxious or depressed</option></select></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (200)
-                                    </div>
                                  <div class="annotation">QSORRES where QSTESTCD = EQ5D0205</div>
                                  <div class="coding-info"><strong>CodeList: </strong>EQ5D0205-QSORRES</div>
                               </td>
@@ -286,13 +259,13 @@
                      </table>
                   </div>
                </div>
-               <div>We would like to know how good or bad your health is TODAY.
-                  This scale is numbered from 0 to 100.
-                  100 means the best health you can imagine.
-                  0 means the worst health you can imagine.
-                  Mark an X on the scale to indicate how your health is TODAY.
-                  Now, please write the number you marked on the scale in the box below.</div>
                <div class="section">
+                  <div>We would like to know how good or bad your health is TODAY.
+                     This scale is numbered from 0 to 100.
+                     100 means the best health you can imagine.
+                     0 means the worst health you can imagine.
+                     Mark an X on the scale to indicate how your health is TODAY.
+                     Now, please write the number you marked on the scale in the box below.</div>
                   <div class="concept-group">
                      <h4>EQ-5D-5L - EQ VAS Score</h4>
                      <div class="coding-info">CDISC Biomedical Concept: C102072 (/mdr/bc/biomedicalconcepts/C102072)
@@ -312,9 +285,6 @@
                               <td class="field-label">YOUR HEALTH TODAY<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="number" name="EQ5D0206_QSORRES"></td>
                               <td>
-                                 <div><strong>Type:</strong>integer
-                                    (3)
-                                    </div>
                                  <div class="annotation">QSORRES where QSTESTCD = EQ5D0206</div>
                               </td>
                            </tr>
@@ -322,9 +292,6 @@
                               <td class="field-label">Visual Analog Scale<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D0206_QSMETHOD" value="VISUAL ANALOG SCALE (1-100)" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (100)
-                                    </div>
                                  <div class="annotation">QSMETHOD = VISUAL ANALOG SCALE (1-100) when QSTESTCD = EQ5D0206</div>
                               </td>
                            </tr>
@@ -332,9 +299,6 @@
                               <td class="field-label">The worst health you can imagine<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D0206_QSANTXLO" value="The worst health you can imagine" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (100)
-                                    </div>
                                  <div class="annotation">QSANTXLO in SUPPQS</div>
                               </td>
                            </tr>
@@ -342,9 +306,6 @@
                               <td class="field-label">The best health you can imagine<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D0206_QSANTXHI" value="The best health you can imagine" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>text
-                                    (100)
-                                    </div>
                                  <div class="annotation">QSANTXHI in SUPPQS</div>
                               </td>
                            </tr>
@@ -352,9 +313,6 @@
                               <td class="field-label">Anchor Value Low<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D0206_QSANVLLO" value="0" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>integer
-                                    (3)
-                                    </div>
                                  <div class="annotation">QSANVLLO in SUPPQS</div>
                               </td>
                            </tr>
@@ -362,9 +320,6 @@
                               <td class="field-label">Anchor Value High<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EQ5D0206_QSANVLHI" value="100" class="prespecified" readonly></td>
                               <td>
-                                 <div><strong>Type:</strong>integer
-                                    (3)
-                                    </div>
                                  <div class="annotation">QSANVLHI in SUPPQS</div>
                               </td>
                            </tr>

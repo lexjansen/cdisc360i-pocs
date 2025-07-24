@@ -2,11 +2,16 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:odm="http://www.cdisc.org/ns/odm/v2.0"
-    version="1.0"
+    version="2.0"
     exclude-result-prefixes="odm">
-
     <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01//EN"
                 doctype-system="http://www.w3.org/TR/html4/strict.dtd" indent="yes"/>
+
+    <!-- Display DataType and Length (0/1)? -->
+    <xsl:param name="displayDataTypeLength" select="0" />
+
+    <!-- Display DataType and Length (0/1)? -->
+    <xsl:param name="displayAnnotations" select="1" />
 
     <xsl:template match="/">
         <html>
@@ -35,7 +40,7 @@
                     .prespecified { background-color: #e8f5e8; font-weight: bold; }
                     .mandatory { color: #e74c3c; }
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
-                    .annotation {background-color: LightYellow; border: 1px solid #ccc;}
+                    .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
                 </style>
             </head>
             <body>
@@ -57,8 +62,10 @@
         <div class="form-section">
             <h2><xsl:value-of select="@Name"/></h2>
             <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
-            <xsl:if test="odm:Alias[@Context='formAnnotation']">
-                <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formAnnotation']/@Name"/></div>
+            <xsl:if test="$displayAnnotations = 1">
+              <xsl:if test="odm:Alias[@Context='formAnnotation']">
+                  <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formAnnotation']/@Name"/></div>
+              </xsl:if>
             </xsl:if>
 
             <xsl:for-each select="odm:ItemGroupRef">
@@ -70,15 +77,18 @@
 
     <xsl:template match="odm:ItemGroupDef[@Type='Section']">
 
-        <xsl:if test="odm:Alias[@Context='formSectionAnnotation']">
-            <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/></div>
+        <div class="section">
+
+        <xsl:if test="$displayAnnotations = 1">
+          <xsl:if test="odm:Alias[@Context='formSectionAnnotation']">
+              <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/></div>
+          </xsl:if>
         </xsl:if>
         <xsl:if test="odm:Alias[@Context='formSectionCompletionInstruction']">
             <div><xsl:value-of select="odm:Alias[@Context='formSectionCompletionInstruction']/@Name"/></div>
         </xsl:if>
 
-        <div class="section">
-          <!-- 
+            <!--
             <h3>
                 <xsl:value-of select="@Name"/>
             </h3>
@@ -97,18 +107,23 @@
             <h4><xsl:value-of select="@Name"/></h4>
             <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
 
-            <xsl:for-each select="odm:Coding">
-                    <div class="coding-info">
-                        <xsl:value-of select="@SystemName"/>: <xsl:value-of select="@Code"/> (<xsl:value-of select="@System"/>)
-                    </div>
-            </xsl:for-each>
+            <xsl:if test="$displayAnnotations = 1">
+              <xsl:for-each select="odm:Coding">
+                      <div class="coding-info">
+                          <xsl:value-of select="@SystemName"/>: <xsl:value-of select="@Code"/> (<xsl:value-of select="@System"/>)
+                      </div>
+              </xsl:for-each>
+            </xsl:if>
 
             <table>
                 <thead>
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
-                        <th>Details</th>
+                        <xsl:if test="$displayAnnotations = 1">
+                          <th>Details</th>
+                        </xsl:if>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -182,29 +197,35 @@
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </td>
-                            <td>
-                                <div>
-                                    <strong>Type:</strong> <xsl:value-of select="$itemDef/@DataType"/>
-                                    <xsl:if test="$itemDef/@Length">
-                                        (<xsl:value-of select="$itemDef/@Length"/>)
-                                    </xsl:if>
-                                </div>
 
-                                <xsl:if test="$itemDef/odm:Alias[@Context='SDTM']">
-                                    <div class='annotation'><xsl:value-of select="$itemDef/odm:Alias/@Name"/></div>
-                                </xsl:if>
+                            <xsl:if test="$displayAnnotations = 1">
+                              <td>
+                                  <xsl:if test="$displayDataTypeLength = 1">
+                                      <div>
+                                          <strong>Type:</strong> <xsl:value-of select="$itemDef/@DataType"/>
+                                          <xsl:if test="$itemDef/@Length">
+                                              (<xsl:value-of select="$itemDef/@Length"/>)
+                                          </xsl:if>
+                                      </div>
+                                  </xsl:if>
 
-                                <xsl:if test="$itemDef/odm:CodeListRef">
-                                    <xsl:variable name="codeListOID" select="$itemDef/odm:CodeListRef/@CodeListOID"/>
-                                    <xsl:variable name="codeList" select="//odm:CodeList[@OID=$codeListOID]"/>
-                                    <div class="coding-info">
-                                        <strong>CodeList: </strong> <xsl:value-of select="$codeList/@Name"/>
-                                        <xsl:if test="$codeList/odm:Coding">
-                                            (<xsl:value-of select="$codeList/odm:Coding/@Code"/>)
-                                        </xsl:if>
-                                    </div>
-                                </xsl:if>
-                            </td>
+
+                                  <xsl:if test="$itemDef/odm:Alias[@Context='SDTM']">
+                                      <div class='annotation'><xsl:value-of select="$itemDef/odm:Alias/@Name"/></div>
+                                  </xsl:if>
+
+                                  <xsl:if test="$itemDef/odm:CodeListRef">
+                                      <xsl:variable name="codeListOID" select="$itemDef/odm:CodeListRef/@CodeListOID"/>
+                                      <xsl:variable name="codeList" select="//odm:CodeList[@OID=$codeListOID]"/>
+                                      <div class="coding-info">
+                                          <strong>CodeList: </strong> <xsl:value-of select="$codeList/@Name"/>
+                                          <xsl:if test="$codeList/odm:Coding">
+                                              (<xsl:value-of select="$codeList/odm:Coding/@Code"/>)
+                                          </xsl:if>
+                                      </div>
+                                  </xsl:if>
+                              </td>
+                            </xsl:if>
                         </tr>
                     </xsl:for-each>
                 </tbody>

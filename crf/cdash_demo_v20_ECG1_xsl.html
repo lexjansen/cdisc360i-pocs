@@ -27,6 +27,7 @@
                     .prespecified { background-color: #e8f5e8; font-weight: bold; }
                     .mandatory { color: #e74c3c; }
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
+                    .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
                 </style>
    </head>
    <body>
@@ -38,18 +39,14 @@
          <form id="cdashForm" method="post">
             <div class="form-section">
                <h2>ECG</h2>
-               <div><strong>SDTM: </strong>DOMAIN = EG</div>
                <div class="section">
                   <div class="concept-group">
                      <h4>ECG Performed</h4>
-                     <div class="coding-info">CDISC Biomedical Concept: C82525 (/mdr/bc/biomedicalconcepts/C82525)
-                        </div>
                      <table>
                         <thead>
                            <tr>
                               <th>Field</th>
                               <th>Value</th>
-                              <th>Details</th>
                            </tr>
                         </thead>
                         <tbody>
@@ -59,25 +56,10 @@
                                     <option value="">-- Select --</option>
                                     <option value="N">No</option>
                                     <option value="Y">Yes</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (1)
-                                    </div>
-                                 <div><strong>SDTM: </strong>[NOT SUBMITTED]; EGSTAT = NOT DONE when EGTESTCD = EGALL</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>NY
-                                    (C66742)
-                                    </div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">Date of Assessment</td>
                               <td class="field-value"><input type="date" name="EGDAT"></td>
-                              <td>
-                                 <div><strong>Type:</strong>date
-                                    (10)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGDTC</div>
-                              </td>
                            </tr>
                         </tbody>
                      </table>
@@ -86,41 +68,21 @@
                <div class="section">
                   <div class="concept-group">
                      <h4>Mean Heart Rate by Electrocardiogram (Horizontal)</h4>
-                     <div class="coding-info">CDISC Biomedical Concept: C119259 (/mdr/bc/biomedicalconcepts/C119259)
-                        </div>
-                     <div class="coding-info">CDISC SDTM Dataset Specialization: EGHRMN (/mdr/specializations/sdtm/datasetspecializations/EGHRMN)
-                        </div>
                      <table>
                         <thead>
                            <tr>
                               <th>Field</th>
                               <th>Value</th>
-                              <th>Details</th>
                            </tr>
                         </thead>
                         <tbody>
                            <tr>
                               <td class="field-label">Date of Assessment</td>
                               <td class="field-value"><input type="date" name="EGDAT"></td>
-                              <td>
-                                 <div><strong>Type:</strong>date
-                                    (10)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGDTC</div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">Method<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EGMETHOD" value="12 LEAD STANDARD" class="prespecified" readonly></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGMETHOD = 12 LEAD STANDARD when EGTESTCD = EGHRMN</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>EGMETHOD
-                                    (C71151)
-                                    </div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">Position</td>
@@ -131,66 +93,199 @@
                                     <option value="SITTING">Sitting</option>
                                     <option value="STANDING">Standing</option>
                                     <option value="SUPINE">Supine</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGPOS</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>POSITION
-                                    (C71148)
-                                    </div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">ECG Mean Heart Rate Result<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="number" name="EGHRMN_EGORRES"></td>
-                              <td>
-                                 <div><strong>Type:</strong>integer
-                                    (3)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGORRES when EGTESTCD = EGHRMN</div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">Unit<span class="mandatory"> *</span></td>
                               <td class="field-value"><input type="text" name="EGHRMN_EGORRESU" value="beats/min" class="prespecified" readonly></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGORRESU = beats/min when EGTESTCD = EGHRMN</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
-                                    (C71620)
-                                    </div>
-                              </td>
                            </tr>
                         </tbody>
                      </table>
                   </div>
                   <div class="concept-group">
-                     <h4>ECG Interpretation (Horizontal)</h4>
-                     <div class="coding-info">CDISC Biomedical Concept: C181655 (/mdr/bc/biomedicalconcepts/C181655)
-                        </div>
-                     <div class="coding-info">CDISC SDTM Dataset Specialization: EGINTP (/mdr/specializations/sdtm/datasetspecializations/EGINTP)
-                        </div>
+                     <h4>QRS Duration Aggregate (Horizontal)</h4>
                      <table>
                         <thead>
                            <tr>
                               <th>Field</th>
                               <th>Value</th>
-                              <th>Details</th>
                            </tr>
                         </thead>
                         <tbody>
                            <tr>
                               <td class="field-label">Date of Assessment</td>
                               <td class="field-value"><input type="date" name="EGDAT"></td>
-                              <td>
-                                 <div><strong>Type:</strong>date
-                                    (10)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGDTC</div>
-                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Method<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="EGMETHOD" value="12 LEAD STANDARD" class="prespecified" readonly></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Position</td>
+                              <td class="field-value"><select name="EGPOS">
+                                    <option value="">-- Select --</option>
+                                    <option value="SEMI-FOWLERS">Semi-Fowlers</option>
+                                    <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
+                                    <option value="SITTING">Sitting</option>
+                                    <option value="STANDING">Standing</option>
+                                    <option value="SUPINE">Supine</option></select></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">QRS Duration, Aggregate Result<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="QRSAG_EGORRES"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><select name="QRSAG_EGORRESU">
+                                    <option value="">-- Select --</option>
+                                    <option value="ms">msec</option>
+                                    <option value="/s">per sec</option></select></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>PR Interval Aggregate (Horizontal)</h4>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Date of Assessment</td>
+                              <td class="field-value"><input type="date" name="EGDAT"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Method<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="EGMETHOD" value="12 LEAD STANDARD" class="prespecified" readonly></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Position</td>
+                              <td class="field-value"><select name="EGPOS">
+                                    <option value="">-- Select --</option>
+                                    <option value="SEMI-FOWLERS">Semi-Fowlers</option>
+                                    <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
+                                    <option value="SITTING">Sitting</option>
+                                    <option value="STANDING">Standing</option>
+                                    <option value="SUPINE">Supine</option></select></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">PR Interval, Single Beat Result<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="PRAG_EGORRES"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><select name="PRAG_EGORRESU">
+                                    <option value="">-- Select --</option>
+                                    <option value="ms">msec</option>
+                                    <option value="/s">per sec</option></select></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>QT Interval Aggregate (Horizontal)</h4>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Date of Assessment</td>
+                              <td class="field-value"><input type="date" name="EGDAT"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Method<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="EGMETHOD" value="12 LEAD STANDARD" class="prespecified" readonly></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Position</td>
+                              <td class="field-value"><select name="EGPOS">
+                                    <option value="">-- Select --</option>
+                                    <option value="SEMI-FOWLERS">Semi-Fowlers</option>
+                                    <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
+                                    <option value="SITTING">Sitting</option>
+                                    <option value="STANDING">Standing</option>
+                                    <option value="SUPINE">Supine</option></select></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">QT Interval, Aggregate Result<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="QTAG_EGORRES"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><select name="QTAG_EGORRESU">
+                                    <option value="">-- Select --</option>
+                                    <option value="ms">msec</option>
+                                    <option value="/s">per sec</option></select></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>QTC Aggregate Method Unspecified (Horizontal)</h4>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Date of Assessment</td>
+                              <td class="field-value"><input type="date" name="EGDAT"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Method<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="EGMETHOD" value="12 LEAD STANDARD" class="prespecified" readonly></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Position</td>
+                              <td class="field-value"><select name="EGPOS">
+                                    <option value="">-- Select --</option>
+                                    <option value="SEMI-FOWLERS">Semi-Fowlers</option>
+                                    <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
+                                    <option value="SITTING">Sitting</option>
+                                    <option value="STANDING">Standing</option>
+                                    <option value="SUPINE">Supine</option></select></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">QTc Corr Method Unspecified, Aggregate Result Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="QTCUNSAG_EGORRES"></td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><select name="QTCUNSAG_EGORRESU">
+                                    <option value="">-- Select --</option>
+                                    <option value="ms">msec</option>
+                                    <option value="/s">per sec</option></select></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>ECG Interpretation (Horizontal)</h4>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Date of Assessment</td>
+                              <td class="field-value"><input type="date" name="EGDAT"></td>
                            </tr>
                            <tr>
                               <td class="field-label">Interpretation<span class="mandatory"> *</span></td>
@@ -198,15 +293,6 @@
                                     <option value="">-- Select --</option>
                                     <option value="ABNORMAL">Abnormal</option>
                                     <option value="NORMAL">Normal</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGORRES when EGTESTCD = EGINTP</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>NORMABNM
-                                    (C101834)
-                                    </div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">Was the ECG clinically significant?</td>
@@ -214,15 +300,6 @@
                                     <option value="">-- Select --</option>
                                     <option value="N">No</option>
                                     <option value="Y">Yes</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (1)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGCLSIG</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>NY
-                                    (C66742)
-                                    </div>
-                              </td>
                            </tr>
                            <tr>
                               <td class="field-label">Evaluator</td>
@@ -231,101 +308,6 @@
                                     <option value="ADJUDICATION COMMITTEE">Adjudication Committee</option>
                                     <option value="INDEPENDENT ASSESSOR">Independent Assessor</option>
                                     <option value="INVESTIGATOR">Investigator</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGEVAL</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>EVAL
-                                    (C78735)
-                                    </div>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <div class="concept-group">
-                     <h4>PR Interval Aggregate (Horizontal)</h4>
-                     <div class="coding-info">CDISC Biomedical Concept: C117773 (/mdr/bc/biomedicalconcepts/C117773)
-                        </div>
-                     <div class="coding-info">CDISC SDTM Dataset Specialization: PRAG (/mdr/specializations/sdtm/datasetspecializations/PRAG)
-                        </div>
-                     <table>
-                        <thead>
-                           <tr>
-                              <th>Field</th>
-                              <th>Value</th>
-                              <th>Details</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="field-label">Date of Assessment</td>
-                              <td class="field-value"><input type="date" name="EGDAT"></td>
-                              <td>
-                                 <div><strong>Type:</strong>date
-                                    (10)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGDTC</div>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="field-label">Method<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="text" name="EGMETHOD" value="12 LEAD STANDARD" class="prespecified" readonly></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGMETHOD = 12 LEAD STANDARD when EGTESTCD = PRAG</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>EGMETHOD
-                                    (C71151)
-                                    </div>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="field-label">Position</td>
-                              <td class="field-value"><select name="EGPOS">
-                                    <option value="">-- Select --</option>
-                                    <option value="SEMI-FOWLERS">Semi-Fowlers</option>
-                                    <option value="SEMI-RECUMBENT">Semi-Recumbent</option>
-                                    <option value="SITTING">Sitting</option>
-                                    <option value="STANDING">Standing</option>
-                                    <option value="SUPINE">Supine</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGPOS</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>POSITION
-                                    (C71148)
-                                    </div>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="field-label">PR Interval, Single Beat Result<span class="mandatory"> *</span></td>
-                              <td class="field-value"><input type="number" name="PRAG_EGORRES"></td>
-                              <td>
-                                 <div><strong>Type:</strong>integer
-                                    (3)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGORRES when EGTESTCD = PRAG</div>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
-                              <td class="field-value"><select name="PRAG_EGORRESU">
-                                    <option value="">-- Select --</option>
-                                    <option value="ms">msec</option>
-                                    <option value="/s">per sec</option></select></td>
-                              <td>
-                                 <div><strong>Type:</strong>text
-                                    (50)
-                                    </div>
-                                 <div><strong>SDTM: </strong>EGORRESU when EGTESTCD = PRAG</div>
-                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
-                                    (C71620)
-                                    </div>
-                              </td>
                            </tr>
                         </tbody>
                      </table>

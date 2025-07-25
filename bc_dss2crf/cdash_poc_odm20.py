@@ -495,6 +495,7 @@ def main(collection_form: str):
     ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.xml")
     ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.json")
     ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}_xsl.html")
+    ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}_xsl_annotated.html")
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
@@ -505,7 +506,8 @@ def main(collection_form: str):
 
     validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
 
-    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, '{"displayDataTypeLength":"1", "displayAnnotations":"1"}')
+    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
+    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 
     loader = LO.ODMLoader(OL.XMLODMLoader(model_package="odm_2_0", ns_uri="http://www.cdisc.org/ns/odm/v2.0"))
     loader.open_odm_document(ODM_XML_FILE)

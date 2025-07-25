@@ -44,18 +44,16 @@ def transform_xml(xml_path, xsl_path, output_path):
         print(etree.tostring(result_tree).decode())
 
 
-def transform_xml_saxonche(file_path, xsl_path, output_path, parameters:str = None):
+def transform_xml_saxonche(file_path, xsl_path, output_path, **kwargs):
 
     saxonhe = PySaxonProcessor(license=False)
     print(saxonhe.version)
 
     saxonproc = saxonhe.new_xslt30_processor()
 
-    value = saxonhe.make_integer_value(1)
-    saxonproc.set_parameter('displayDataTypeLength', value)
-
-    value = saxonhe.make_integer_value(1)
-    saxonproc.set_parameter('displayAnnotations', value)
+    for key, value in kwargs.items():
+        parameter_value = saxonhe.make_integer_value(value)
+        saxonproc.set_parameter(key, parameter_value)
 
     executable = saxonproc.compile_stylesheet(stylesheet_file=str(xsl_path))
 

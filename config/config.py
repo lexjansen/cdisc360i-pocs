@@ -31,10 +31,12 @@ class AppSettings:
             if config.has_option('Schema', 'odm20_xml'):
                 self.odm20_schema = config.get('Schema', 'odm20_xml')
         if config.has_section('Stylesheet'):
-            if config.has_option('Stylesheet', 'odm132'):
-                self.odm132_stylesheet = config.get('Stylesheet', 'odm132')
-            if config.has_option('Stylesheet', 'odm20'):
-                self.odm20_stylesheet = config.get('Stylesheet', 'odm20')
+            if config.has_option('Stylesheet', 'odm132_cosa_xsl'):
+                self.odm132_cosa_stylesheet = config.get('Stylesheet', 'odm132_cosa_xsl')
+            if config.has_option('Stylesheet', 'odm132_xsl'):
+                self.odm132_stylesheet = config.get('Stylesheet', 'odm132_xsl')
+            if config.has_option('Stylesheet', 'odm20_xsl'):
+                self.odm20_stylesheet = config.get('Stylesheet', 'odm20_xsl')
 
 
     def _get_config_file(self) -> str:

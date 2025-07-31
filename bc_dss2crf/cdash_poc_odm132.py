@@ -15,6 +15,7 @@ import csv
 from utilities.utils import (
     validate_odm_xml_file,
     transform_xml,
+    transform_xml_saxonche,
     create_crf_html,
     write_html_doc,
     gen_codelist_items
@@ -33,6 +34,7 @@ FORMS_METADATA_EXCEL_SHEET = __config.forms_metadata_excel_sheet
 
 ODM_XML_SCHEMA_FILE = Path(__config.odm132_schema)
 XSL_FILE = Path(__config.odm132_stylesheet)
+XSL_COSA_FILE = Path(__config.odm132_cosa_stylesheet)
 
 MANDATORY_MAP = {
     "Y": "Yes",
@@ -138,6 +140,8 @@ def create_codelist(row):
     codelist = ODM.CodeList(OID=create_oid("CODELIST", row),
                             Name=row["codelist_submission_value"],
                             DataType=row["data_type"])
+    if row["data_type"] in DATATYPE_MAP:
+        codelist.DataType = DATATYPE_MAP[row["data_type"]]
     codelist_items = []
     enumerated_items = []
     if row["value_list"] != "":
@@ -159,9 +163,16 @@ def create_codelist(row):
     return codelist
 
 def create_codelist_from_valuelist(row):
-    codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
-                            Name=row["vlm_group_id"]+"-"+row["variable_name"],
-                            DataType=row["data_type"])
+    if row["vlm_group_id"] != "":
+        codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
+                                Name=row["vlm_group_id"]+"-"+row["variable_name"],
+                                DataType=row["data_type"])
+    else:
+        codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
+                                Name=row["collection_group_id"]+"-"+row["variable_name"],
+                                DataType=row["data_type"])
+    if row["data_type"] in DATATYPE_MAP:
+        codelist.DataType = DATATYPE_MAP[row["data_type"]]
     codelist_items = []
     enumerated_items = []
     if row["value_list"] != "":
@@ -199,18 +210,17 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     """
      # Read forms from Excel
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
-    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form]
+    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form].reset_index(drop=True)
+    if len(df_forms_bcs) == 0:
+        print(f"No data found in the forms metadata for the specified collection form ({collection_form}).")
+        sys.exit()
 
-    form_name = None
-    for i, row in df_forms_bcs.iterrows():
-        form_name = row['form_label']
-    if form_name is None and not df_forms_bcs.empty:
-        form_name = df_forms_bcs.iloc[0]['form_label']
-    elif form_name is None:
-        form_name = ""
+    form_name = df_forms_bcs.loc[0, 'form_label']
+    form_annotation = df_forms_bcs.loc[0, 'form_annotation']
 
     df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
-    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number', 'form_section_label'])]]
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number',
+                                                                'form_section_label', 'form_section_annotation', 'form_section_completion_instruction'])]]
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
     # Read Collection Specializations from Excel
@@ -220,9 +230,9 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
     df.sort_values(['form_section_order_number', 'bc_order_number', 'order_number'], ascending=[True, True, True], inplace=True)
 
-    return df, df_forms, form_name
+    return df, df_forms, form_name, form_annotation
 
-def create_odm(df, df_forms, collection_form, form_name):
+def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     """
     Creates an ODM (Operational Data Model) object representing study metadata, forms, item groups, items, and codelists.
     Args:
@@ -230,6 +240,7 @@ def create_odm(df, df_forms, collection_form, form_name):
         df_forms (pandas.DataFrame): DataFrame containing form-level metadata.
         collection_form (str): Identifier for the collection form to be used in the ODM FormDef OID.
         form_name (str): Name of the form to be used in the ODM FormDef Name and Description.
+        form_annotation (str): Annotation on the form to be used in the ODM metadata.
     Returns:
         odm (odmlib.ODM): An ODM object populated with study metadata, forms, item groups, items, and codelists.
     Notes:
@@ -250,6 +261,12 @@ def create_odm(df, df_forms, collection_form, form_name):
             Description=create_description(f"{form_name}"),
             ItemGroupRef=item_group_refs)
 
+    if form_annotation != "":
+        alias_list = []
+        form_alias = create_alias("formAnnotation", form_annotation)
+        alias_list.append(form_alias)
+        form.Alias = alias_list
+
     forms = {}
     for i, row in df_forms.iterrows():
         # Define a FormDef
@@ -259,6 +276,7 @@ def create_odm(df, df_forms, collection_form, form_name):
             Repeating="No",
             Description=create_description(row["form_section_label"])
         )
+
         # Add the FormDef to the list of forms
         forms[row["form_section_id"]] = form_def
 
@@ -289,6 +307,15 @@ def create_odm(df, df_forms, collection_form, form_name):
                 item_refs.append(item_ref)
 
             item_group_def = create_item_group_def(row, "Section", itemrefs=item_refs)
+
+            alias_list = []
+            if row["form_section_annotation"] != "":
+                form_alias = create_alias("formSectionAnnotation", row["form_section_annotation"])
+                alias_list.append(form_alias)
+            if row["form_section_completion_instruction"] != "":
+                form_alias = create_alias("formSectionCompletionInstruction", row["form_section_completion_instruction"])
+                alias_list.append(form_alias)
+            item_group_def.Alias = alias_list
 
         else:
             counter += 1
@@ -325,7 +352,7 @@ def create_odm(df, df_forms, collection_form, form_name):
     mdv = []
     mdv.append(ODM.MetaDataVersion(OID=create_oid("MDV", []),
                             Name="CDISC360i CDASH POC Study Metadata Version",
-                            Description="CDISC360i CDASH ODM 2.0 metadata version"))
+                            Description="CDISC360i CDASH ODM 1.3.2 metadata version"))
 
     mdv[0].ItemGroupDef.append(form)
 
@@ -381,16 +408,20 @@ def main(collection_form: str):
     ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}.json")
     ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_dom.html")
     ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl.html")
+    ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl_annotated.html")
+    ODM_HTML_FILE_XSL_COSA = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl_cosa.html")
 
-    df, df_forms, form_name = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
+    df, df_forms, form_name, form_annotation = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
-    odm = create_odm(df, df_forms, collection_form, form_name)
+    odm = create_odm(df, df_forms, collection_form, form_name, form_annotation)
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)
 
-    # validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
-    transform_xml(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL)
+    validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
+    # transform_xml(ODM_XML_FILE, XSL_COSA_FILE, ODM_HTML_FILE_XSL_COSA)
+    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
+    transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 
     doc = create_crf_html(ODM_XML_FILE, True)
     write_html_doc(doc, ODM_HTML_FILE_DOM, verbose=True)

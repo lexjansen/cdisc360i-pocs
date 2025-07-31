@@ -38,17 +38,17 @@ def create_oid(type, row):
     elif type.upper() == "MDV":
         return "ODM.CDASH.STUDY.MDV"
     elif type.upper() == "FORM":
-        return f"{row['form_section_id']}"
+        return f"IG.{row['form_id']}"
     elif type.upper() == "SECTION":
-        return f"IG.CDASH.POC.{row['collection_group_id']}"
+        return f"IG.{row['form_section_id']}_{row['form_section_order_number']}"
     elif type.upper() == "CONCEPT":
-        return f"IG.CDASH.POC.{row['collection_group_id']}"
+        return f"IG.{row['form_section_id']}_{row['form_section_order_number']}_{row['collection_group_id']}_{row['bc_order_number']}"
     elif type.upper() == "ITEM":
-        return f"IT.{row['collection_group_id']}.{row['collection_item']}"
+        return f"IT.{row['form_section_id']}_{row['form_section_order_number']}_{row['collection_group_id']}_{row['bc_order_number']}.{row['collection_item']}"
     elif type.upper() == "CODELIST":
-        return f"CL.{row['collection_group_id']}.{row['variable_name']}.{row['codelist']}"
+        return f"CL.{row['form_section_id']}_{row['collection_group_id']}_{row['bc_order_number']}.{row['collection_item']}.{row['codelist']}"
     elif type.upper() == "CODELIST_VL":
-        return f"CL.{row['collection_group_id']}.{row['variable_name']}"
+        return f"CL.{row['form_section_id']}_{row['collection_group_id']}_{row['bc_order_number']}.{row['collection_item']}"
     else:
         raise ValueError("Invalid type specified")
 
@@ -206,9 +206,14 @@ def create_codelist(row):
 
 
 def create_codelist_from_valuelist(row):
-    codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
-                            Name=row["vlm_group_id"]+"-"+row["variable_name"],
-                            DataType=row["data_type"])
+    if row["vlm_group_id"] != "":
+        codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
+                                Name=row["vlm_group_id"]+"-"+row["variable_name"],
+                                DataType=row["data_type"])
+    else:
+        codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
+                                Name=row["collection_group_id"]+"-"+row["variable_name"],
+                                DataType=row["data_type"])
     codelist_items = []
     codings = []
     if row["value_list"] != "":
@@ -264,40 +269,23 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     """
      # Read forms from Excel
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
-    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form]
+    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
         print(f"No data found in the forms metadata for the specified collection form ({collection_form}).")
         sys.exit()
 
-    form_name = None
-    for i, row in df_forms_bcs.iterrows():
-        if row['form_label'] != "":
-            form_name = row['form_label']
-            break
-    if form_name is None and not df_forms_bcs.empty:
-        form_name = df_forms_bcs.iloc[0]['form_label']
-    elif form_name is None:
-        form_name = ""
-
-    form_annotation = None
-    for i, row in df_forms_bcs.iterrows():
-        if row['form_annotation'] != "":
-            form_annotation = row['form_annotation']
-            break
-    if form_annotation is None and not df_forms_bcs.empty:
-        form_annotation = df_forms_bcs.iloc[0]['form_annotation']
-    elif form_annotation is None:
-        form_annotation = ""
+    form_name = df_forms_bcs.loc[0, 'form_label']
+    form_annotation = df_forms_bcs.loc[0, 'form_annotation']
 
     df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
-    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number',
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'form_section_id', 'form_section_order_number',
                                                                 'form_section_label', 'form_section_annotation', 'form_section_completion_instruction'])]]
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
     # Read Collection Specializations from Excel
     df = pd.read_excel(open(collection_metadata, 'rb'), sheet_name=COLLECTION_DSS_METADATA_EXCEL_SHEET, keep_default_na =False)
 
-    df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
+    df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:m')
     if len(df) == 0:
         print(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
         sys.exit()
@@ -329,13 +317,13 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     item_group_refs = []
     for i, row in df_forms.iterrows():
         item_group_ref = ODM.ItemGroupRef(
-            ItemGroupOID=create_oid("FORM", row),
+            ItemGroupOID=create_oid("SECTION", row),
             OrderNumber=row["form_section_order_number"],
             Mandatory="Yes")           # Add the FormDef to the list of forms
         item_group_refs.append(item_group_ref)
 
     form = ODM.ItemGroupDef(
-            OID=f"IG.{collection_form}",
+            OID=f"IG_FORM.{collection_form}",
             Name=f"{form_name}",
             Repeating="No",
             Type="Form",
@@ -353,7 +341,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     for i, row in df_forms.iterrows():
         # Define a FormDef
         form_def = ODM.ItemGroupDef(
-            OID=create_oid("FORM", row),
+            OID=create_oid("SECTION", row),
             Name=row["form_section_label"],
             Repeating="No",
             Type="Section",
@@ -389,10 +377,10 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
                 item_ref = create_item_ref(row)
                 item_refs.append(item_ref)
 
-            item_group_def = create_item_group_def(row, "Concept", itemrefs=item_refs)
-            item_group_ref = create_item_group_ref(row, "Section")
-
+            item_group_ref = create_item_group_ref(row, "Concept")
             forms[row["form_section_id"]].ItemGroupRef.append(item_group_ref)
+
+            item_group_def = create_item_group_def(row, "Concept", itemrefs=item_refs)
 
         else:
             if row["display_hidden"] != "Y":

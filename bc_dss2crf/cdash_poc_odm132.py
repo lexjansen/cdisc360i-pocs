@@ -51,17 +51,17 @@ def create_oid(type, row):
     elif type.upper() == "MDV":
         return "ODM.CDASH.STUDY.MDV"
     elif type.upper() == "FORM":
-        return f"{row['form_section_id']}"
+        return f"IG.{row['form_id']}"
     elif type.upper() == "SECTION":
-        return f"{row['form_section_id']}"
+        return f"IG.{row['form_section_id']}_{row['form_section_order_number']}"
     elif type.upper() == "CONCEPT":
-        return f"{row['collection_group_id']}"
+        return f"IG.{row['form_section_id']}_{row['form_section_order_number']}_{row['collection_group_id']}_{row['bc_order_number']}"
     elif type.upper() == "ITEM":
-        return f"IT.{row['collection_group_id']}.{row['collection_item']}"
+        return f"IT.{row['form_section_id']}_{row['form_section_order_number']}_{row['collection_group_id']}_{row['bc_order_number']}.{row['collection_item']}"
     elif type.upper() == "CODELIST":
-        return f"CL.{row['collection_group_id']}.{row['variable_name']}.{row['codelist']}"
+        return f"CL.{row['form_section_id']}_{row['collection_group_id']}_{row['bc_order_number']}.{row['collection_item']}.{row['codelist']}"
     elif type.upper() == "CODELIST_VL":
-        return f"CL.{row['collection_group_id']}.{row['variable_name']}"
+        return f"CL.{row['form_section_id']}_{row['collection_group_id']}_{row['bc_order_number']}.{row['collection_item']}"
     else:
         raise ValueError("Invalid type specified")
 
@@ -219,7 +219,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     form_annotation = df_forms_bcs.loc[0, 'form_annotation']
 
     df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
-    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_section_id', 'form_section_order_number',
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'form_section_id', 'form_section_order_number',
                                                                 'form_section_label', 'form_section_annotation', 'form_section_completion_instruction'])]]
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
@@ -227,7 +227,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     df = pd.read_excel(open(collection_metadata, 'rb'), sheet_name=COLLECTION_DSS_METADATA_EXCEL_SHEET, keep_default_na =False)
 
     # Merge Collection Specializations with forms
-    df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:1')
+    df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:m')
     df.sort_values(['form_section_order_number', 'bc_order_number', 'order_number'], ascending=[True, True, True], inplace=True)
 
     return df, df_forms, form_name, form_annotation
@@ -251,7 +251,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
 
     item_group_refs = []
     for i, row in df_forms.iterrows():
-        item_group_ref = create_item_group_ref(row, "FORM")           # Add the FormDef to the list of forms
+        item_group_ref = create_item_group_ref(row, "SECTION")           # Add the FormDef to the list of forms
         item_group_refs.append(item_group_ref)
 
     form = ODM.FormDef(
@@ -271,7 +271,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     for i, row in df_forms.iterrows():
         # Define a FormDef
         form_def = ODM.ItemGroupDef(
-            OID=create_oid("FORM", row),
+            OID=create_oid("SECTION", row),
             Name=row["form_section_label"],
             Repeating="No",
             Description=create_description(row["form_section_label"])

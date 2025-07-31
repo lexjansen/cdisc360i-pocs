@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:odm="http://www.cdisc.org/ns/odm/v2.0"
+    xmlns:odm="http://www.cdisc.org/ns/odm/v1.3"
     version="2.0"
     exclude-result-prefixes="odm">
     <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01//EN"
@@ -16,7 +16,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="//odm:ItemGroupDef[@Type='Form']/@Name"/></title>
+                <title><xsl:value-of select="//odm:FormDef/@Name"/></title>
                 <style>
                     body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
                     .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -24,8 +24,7 @@
                     h2 { color: #34495e; margin-top: 30px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
                     h3 { color: #2980b9; margin-top: 20px; }
                     .form { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
-                    .form-section { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
-                    .concept-group { margin: 15px 0; padding: 10px; border: 1px solid #d5dbdb; border-radius: 3px; background: white; }
+                    .concept-group { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
                     table { width: 100%; border-collapse: collapse; margin: 10px 0; }
                     th, td { padding: 8px 12px; text-align: left; border: 1px solid #bdc3c7; }
                     th { background-color: #3498db; color: white; font-weight: bold; }
@@ -46,20 +45,20 @@
             </head>
             <body>
                 <div class="container">
-                    <h1>Study:<xsl:value-of select="//odm:Study/@StudyName"/></h1>
-                    <p><strong>Protocol:</strong> <xsl:value-of select="//odm:Study/@ProtocolName"/></p>
-                    <p><strong>Description:</strong> <xsl:value-of select="//odm:Study/odm:Description/odm:TranslatedText"/></p>
-                    <p><strong>Metadata Version:</strong> <xsl:value-of select="//odm:MetaDataVersion/odm:Description/odm:TranslatedText"/></p>
+                    <h1>Study:<xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName"/></h1>
+                    <p><strong>Protocol:</strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:ProtocolName"/></p>
+                    <p><strong>Description:</strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyDescription"/></p>
+                    <p><strong>Metadata Version:</strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/@Description"/></p>
 
                     <form id="cdashForm" method="post">
-                        <xsl:apply-templates select="//odm:ItemGroupDef[@Type='Form']"/>
+                        <xsl:apply-templates select="//odm:FormDef"/>
                     </form>
                 </div>
             </body>
         </html>
     </xsl:template>
 
-    <xsl:template match="odm:ItemGroupDef[@Type='Form']">
+    <xsl:template match="odm:FormDef">
         <div class="form-section">
             <h2><xsl:value-of select="@Name"/></h2>
             <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
@@ -76,9 +75,8 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="odm:ItemGroupDef[@Type='Section']">
-
-        <div class="form-section">
+    <xsl:template match="odm:ItemGroupDef">
+        <div class="concept-group">
 
             <h3>
                 <xsl:value-of select="@Name"/>
@@ -86,32 +84,25 @@
             <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
 
             <xsl:if test="$displayAnnotations = 1">
-            <xsl:if test="odm:Alias[@Context='formSectionAnnotation']">
-                <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/></div>
-            </xsl:if>
+                <xsl:if test="odm:Alias[@Context='formSectionAnnotation']">
+                    <div class='annotation'>
+                        <xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/>
+                    </div>
+                </xsl:if>
             </xsl:if>
             <xsl:if test="odm:Alias[@Context='formSectionCompletionInstruction']">
-                <div><xsl:value-of select="odm:Alias[@Context='formSectionCompletionInstruction']/@Name"/></div>
+                <div>
+                    <xsl:value-of select="odm:Alias[@Context='formSectionCompletionInstruction']/@Name"/>
+                </div>
             </xsl:if>
 
-            <xsl:for-each select="odm:ItemGroupRef">
-                <xsl:variable name="groupOID" select="@ItemGroupOID"/>
-                <xsl:apply-templates select="//odm:ItemGroupDef[@OID=$groupOID]"/>
-            </xsl:for-each>
-        </div>
-    </xsl:template>
-
-    <xsl:template match="odm:ItemGroupDef[@Type='Concept']">
-        <div class="concept-group">
-            <h4><xsl:value-of select="@Name"/></h4>
-            <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
-
             <xsl:if test="$displayAnnotations = 1">
-              <xsl:for-each select="odm:Coding">
+
+                <xsl:for-each select="odm:Coding">
                       <div class="coding-info">
                           <xsl:value-of select="@SystemName"/>: <xsl:value-of select="@Code"/> (<xsl:value-of select="@System"/>)
                       </div>
-              </xsl:for-each>
+                </xsl:for-each>
             </xsl:if>
 
             <table>
@@ -134,8 +125,8 @@
                         <tr>
                             <td class="field-label">
                                 <xsl:choose>
-                                    <xsl:when test="$itemDef/odm:Prompt">
-                                        <xsl:value-of select="$itemDef/odm:Prompt/odm:TranslatedText"/>
+                                    <xsl:when test="$itemDef/odm:Alias[@Context='prompt']">
+                                        <xsl:value-of select="$itemDef/odm:Alias[@Context='prompt']/@Name"/>
                                     </xsl:when>
                                     <xsl:when test="$itemDef/odm:Question">
                                         <xsl:value-of select="$itemDef/odm:Question/odm:TranslatedText"/>
@@ -184,6 +175,11 @@
                                                             <xsl:value-of select="@CodedValue"/>
                                                         </xsl:otherwise>
                                                     </xsl:choose>
+                                                </option>
+                                            </xsl:for-each>
+                                            <xsl:for-each select="$codeList/odm:EnumeratedItem">
+                                                <option value="{@CodedValue}">
+                                                    <xsl:value-of select="@CodedValue"/>
                                                 </option>
                                             </xsl:for-each>
                                         </select>

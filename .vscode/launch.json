@@ -1,0 +1,170 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            // "env": {"PYTHONPATH": ".;../odmlib"}
+        },
+        {
+          "name": "Python Debugger: Attach",
+          "type": "debugpy",
+          "request": "attach",
+          "connect": {
+            "host": "localhost",
+            "port": 5678
+          }
+        },
+        {
+          "name": "Create ADASCOGSC1 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "ADASCOGSC1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create ADASCOGSC1 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "ADASCOGSC1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create ECG1 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "ECG1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create ECG1 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "ECG1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create EQ5D02 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "EQ5D02"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create EQ5D02 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "EQ5D02"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create SIXMW1 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "SIXMW1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create SIXMW1 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "SIXMW1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create VS1 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "VS1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create VS1 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "VS1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        }
+    ],
+  "compounds": [
+    {
+      "name": "Create all 132 CRFs",
+      "configurations": [
+        "Create ADASCOGSC1 132 CRF",
+        "Create ECG1 132 CRF",
+        "Create EQ5D02 132 CRF",
+        "Create SIXMW1 132 CRF",
+        "Create VS1 132 CRF"
+      ]
+    },
+    {
+      "name": "Create all 20 CRFs",
+      "configurations": [
+        "Create ADASCOGSC1 20 CRF",
+        "Create ECG1 20 CRF",
+        "Create EQ5D02 20 CRF",
+        "Create SIXMW1 20 CRF",
+        "Create VS1 20 CRF"
+      ]
+    }
+  ]
+}

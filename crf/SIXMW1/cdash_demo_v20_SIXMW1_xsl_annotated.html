@@ -1,0 +1,317 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Six Minute Walk Test</title>
+      <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+                    .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                    h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+                    h2 { color: #34495e; margin-top: 30px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
+                    h3 { color: #2980b9; margin-top: 20px; }
+                    .form { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
+                    .form-section { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
+                    .concept-group { margin: 15px 0; padding: 10px; border: 1px solid #d5dbdb; border-radius: 3px; background: white; }
+                    table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+                    th, td { padding: 8px 12px; text-align: left; border: 1px solid #bdc3c7; }
+                    th { background-color: #3498db; color: white; font-weight: bold; }
+                    tr:nth-child(even) { background-color: #f8f9fa; }
+                    .field-label { font-weight: bold; color: #2c3e50; min-width: 150px; }
+                    .field-value { padding: 5px; }
+                    input[type="text"], input[type="date"], input[type="number"], select {
+                        width: 250px; padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px;
+                        font-size: 14px;
+                    }
+                    input:focus, select:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+                    .coding-info { font-weight: bold; font-size: 13px; color: #00aa00; font-style: italic; margin-top: 5px; }
+                    .prespecified { background-color: #e8f5e8; font-weight: bold; }
+                    .mandatory { color: #e74c3c; }
+                    .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
+                    .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
+                </style>
+   </head>
+   <body>
+      <div class="container">
+         <h1>Study:CDISC360i CDASH POC Study</h1>
+         <p><strong>Protocol:</strong>CDISC360i CDASH POC Study protocol</p>
+         <p><strong>Description:</strong>CDISC360i CDASH POC Study</p>
+         <p><strong>Metadata Version:</strong>CDISC360i CDASH ODM 2.0 metadata version</p>
+         <form id="cdashForm" method="post">
+            <div class="form-section">
+               <h2>Six Minute Walk Test</h2>
+               <div class="annotation">DOMAIN = FT; FTCAT = SIX MINUTE WALK</div>
+               <div class="form-section">
+                  <h3>6 Minute Walk Test - Lead Question</h3>
+                  <div class="concept-group">
+                     <h4>Six Minute Walk Test</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115789 (/mdr/bc/biomedicalconcepts/C115789)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Was the Six Minute Walk Test performed?</td>
+                              <td class="field-value"><select name="SIXMW1_FTPERF">
+                                    <option value="">-- Select --</option>
+                                    <option value="N">No</option>
+                                    <option value="Y">Yes</option></select></td>
+                              <td>
+                                 <div class="annotation">[NOT SUBMITTED]; FTSTAT = NOT DONE when FTTESTCD = FTALL</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>NY
+                                    (C66742)
+                                    </div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Date of Assessment<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="date" name="SIXMW1_FTDAT"></td>
+                              <td>
+                                 <div class="annotation">FTDTC</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Category<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW1_FTCAT" value="SIX MINUTE WALK" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTCAT = SIX MINUTE WALK</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>FTCAT
+                                    (C115304)
+                                    </div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Assisted Device<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW1_FTASTDEV" maxlength="200"></td>
+                              <td>
+                                 <div class="annotation">FTASTDEV in SUPPFT</div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="form-section">
+                  <h3>6 Minute Walk Test</h3>
+                  <div class="concept-group">
+                     <h4>SIXMW1-Distance at 1 Minute</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115800 (/mdr/bc/biomedicalconcepts/C115800)
+                        </div>
+                     <div class="coding-info">CDISC SDTM Dataset Specialization: SIXMW101 (/mdr/specializations/sdtm/datasetspecializations/SIXMW101)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Distance at 1 Minute<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="SIXMW101_FTORRES"></td>
+                              <td>
+                                 <div class="annotation">FTORRES when FTTESTCD = SIXMW101</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW101_FTORRESU" value="m" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTORRESU = m when FTTESTCD = SIXMW101</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
+                                    (C71620)
+                                    </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>SIXMW1-Distance at 2 Minute</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115801 (/mdr/bc/biomedicalconcepts/C115801)
+                        </div>
+                     <div class="coding-info">CDISC SDTM Dataset Specialization: SIXMW102 (/mdr/specializations/sdtm/datasetspecializations/SIXMW102)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Distance at 2 Minutes<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="SIXMW102_FTORRES"></td>
+                              <td>
+                                 <div class="annotation">FTORRES when FTTESTCD = SIXMW102</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW102_FTORRESU" value="m" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTORRESU = m when FTTESTCD = SIXMW102</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
+                                    (C71620)
+                                    </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>SIXMW1-Distance at 3 Minute</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115802 (/mdr/bc/biomedicalconcepts/C115802)
+                        </div>
+                     <div class="coding-info">CDISC SDTM Dataset Specialization: SIXMW103 (/mdr/specializations/sdtm/datasetspecializations/SIXMW103)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Distance at 3 Minutes<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="SIXMW103_FTORRES"></td>
+                              <td>
+                                 <div class="annotation">FTORRES when FTTESTCD = SIXMW103</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW103_FTORRESU" value="m" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTORRESU = m when FTTESTCD = SIXMW103</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
+                                    (C71620)
+                                    </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>SIXMW1-Distance at 4 Minute</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115803 (/mdr/bc/biomedicalconcepts/C115803)
+                        </div>
+                     <div class="coding-info">CDISC SDTM Dataset Specialization: SIXMW104 (/mdr/specializations/sdtm/datasetspecializations/SIXMW104)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Distance at 4 Minutes<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="SIXMW104_FTORRES"></td>
+                              <td>
+                                 <div class="annotation">FTORRES when FTTESTCD = SIXMW104</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW104_FTORRESU" value="m" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTORRESU = m when FTTESTCD = SIXMW104</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
+                                    (C71620)
+                                    </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>SIXMW1-Distance at 5 Minute</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115804 (/mdr/bc/biomedicalconcepts/C115804)
+                        </div>
+                     <div class="coding-info">CDISC SDTM Dataset Specialization: SIXMW105 (/mdr/specializations/sdtm/datasetspecializations/SIXMW105)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Distance at 5 Minutes<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="SIXMW105_FTORRES"></td>
+                              <td>
+                                 <div class="annotation">FTORRES when FTTESTCD = SIXMW105</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW105_FTORRESU" value="m" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTORRESU = m when FTTESTCD = SIXMW105</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
+                                    (C71620)
+                                    </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="concept-group">
+                     <h4>SIXMW1-Distance at 6 Minute</h4>
+                     <div class="coding-info">CDISC Biomedical Concept: C115805 (/mdr/bc/biomedicalconcepts/C115805)
+                        </div>
+                     <div class="coding-info">CDISC SDTM Dataset Specialization: SIXMW106 (/mdr/specializations/sdtm/datasetspecializations/SIXMW106)
+                        </div>
+                     <table>
+                        <thead>
+                           <tr>
+                              <th>Field</th>
+                              <th>Value</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="field-label">Distance at 6 Minutes<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="number" name="SIXMW106_FTORRES"></td>
+                              <td>
+                                 <div class="annotation">FTORRES when FTTESTCD = SIXMW106</div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="field-label">Unit<span class="mandatory"> *</span></td>
+                              <td class="field-value"><input type="text" name="SIXMW106_FTORRESU" value="m" class="prespecified" readonly></td>
+                              <td>
+                                 <div class="annotation">FTORRESU = m when FTTESTCD = SIXMW106</div>
+                                 <div class="coding-info"><strong>CodeList: </strong>UNIT
+                                    (C71620)
+                                    </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </form>
+      </div>
+   </body>
+</html>

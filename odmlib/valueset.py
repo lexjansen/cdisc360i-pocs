@@ -12,7 +12,7 @@ class ValueSet:
         "CodeListItem.ExtendedValue": ["Yes"],
         "EnumeratedItem.ExtendedValue": ["Yes"],
         "FormDef.Repeating": ["Yes", "No"],
-        "ItemGroupDef.Repeating": ["Yes", "No"],
+        "ItemGroupDef.Repeating": ["Yes", "No", "Simple", "Dynamic", "Static"],
         "ItemGroupDef.IsNonStandard": ["Yes"],
         "ItemGroupDef.HasNoData": ["Yes"],
         "ItemGroupDef.Type": ["Form", "Section", "Dataset", "Concept"],

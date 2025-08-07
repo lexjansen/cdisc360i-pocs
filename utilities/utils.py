@@ -5,11 +5,20 @@ that can be reused.
 import os
 from odmlib import odm_parser as P
 from odmlib import odm_loader as OL, loader as LO
+import xmlschema as XSD
 from lxml import etree
 from saxonche import PySaxonProcessor
 from dominate import document
 from dominate.tags import *
 
+
+def create_directory(directory_path):
+    if not os.path.exists(directory_path):
+        print(f"Directory '{directory_path}' will be created.")
+    try:
+        os.makedirs(directory_path, exist_ok=True)
+    except OSError as e:
+        print(f"Error creating directory: {e}")
 
 def validate_odm_xml_file(odm_file, schema_file, verbose=False):
     validator = P.ODMSchemaValidator(schema_file)

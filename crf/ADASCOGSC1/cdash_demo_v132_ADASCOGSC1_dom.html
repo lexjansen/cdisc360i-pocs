@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>360i ODM CRF View</title>
+    <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+            .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
+            .item { margin: 5px 0; }
+            label { display: inline-block; min-width: 200px; }
+        </style>
+  </head>
+  <body>
+    <h1>360i ODM CRFs</h1>
+    <div class="study-section">
+      <h2>Study: CDISC360i CDASH POC Study</h2>
+      <div class="metadata-version">
+        <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
+        <div class="form-section">
+          <h5>Form: ADAS-COG Summary Score</h5>
+          <div class="item-group">
+            <h5>ADAS-COG - Lead Question</h5>
+            <div class="item">
+              <label>Was the ADAS-COG Functional Test performed?</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.ADASCOG_01_1_ADASCOG_1.ADASCOG_FTPERF.SDTM" placeholder="SDTM: [NOT SUBMITTED]; FTSTAT = NOT DONE when FTTESTCD = FTALL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Date of Assessment</label>
+              <input name="IT.ADASCOG_01_1_ADASCOG_1.ADASCOG_FTDAT" placeholder="ADASCOG_FTDAT" type="text">
+              <input name="IT.ADASCOG_01_1_ADASCOG_1.ADASCOG_FTDAT.SDTM" placeholder="SDTM: FTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADASCOG-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOG_01_1_ADASCOG_1.ADASCOG_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Word Recall</h5>
+            <div class="item">
+              <label>WORD RECALL / TRIAL 1</label>
+              <input name="IT.ADASCOGSC_01_2_ADCRLT01_1.ADCRLT01_FTORRES" placeholder="ADCRLT01_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_01_2_ADCRLT01_1.ADCRLT01_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRLT01" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRLT01-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_01_2_ADCRLT01_1.ADCRLT01_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>WORD RECALL / TRIAL 2</label>
+              <input name="IT.ADASCOGSC_01_2_ADCRLT02_2.ADCRLT02_FTORRES" placeholder="ADCRLT02_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_01_2_ADCRLT02_2.ADCRLT02_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRLT02" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRLT02-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_01_2_ADCRLT02_2.ADCRLT02_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>WORD RECALL / TRIAL 3</label>
+              <input name="IT.ADASCOGSC_01_2_ADCRLT03_3.ADCRLT03_FTORRES" placeholder="ADCRLT03_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_01_2_ADCRLT03_3.ADCRLT03_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRLT03" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRLT03-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_01_2_ADCRLT03_3.ADCRLT03_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>WORD RECALL SUMMARY</label>
+              <select name="ADCRL-FTORRES">
+                <option value="">--select--</option>
+                <option value="0">0</option>
+                <option value="0.33">0.33</option>
+                <option value="0.67">0.67</option>
+                <option value="1">1</option>
+                <option value="1.33">1.33</option>
+                <option value="1.67">1.67</option>
+                <option value="2">2</option>
+                <option value="2.33">2.33</option>
+                <option value="2.67">2.67</option>
+                <option value="3">3</option>
+                <option value="3.33">3.33</option>
+                <option value="3.67">3.67</option>
+                <option value="4">4</option>
+                <option value="4.33">4.33</option>
+                <option value="4.67">4.67</option>
+                <option value="5">5</option>
+                <option value="5.33">5.33</option>
+                <option value="5.67">5.67</option>
+                <option value="6">6</option>
+                <option value="6.33">6.33</option>
+                <option value="6.67">6.67</option>
+                <option value="7">7</option>
+                <option value="7.33">7.33</option>
+                <option value="7.67">7.67</option>
+                <option value="8">8</option>
+                <option value="8.33">8.33</option>
+                <option value="8.67">8.67</option>
+                <option value="9">9</option>
+                <option value="9.33">9.33</option>
+                <option value="9.67">9.67</option>
+                <option value="10">10</option>
+              </select>
+              <input name="IT.ADASCOGSC_01_2_ADCRL_4.ADCRL_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRL-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_01_2_ADCRL_4.ADCRL_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Naming Objects and Fingers Summary Score</h5>
+            <div class="item">
+              <label>NAMING OBJECTS AND FINGERS</label>
+              <select name="ADCOF-FTORRES">
+                <option value="">--select--</option>
+                <option value="0-2 items (objects and fingers) named incorrectly">0-2 items (objects and fingers) named incorrectly</option>
+                <option value="3-5 items (objects and fingers) named incorrectly">3-5 items (objects and fingers) named incorrectly</option>
+                <option value="6-8 items (objects and fingers) named incorrectly">6-8 items (objects and fingers) named incorrectly</option>
+                <option value="9-11 items (objects and fingers) named incorrectly">9-11 items (objects and fingers) named incorrectly</option>
+                <option value="12-14 items (objects and fingers) named incorrectly">12-14 items (objects and fingers) named incorrectly</option>
+                <option value="15-17 items (objects and fingers) named incorrectly">15-17 items (objects and fingers) named incorrectly</option>
+              </select>
+              <input name="IT.ADASCOGSC_02_3_ADCOF_1.ADCOF_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCOF" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCOF-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_02_3_ADCOF_1.ADCOF_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Commands Summary Score</h5>
+            <div class="item">
+              <label>COMMANDS</label>
+              <select name="ADCCMD-FTORRES">
+                <option value="">--select--</option>
+                <option value="all commands correct">All commands correct</option>
+                <option value="1 command incorrect">1 command incorrect</option>
+                <option value="2 commands incorrect">2 commands incorrect</option>
+                <option value="3 commands incorrect">3 commands incorrect</option>
+                <option value="4 commands incorrect">4 commands incorrect</option>
+                <option value="all 5 commands incorrect">all 5 commands incorrect</option>
+              </select>
+              <input name="IT.ADASCOGSC_03_4_ADCCMD_1.ADCCMD_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCCMD" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCCMD-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_03_4_ADCCMD_1.ADCCMD_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Delayed Word Recall Summary Score</h5>
+            <div class="item">
+              <label>DELAYED WORD RECALL</label>
+              <select name="ADCDRL-FTORRES">
+                <option value="">--select--</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+              <input name="IT.ADASCOGSC_04_5_ADCDRL_1.ADCDRL_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCDRL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCDRL-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_04_5_ADCDRL_1.ADCDRL_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Constructional Praxis Summary Score</h5>
+            <div class="item">
+              <label>CONSTRUCTIONAL PRAXIS</label>
+              <select name="ADCCP-FTORRES">
+                <option value="">--select--</option>
+                <option value="all 4 drawings correct">All 4 drawings correct</option>
+                <option value="1 form drawn incorrectly">1 form drawn incorrectly</option>
+                <option value="2 forms drawn incorrectly">2 forms drawn incorrectly</option>
+                <option value="3 forms drawn incorrectly">3 forms drawn incorrectly</option>
+                <option value="4 forms drawn incorrectly (but one or more side/section of at least one shape drawn)">4 forms drawn incorrectly (but one or more side/section of at least one shape drawn)</option>
+                <option value="No figures drawn, no recognizable attempt at drawing any side/section of any figure">No figures drawn, no recognizable attempt at drawing any side/section of any figure</option>
+              </select>
+              <input name="IT.ADASCOGSC_05_6_ADCCP_1.ADCCP_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCCP" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCCP-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_05_6_ADCCP_1.ADCCP_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Ideational Praxis Summary Score</h5>
+            <div class="item">
+              <label>IDEATIONAL PRAXIS</label>
+              <select name="ADCIP-FTORRES">
+                <option value="">--select--</option>
+                <option value="all components performed correctly">All components performed correctly</option>
+                <option value="failure to perform 1 component">Failure to perform 1 component</option>
+                <option value="failure to perform 2 components">Failure to perform 2 components</option>
+                <option value="failure to perform 3 components">Failure to perform 3 components</option>
+                <option value="failure to perform 4 components">Failure to perform 4 components</option>
+                <option value="failure to perform 5 components">Failure to perform 5 components</option>
+              </select>
+              <input name="IT.ADASCOGSC_06_7_ADCIP_1.ADCIP_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCIP" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCIP-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_06_7_ADCIP_1.ADCIP_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Orientation Summary Score</h5>
+            <div class="item">
+              <label>ORIENTATION</label>
+              <select name="ADCOR-FTORRES">
+                <option value="">--select--</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+              <input name="IT.ADASCOGSC_07_8_ADCOR_1.ADCOR_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCOR" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCOR-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_07_8_ADCOR_1.ADCOR_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Word Recognition</h5>
+            <div class="item">
+              <label>WORD RECOGNITION / TRIAL 1</label>
+              <input name="IT.ADASCOGSC_08_9_ADCRGT01_1.ADCRGT01_FTORRES" placeholder="ADCRGT01_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_08_9_ADCRGT01_1.ADCRGT01_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRGT01" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRGT01-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_08_9_ADCRGT01_1.ADCRGT01_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>WORD RECOGNITION / TRIAL 2</label>
+              <input name="IT.ADASCOGSC_08_9_ADCRGT02_2.ADCRGT02_FTORRES" placeholder="ADCRGT02_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_08_9_ADCRGT02_2.ADCRGT02_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRGT02" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRGT02-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_08_9_ADCRGT02_2.ADCRGT02_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>WORD RECOGNITION / TRIAL 3</label>
+              <input name="IT.ADASCOGSC_08_9_ADCRGT03_3.ADCRGT03_FTORRES" placeholder="ADCRGT03_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_08_9_ADCRGT03_3.ADCRGT03_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRGT03" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRGT03-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_08_9_ADCRGT03_3.ADCRGT03_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>WORD RECOGNITION SUMMARY</label>
+              <select name="ADCRG-FTORRES">
+                <option value="">--select--</option>
+                <option value="0">0</option>
+                <option value="0.33">0.33</option>
+                <option value="0.67">0.67</option>
+                <option value="1">1</option>
+                <option value="1.33">1.33</option>
+                <option value="1.67">1.67</option>
+                <option value="2">2</option>
+                <option value="2.33">2.33</option>
+                <option value="2.67">2.67</option>
+                <option value="3">3</option>
+                <option value="3.33">3.33</option>
+                <option value="3.67">3.67</option>
+                <option value="4">4</option>
+                <option value="4.33">4.33</option>
+                <option value="4.67">4.67</option>
+                <option value="5">5</option>
+                <option value="5.33">5.33</option>
+                <option value="5.67">5.67</option>
+                <option value="6">6</option>
+                <option value="6.33">6.33</option>
+                <option value="6.67">6.67</option>
+                <option value="7">7</option>
+                <option value="7.33">7.33</option>
+                <option value="7.67">7.67</option>
+                <option value="8">8</option>
+                <option value="8.33">8.33</option>
+                <option value="8.67">8.67</option>
+                <option value="9">9</option>
+                <option value="9.33">9.33</option>
+                <option value="9.67">9.67</option>
+                <option value="10">10</option>
+                <option value="10.33">10.33</option>
+                <option value="10.67">10.67</option>
+                <option value="11">11</option>
+                <option value="11.33">11.33</option>
+                <option value="11.67">11.67</option>
+                <option value="12">12</option>
+              </select>
+              <input name="IT.ADASCOGSC_08_9_ADCRG_4.ADCRG_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRG" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRG-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_08_9_ADCRG_4.ADCRG_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Remembering Test Instructions</h5>
+            <div class="item">
+              <label>REMEMBERING TEST INSTRUCTIONS</label>
+              <select name="ADCRI-FTORRES">
+                <option value="">--select--</option>
+                <option value="Subject never needs extra reminders of instructions">Subject never needs extra reminders of instructions</option>
+                <option value="Very mild - forgets once">Very mild - forgets once</option>
+                <option value="Mild - must be reminded 2 times">Mild - must be reminded 2 times</option>
+                <option value="Moderate - must be reminded 3 or 4 times">Moderate - must be reminded 3 or 4 times</option>
+                <option value="Moderately severe - must be reminded 5 or 6 times">Moderately severe - must be reminded 5 or 6 times</option>
+                <option value="Severe - must be reminded 7 or more times">Severe - must be reminded 7 or more times</option>
+              </select>
+              <input name="IT.ADASCOGSC_09_10_ADCRI_1.ADCRI_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCRI" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCRI-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_09_10_ADCRI_1.ADCRI_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Spoken Language Ability</h5>
+            <div class="item">
+              <label>SPOKEN LANGUAGE ABILITY</label>
+              <select name="ADCSL-FTORRES">
+                <option value="">--select--</option>
+                <option value="No instances where it is difficult to understand the subject">No instances where it is difficult to understand the subject</option>
+                <option value="Very mild - one instance of lack of understandability">Very mild - one instance of lack of understandability</option>
+                <option value="Mild - patient has difficulty less than 25% of the time">Mild - patient has difficulty less than 25% of the time</option>
+                <option value="Moderate - patient has difficulty 25-50% of the time">Moderate - patient has difficulty 25-50% of the time</option>
+                <option value="Moderately severe - patient has difficulty 50% of the time">Moderately severe - patient has difficulty 50% of the time</option>
+                <option value="Severe - one or two word utterance - fluent, but empty speech, mute">Severe - one or two word utterance - fluent, but empty speech, mute</option>
+              </select>
+              <input name="IT.ADASCOGSC_10_11_ADCSL_1.ADCSL_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCSL" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Word Difficulty in Spontaneous Speech</h5>
+            <div class="item">
+              <label>WORD FINDING DIFFICULTY IN SPONTANEOUS SPEECH</label>
+              <select name="ADCDIF-FTORRES">
+                <option value="">--select--</option>
+                <option value="No evidence of word finding difficulty in spontaneous speech">No evidence of word finding difficulty in spontaneous speech</option>
+                <option value="Very mild - 1 or 2 instances, not clinically significant">Very mild - 1 or 2 instances, not clinically significant</option>
+                <option value="Mild - noticeable circumlocution or synonym substitution">Mild - noticeable circumlocution or synonym substitution</option>
+                <option value="Moderate - loss of words without compensation on occasion">Moderate - loss of words without compensation on occasion</option>
+                <option value="Moderately severe - frequent loss of words without compensation">Moderately severe - frequent loss of words without compensation</option>
+                <option value="Severe - nearly total loss of content of words, speech sounds empty, 1-2 word utterances">Severe - nearly total loss of content of words, speech sounds empty, 1-2 word utterances</option>
+              </select>
+              <input name="IT.ADASCOGSC_11_12_ADCDIF_1.ADCDIF_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCDIF" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCDIF-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_11_12_ADCDIF_1.ADCDIF_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Comprehension</h5>
+            <div class="item">
+              <label>COMPREHENSION</label>
+              <select name="ADCCMP-FTORRES">
+                <option value="">--select--</option>
+                <option value="No evidence of poor comprehension">No evidence of poor comprehension</option>
+                <option value="Very mild - 1 or 2 instances of misunderstanding">Very mild - 1 or 2 instances of misunderstanding</option>
+                <option value="Mild - 3-5 instances of misunderstanding">Mild - 3-5 instances of misunderstanding</option>
+                <option value="Moderate - requires several repetitions and rephrasings">Moderate - requires several repetitions and rephrasings</option>
+                <option value="Moderately severe - patient only occasionally responds correctly (i.e., yes/no questions)">Moderately severe - patient only occasionally responds correctly (i.e., yes/no questions)</option>
+                <option value="Severe - patient rarely responds to questions appropriately, not due to poverty of speech">Severe - patient rarely responds to questions appropriately, not due to poverty of speech</option>
+              </select>
+              <input name="IT.ADASCOGSC_12_13_ADCCMP_1.ADCCMP_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCCMP" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Concentration/Distractibility</h5>
+            <div class="item">
+              <label>CONCENTRATION/DISTRACTABILITY</label>
+              <select name="ADCCON-FTORRES">
+                <option value="">--select--</option>
+                <option value="No evidence of poor concentration or distractibility">No evidence of poor concentration or distractibility</option>
+                <option value="Very mild - one instance of poor concentration">Very mild - one instance of poor concentration</option>
+                <option value="Mild - 2-3 instances of poor concentration/distractibility, signs of restlessness and inattentiveness">Mild - 2-3 instances of poor concentration/distractibility, signs of restlessness and inattentiveness</option>
+                <option value="Moderate - 4-5 instances during interview">Moderate - 4-5 instances during interview</option>
+                <option value="Moderately severe - poor concentration/distractibility throughout much of interview">Moderately severe - poor concentration/distractibility throughout much of interview</option>
+                <option value="Severe - extreme difficulty in concentration and extremely distractible, unable to complete tasks">Severe - extreme difficulty in concentration and extremely distractible, unable to complete tasks</option>
+              </select>
+              <input name="IT.ADASCOGSC_13_14_ADCCON_1.ADCCON_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCCON" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCCON-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_13_14_ADCCON_1.ADCCON_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Number Cancellation</h5>
+            <div class="item">
+              <label>NUMBER CANCELLATION: CORRECT</label>
+              <input name="IT.ADASCOGSC_14_15_ADCNC01_1.ADCNC01_FTORRES" placeholder="ADCNC01_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_14_15_ADCNC01_1.ADCNC01_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCNC01" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCNC01-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_14_15_ADCNC01_1.ADCNC01_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>NUMBER CANCELLATION: ERRORS</label>
+              <input name="IT.ADASCOGSC_14_15_ADCNC02_2.ADCNC02_FTORRES" placeholder="ADCNC02_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_14_15_ADCNC02_2.ADCNC02_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCNC02" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCNC02-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_14_15_ADCNC02_2.ADCNC02_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>NUMBER CANCELLATION: REMIND</label>
+              <input name="IT.ADASCOGSC_14_15_ADCNC03_3.ADCNC03_FTORRES" placeholder="ADCNC03_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_14_15_ADCNC03_3.ADCNC03_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCNC03" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCNC03-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_14_15_ADCNC03_3.ADCNC03_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>NUMBER CANCELLATION SUMMARY</label>
+              <input name="IT.ADASCOGSC_14_15_ADCNC_4.ADCNC_FTORRES" placeholder="ADCNC_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_14_15_ADCNC_4.ADCNC_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCNC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCNC-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_14_15_ADCNC_4.ADCNC_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>ADAS-COG - Executive Function Maze</h5>
+            <div class="item">
+              <label>EXECUTIVE FUNCTION: NUMBER ERRORS</label>
+              <select name="ADCMZ01-FTORRES">
+                <option value="">--select--</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ01_1.ADCMZ01_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCMZ01" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCMZ01-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ01_1.ADCMZ01_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>EXECUTIVE FUNCTION: TIME</label>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ02_2.ADCMZ02_FTORRES" placeholder="ADCMZ02_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_15_16_ADCMZ02_2.ADCMZ02_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCMZ02" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Unit</label>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ02_2.ADCMZ02_FTORRESU" placeholder="ADCMZ02_FTORRESU" type="text">
+              <input name="IT.ADASCOGSC_15_16_ADCMZ02_2.ADCMZ02_FTORRESU.SDTM" placeholder="SDTM: FTORRESU when FTTESTCD = ADCMZ02" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCMZ02-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ02_2.ADCMZ02_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>EXECUTIVE FUNCTION SUMMARY</label>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ_3.ADCMZ_FTORRES" placeholder="ADCMZ_FTORRES" type="text">
+              <input name="IT.ADASCOGSC_15_16_ADCMZ_3.ADCMZ_FTORRES.SDTM" placeholder="SDTM: FTORRES when FTTESTCD = ADCMZ" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>If any item(s) are incomplete or not done, please specify reason:</label>
+              <select name="ADCMZ-FTREASND">
+                <option value="">--select--</option>
+                <option value="Participant refused">Participant refused</option>
+                <option value="Participant unable for physical reasons">Participant unable for physical reasons</option>
+                <option value="Participant unable for cognitive reasons">Participant unable for cognitive reasons</option>
+                <option value="Not done for reasons other than physical/cognitive">Not done for reasons other than physical/cognitive</option>
+              </select>
+              <input name="IT.ADASCOGSC_15_16_ADCMZ_3.ADCMZ_FTREASND.SDTM" placeholder="SDTM: FTREASND" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

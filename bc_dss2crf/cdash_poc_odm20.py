@@ -12,6 +12,7 @@ from odmlib import odm_loader as OL, loader as LO
 import datetime
 import pandas as pd
 from utilities.utils import (
+    create_directory,
     validate_odm_xml_file,
     transform_xml_saxonche
 )
@@ -28,7 +29,13 @@ FORMS_METADATA_EXCEL_SHEET = __config.forms_metadata_excel_sheet
 
 MANDATORY_MAP = {
     "Y": "Yes",
-    "N": "No"}
+    "N": "No"
+    }
+
+REPEATING_MAP = {
+    "Y": "Simple",
+    "N": "No"
+    }
 
 def create_oid(type, row):
     if type.upper() == "ODM":
@@ -89,14 +96,14 @@ def create_item_group_def(row, type, itemrefs=[]):
     if type.upper() == "SECTION":
         item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
                                         Name=row["form_section_label"],
-                                        Repeating="No",
+                                        Repeating=REPEATING_MAP[row["form_section_repeating"]],
                                         Type=type,
                                         Description=create_description(row["short_name"]),
                                         ItemRef=itemrefs)
     if type.upper() == "CONCEPT":
         item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
                                         Name=row["short_name"],
-                                        Repeating="No",
+                                        Repeating=REPEATING_MAP[row["bc_repeating"]],
                                         Type=type,
                                         Description=create_description(row["short_name"]),
                                         ItemRef=itemrefs)
@@ -279,7 +286,8 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
 
     df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
     df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'form_section_id', 'form_section_order_number',
-                                                                'form_section_label', 'form_section_annotation', 'form_section_completion_instruction'])]]
+                                                                'form_section_label', 'form_section_repeating', 'form_section_annotation',
+                                                                'form_section_completion_instruction'])]]
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
     # Read Collection Specializations from Excel
@@ -343,7 +351,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         form_def = ODM.ItemGroupDef(
             OID=create_oid("SECTION", row),
             Name=row["form_section_label"],
-            Repeating="No",
+            Repeating=REPEATING_MAP[row["form_section_repeating"]],
             Type="Section",
             Description=create_description(row["form_section_label"])
         )
@@ -387,7 +395,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
                 item_ref = create_item_ref(row)
                 item_refs.append(item_ref)
 
-        if row["collection_item"] != "":
+        if row["display_hidden"] != "Y":
             item_def = create_item_def(row)
             item_defs.append(item_def)
 
@@ -480,14 +488,16 @@ def main(collection_form: str):
 
     ODM_XML_SCHEMA_FILE = Path(__config.odm20_schema)
     XSL_FILE = Path(__config.odm20_stylesheet)
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}.json")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}_xsl.html")
-    ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"cdash_demo_v20_{collection_form}_xsl_annotated.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}.json")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}_xsl.html")
+    ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}_xsl_annotated.html")
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
     odm = create_odm(df, df_forms, collection_form, form_name, form_annotation)
+
+    create_directory(Path(CRF_PATH).joinpath(f"{collection_form}"))
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)

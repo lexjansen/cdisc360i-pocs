@@ -13,6 +13,7 @@ import datetime
 import pandas as pd
 import csv
 from utilities.utils import (
+    create_directory,
     validate_odm_xml_file,
     transform_xml,
     transform_xml_saxonche,
@@ -38,7 +39,13 @@ XSL_COSA_FILE = Path(__config.odm132_cosa_stylesheet)
 
 MANDATORY_MAP = {
     "Y": "Yes",
-    "N": "No"}
+    "N": "No"
+    }
+
+REPEATING_MAP = {
+    "Y": "Yes",
+    "N": "No"
+    }
 
 DATATYPE_MAP = {
     "decimal": "float"}
@@ -85,7 +92,7 @@ def create_item_group_ref(row, type):
 def create_item_group_def(row, type, itemrefs=[]):
     item_group_def = ODM.ItemGroupDef(OID=create_oid(type.upper(), row),
                                       Name=row["form_section_label"],
-                                      Repeating="No",
+                                      Repeating=REPEATING_MAP[row["form_section_repeating"]],
                                       ItemRef=itemrefs)
     return item_group_def
 
@@ -219,7 +226,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     form_annotation = df_forms_bcs.loc[0, 'form_annotation']
 
     df_forms = df_forms_bcs.drop_duplicates(subset=['form_section_id', 'form_section_order_number', 'form_section_label'])
-    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'form_section_id', 'form_section_order_number',
+    df_forms = df_forms[df_forms.columns[df_forms.columns.isin(['form_id', 'form_section_id', 'form_section_order_number', 'form_section_repeating',
                                                                 'form_section_label', 'form_section_annotation', 'form_section_completion_instruction'])]]
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
@@ -273,7 +280,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         form_def = ODM.ItemGroupDef(
             OID=create_oid("SECTION", row),
             Name=row["form_section_label"],
-            Repeating="No",
+            Repeating=REPEATING_MAP[row["form_section_repeating"]],
             Description=create_description(row["form_section_label"])
         )
 
@@ -323,7 +330,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
                 item_ref = create_item_ref(row, counter=counter)
                 item_refs.append(item_ref)
 
-        if row["collection_item"] != "":
+        if row["display_hidden"] != "Y":
             item_def = create_item_def(row)
             item_defs.append(item_def)
 
@@ -404,12 +411,12 @@ def main(collection_form: str):
         None
     """
 
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}.json")
-    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_dom.html")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl.html")
-    ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl_annotated.html")
-    ODM_HTML_FILE_XSL_COSA = Path(CRF_PATH).joinpath(f"cdash_demo_v132_{collection_form}_xsl_cosa.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}.json")
+    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_dom.html")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl.html")
+    ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl_annotated.html")
+    ODM_HTML_FILE_XSL_COSA = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl_cosa.html")
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
@@ -419,7 +426,7 @@ def main(collection_form: str):
     odm.write_json(odm_file=ODM_JSON_FILE)
 
     validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
-    # transform_xml(ODM_XML_FILE, XSL_COSA_FILE, ODM_HTML_FILE_XSL_COSA)
+    transform_xml(ODM_XML_FILE, XSL_COSA_FILE, ODM_HTML_FILE_XSL_COSA)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 

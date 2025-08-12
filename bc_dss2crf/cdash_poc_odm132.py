@@ -35,7 +35,6 @@ FORMS_METADATA_EXCEL_SHEET = __config.forms_metadata_excel_sheet
 
 ODM_XML_SCHEMA_FILE = Path(__config.odm132_schema)
 XSL_FILE = Path(__config.odm132_stylesheet)
-XSL_COSA_FILE = Path(__config.odm132_cosa_stylesheet)
 
 MANDATORY_MAP = {
     "Y": "Yes",
@@ -416,17 +415,17 @@ def main(collection_form: str):
     ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_dom.html")
     ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl.html")
     ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl_annotated.html")
-    ODM_HTML_FILE_XSL_COSA = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl_cosa.html")
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(FORMS_METADATA_EXCEL, COLLECTION_DSS_METADATA_EXCEL, collection_form)
 
     odm = create_odm(df, df_forms, collection_form, form_name, form_annotation)
 
+    create_directory(Path(CRF_PATH).joinpath(f"{collection_form}"))
+
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)
 
     validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
-    transform_xml(ODM_XML_FILE, XSL_COSA_FILE, ODM_HTML_FILE_XSL_COSA)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 

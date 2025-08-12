@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>360i ODM CRF View</title>
+    <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+            .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
+            .item { margin: 5px 0; }
+            label { display: inline-block; min-width: 200px; }
+        </style>
+  </head>
+  <body>
+    <h1>360i ODM CRFs</h1>
+    <div class="study-section">
+      <h2>Study: CDISC360i CDASH POC Study</h2>
+      <div class="metadata-version">
+        <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
+        <div class="form-section">
+          <h5>Form: Procedures</h5>
+          <div class="item-group">
+            <h5>CHEST X-RAY</h5>
+            <div class="item">
+              <label>NOT DONE</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.PR_CHESTXRAY_1_PR_SHORT_360_1.PRYN.SDTM" placeholder="SDTM: [NOT SUBMITTED]" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Procedure Category</label>
+              <input name="IT.PR_CHESTXRAY_1_XRAYCHEST_SHORT_2.PRCAT" placeholder="PRCAT" type="text">
+              <input name="IT.PR_CHESTXRAY_1_XRAYCHEST_SHORT_2.PRCAT.SDTM" placeholder="SDTM: PRCAT = IMAGING" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Procedure Name</label>
+              <select name="PROCEDUR">
+                <option value="">--select--</option>
+                <option value="X-RAY">X-RAY</option>
+              </select>
+              <input name="IT.PR_CHESTXRAY_1_XRAYCHEST_SHORT_2.PRTRT.SDTM" placeholder="SDTM: PRTRT = X-RAY" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Was the Chest X-Ray perfomed?</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.PR_CHESTXRAY_1_XRAYCHEST_SHORT_2.PROCCUR.SDTM" placeholder="SDTM: PROCCUR" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Start Date</label>
+              <input name="IT.PR_CHESTXRAY_1_XRAYCHEST_SHORT_2.PRSTDAT" placeholder="PRSTDAT" type="text">
+              <input name="IT.PR_CHESTXRAY_1_XRAYCHEST_SHORT_2.PRSTDAT.SDTM" placeholder="SDTM: PRSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>PROCEDURE : MRI</h5>
+            <div class="item">
+              <label>NOT DONE</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.PR_MRI_2_PR_SHORT_360_1.PRYN.SDTM" placeholder="SDTM: [NOT SUBMITTED]" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Procedure Category</label>
+              <input name="IT.PR_MRI_2_MRIBRAIN_SHORT_2.PRCAT" placeholder="PRCAT" type="text">
+              <input name="IT.PR_MRI_2_MRIBRAIN_SHORT_2.PRCAT.SDTM" placeholder="SDTM: PRCAT = IMAGING" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Procedure Name</label>
+              <select name="PROCEDUR">
+                <option value="">--select--</option>
+                <option value="MRI">MRI</option>
+              </select>
+              <input name="IT.PR_MRI_2_MRIBRAIN_SHORT_2.PRTRT.SDTM" placeholder="SDTM: PRTRT = MRI" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Was the Brain MRI perfomed?</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.PR_MRI_2_MRIBRAIN_SHORT_2.PROCCUR.SDTM" placeholder="SDTM: PROCCUR" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Start Date</label>
+              <input name="IT.PR_MRI_2_MRIBRAIN_SHORT_2.PRSTDAT" placeholder="PRSTDAT" type="text">
+              <input name="IT.PR_MRI_2_MRIBRAIN_SHORT_2.PRSTDAT.SDTM" placeholder="SDTM: PRSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+          <div class="item-group">
+            <h5>PROCEDURE : CT SCAN</h5>
+            <div class="item">
+              <label>NOT DONE</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.PR_CTSCAN_3_PR_SHORT_360_1.PRYN.SDTM" placeholder="SDTM: [NOT SUBMITTED]" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Procedure Category</label>
+              <input name="IT.PR_CTSCAN_3_CTSCANCHEST_SHORT_2.PRCAT" placeholder="PRCAT" type="text">
+              <input name="IT.PR_CTSCAN_3_CTSCANCHEST_SHORT_2.PRCAT.SDTM" placeholder="SDTM: PRCAT = IMAGING" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Procedure Name</label>
+              <select name="PROCEDUR">
+                <option value="">--select--</option>
+                <option value="CT SCAN">CT SCAN</option>
+              </select>
+              <input name="IT.PR_CTSCAN_3_CTSCANCHEST_SHORT_2.PRTRT.SDTM" placeholder="SDTM: PRTRT = CT SCAN" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Was the Chest CT-Scan perfomed?</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.PR_CTSCAN_3_CTSCANCHEST_SHORT_2.PROCCUR.SDTM" placeholder="SDTM: PROCCUR" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Start Date</label>
+              <input name="IT.PR_CTSCAN_3_CTSCANCHEST_SHORT_2.PRSTDAT" placeholder="PRSTDAT" type="text">
+              <input name="IT.PR_CTSCAN_3_CTSCANCHEST_SHORT_2.PRSTDAT.SDTM" placeholder="SDTM: PRSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

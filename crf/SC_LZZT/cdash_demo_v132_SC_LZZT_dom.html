@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>360i ODM CRF View</title>
+    <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+            .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
+            .item { margin: 5px 0; }
+            label { display: inline-block; min-width: 200px; }
+        </style>
+  </head>
+  <body>
+    <h1>360i ODM CRFs</h1>
+    <div class="study-section">
+      <h2>Study: CDISC360i CDASH POC Study</h2>
+      <div class="metadata-version">
+        <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
+        <div class="form-section">
+          <h5>Form: Subject Characteristics Education LZZT</h5>
+          <div class="item-group">
+            <h5>EDUCATION</h5>
+            <div class="item">
+              <label>Subject Characteristics Category</label>
+              <input name="IT.EDUCATION_LZZT_1_EDUYRNUM_1.EDUYRNUM_SCCAT" placeholder="EDUYRNUM_SCCAT" type="text">
+              <input name="IT.EDUCATION_LZZT_1_EDUYRNUM_1.EDUYRNUM_SCCAT.SDTM" placeholder="SDTM: SCCAT = EDUCATION" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Number of Years of Education</label>
+              <input name="IT.EDUCATION_LZZT_1_EDUYRNUM_1.EDUYRNUM_SCORRES" placeholder="EDUYRNUM_SCORRES" type="text">
+              <input name="IT.EDUCATION_LZZT_1_EDUYRNUM_1.EDUYRNUM_SCORRES.SDTM" placeholder="SDTM: SCORRES when SCTESTCD = EDUYRNUM" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Unit</label>
+              <select name="UNIT">
+                <option value="">--select--</option>
+                <option value="YEARS">YEARS</option>
+              </select>
+              <input name="IT.EDUCATION_LZZT_1_EDUYRNUM_1.EDUYRNUM_SCORRESU.SDTM" placeholder="SDTM: SCORRESU when SCTESTCD = EDUYRNUM" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

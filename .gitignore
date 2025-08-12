@@ -8,5 +8,3 @@ __pycache__/
 venv/
 *.egg-info/
 dist/
-config/config.ini
-config/config-save.ini

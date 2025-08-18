@@ -1,3 +1,50 @@
 # cdisc360i-poc
 
-CDISC 360i Proof of Concepts
+![under development](https://img.shields.io/badge/under-development-blue)
+
+Lex Jansen's public Github repository for CDISC 360i Proof of Concepts.
+
+This project consists of example programs to try out steps in the 360i pipeline.
+
+Here's the official [CDISC 360i repository](https://github.com/cdisc-org/360i)
+
+## Introduction
+
+These programs are designed to function as command-line applications that can run as standalone applications or can be chained together to function as a pipeline of sorts. Everything in this repo should be considered sandbox development work in support of the 360i program.
+
+## Overview of folders
+
+**bc_dss2crf**:
+
+- cdash_poc_odm20.py: script to create ODM XML v2.0 XML, CRFs in HTML, and annotated CRFs in HTML.
+- cdash_poc_odm132.py: script to create ODM XML v1.3.2 XML, CRFs in HTML, and annotated CRFs in HTML.
+
+**config**:
+
+- config.py loads the configuration settings
+- config-template.ini: template for configuration settings. Copy config-template.ini to config.ini, and update the paths.
+
+**crf**: Output folder for generated CRF files. Every form gets it's own subfolder.
+
+**metadata**:  Metadata used by the scripts.
+
+- cdisc_collection_dataset_specializations_draft.xlsx: Collection Dataset Specialization metadata. Generated from the draft CDISC Collection Dataset Specializations (see: [https://github.com/cdisc-org/COSMoS/tree/main/curation/draft](https://github.com/cdisc-org/COSMoS/tree/main/curation/draft)).
+- cdisc_collection_forms.xlsx: Forms metadata.
+
+**odmlib**:
+
+- Updates to the odmlib library to support the final ODM v2.0 schema. These updates are intendede to be merged with the odmlib library at [https://github.com/swhume/odmlib](https://github.com/swhume/odmlib).
+
+**schema**:
+
+- XML Schema files to validate ODM XML v1.3.2 and v2.0 files.
+
+**stylesheet**:
+
+- XSLT stylesheets to convert ODM XML CRF files to HTML CRFs and annotated CRFs.
+
+**utilities**:
+
+- Utilities used by scripts to create directories, validate XML, convert XML to HTML.
+
+

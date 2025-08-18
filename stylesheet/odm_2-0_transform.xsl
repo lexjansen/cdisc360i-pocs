@@ -5,7 +5,7 @@
     version="2.0"
     exclude-result-prefixes="odm">
     <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01//EN"
-                doctype-system="http://www.w3.org/TR/html4/strict.dtd" indent="yes"/>
+                doctype-system="http://www.w3.org/TR/html4/strict.dtd" indent="no"/>
 
     <!-- Display DataType and Length (0/1)? -->
     <xsl:param name="displayDataTypeLength" select="0" />
@@ -42,6 +42,17 @@
                     .mandatory { color: #e74c3c; }
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
                     .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
+                    .form-instruction {
+                      vertical-align: top;
+                      white-space: pre; /* CSS 2.0 */
+                      white-space: pre-wrap; /* CSS 2.1 */
+                      /* CSS 3.0 */
+                      white-space: -pre-wrap; /* Opera 4-6 */
+                      white-space: -o-pre-wrap; /* Opera 7 */
+                      white-space: -moz-pre-wrap; /* Mozilla */
+                      white-space: -hp-pre-wrap; /* HP Printers */
+                      word-wrap: break-word; /* IE 5+ */
+                    }
                 </style>
             </head>
             <body>
@@ -87,11 +98,11 @@
 
             <xsl:if test="$displayAnnotations = 1">
             <xsl:if test="odm:Alias[@Context='formSectionAnnotation']">
-                <div class='annotation'><xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/></div>
+                <div><xsl:value-of select="odm:Alias[@Context='formSectionAnnotation']/@Name"/></div>
             </xsl:if>
             </xsl:if>
             <xsl:if test="odm:Alias[@Context='formSectionCompletionInstruction']">
-                <div><xsl:value-of select="odm:Alias[@Context='formSectionCompletionInstruction']/@Name"/></div>
+                <div class='form-instruction'><xsl:value-of select="odm:Alias[@Context='formSectionCompletionInstruction']/@Name"/></div>
             </xsl:if>
 
             <xsl:for-each select="odm:ItemGroupRef">

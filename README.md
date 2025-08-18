@@ -47,4 +47,22 @@ These programs are designed to function as command-line applications that can ru
 
 - Utilities used by scripts to create directories, validate XML, convert XML to HTML.
 
+## Running the Examples
 
+The following command-line example uses Collection Dataset Specializations and Forms metadata (VS1) to generate an ODM v2.0 XML CRF, and HTML renditions of the CRF and annotated CRF in the **crf/VS1** folder.:
+
+```python
+python .\bc_dss2crf\cdash_poc_odm20.py -f VS1
+```
+
+The following command-line example does the same, but then for ODM v 1.3.2:
+
+```python
+python .\bc_dss2crf\cdash_poc_odm132.py -f VS1
+```
+
+## License
+
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+This project uses the [MIT](http://www.opensource.org/licenses/MIT "The MIT License | Open Source Initiative")
+license (see [`LICENSE`](LICENSE)) for code and scripts.

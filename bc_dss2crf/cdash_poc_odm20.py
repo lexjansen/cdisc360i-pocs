@@ -460,7 +460,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
 
     return odm
 
-@click.command(help="Generate eCRF renditions")
+@click.command(help="Generate ODM v2.0 eCRFs and their HTML renditions")
 @click.option(
     "--form",
     "-f",

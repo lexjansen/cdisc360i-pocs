@@ -383,13 +383,13 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
 
     return odm
 
-@click.command(help="Generate eCRF renditions")
+@click.command(help="Generate ODM v1.3.2 eCRFs and their HTML renditions")
 @click.option(
     "--form",
     "-f",
     "collection_form",
     default="SIXMW1",
-    help="The ID of the coleection form to process."
+    help="The ID of the collection form to process."
     )
 
 def main(collection_form: str):

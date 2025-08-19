@@ -214,7 +214,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     Side Effects:
         Prints the intermediate DataFrames for debugging purposes.
     """
-     # Read forms from Excel
+    # Read forms from Excel
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
     df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form].reset_index(drop=True)
     if len(df_forms_bcs) == 0:

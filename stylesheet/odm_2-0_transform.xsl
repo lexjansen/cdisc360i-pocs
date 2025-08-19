@@ -4,8 +4,7 @@
     xmlns:odm="http://www.cdisc.org/ns/odm/v2.0"
     version="2.0"
     exclude-result-prefixes="odm">
-    <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01//EN"
-                doctype-system="http://www.w3.org/TR/html4/strict.dtd" indent="no"/>
+    <xsl:output method="html" doctype-system="about:legacy-compat" indent="no"/>
 
     <!-- Display DataType and Length (0/1)? -->
     <xsl:param name="displayDataTypeLength" select="0" />
@@ -14,7 +13,7 @@
     <xsl:param name="displayAnnotations" select="1" />
 
     <xsl:template match="/">
-        <html>
+        <html lang="en">
             <head>
                 <title><xsl:value-of select="//odm:ItemGroupDef[@Type='Form']/@Name"/></title>
                 <style>

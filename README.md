@@ -47,6 +47,20 @@ These programs are designed to function as command-line applications that can ru
 
 - Utilities used by scripts to create directories, validate XML, convert XML to HTML.
 
+## Environment Setup
+
+- Create a virtual environment:
+`python -m venv <virtual-env-name>`
+
+- Activate the environment:  
+Linux:
+`<virtual-env-name>/bin/activate`  
+Windows:
+`<virtual-env-name>/Scripts/Activate`
+
+- Install requirements:
+`pip install -r requirements.txt`
+
 ## Running the Examples
 
 The following command-line example uses Collection Dataset Specializations and Forms metadata (VS1) to generate an ODM v2.0 XML CRF, and HTML renditions of the CRF and annotated CRF in the **crf/VS1** folder.:

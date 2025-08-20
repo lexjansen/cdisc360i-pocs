@@ -4,6 +4,10 @@
     <title>ADAS-COG Summary Score</title>
     <style>
             body { font-family: Arial, sans-serif; margin: 20px; }
+            .study-section {max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
+            h3 { color: #2980b9; margin-top: 20px; }
             .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
             .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
             .item { margin: 5px 0; }
@@ -11,15 +15,22 @@
         </style>
   </head>
   <body>
-    <h1>360i ODM CRFs</h1>
     <div class="study-section">
-      <h2>Study: CDISC360i CDASH POC Study</h2>
+      <h1>Study: CDISC360i CDASH POC Study</h1>
       <div class="metadata-version">
-        <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
+        <p>
+          <strong>Protocol: </strong>CDISC360i CDASH POC Study protocol
+        </p>
+        <p>
+          <strong>Description: </strong>CDISC360i CDASH POC Study
+        </p>
+        <p>
+          <strong>Metadata Version: </strong>CDISC360i CDASH POC Study protocol
+        </p>
         <div class="form-section">
-          <h5>Form: ADAS-COG Summary Score</h5>
+          <h2>ADAS-COG Summary Score</h2>
           <div class="item-group">
-            <h5>ADAS-COG - Lead Question</h5>
+            <h3>ADAS-COG - Lead Question</h3>
             <div class="item">
               <label>Was the ADAS-COG Functional Test performed?</label>
               <select name="NY">
@@ -47,7 +58,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Word Recall</h5>
+            <h3>ADAS-COG - Word Recall</h3>
             <div class="item">
               <label>WORD RECALL / TRIAL 1</label>
               <input name="IT.ADASCOGSC_01_2_ADCRLT01_1.ADCRLT01_FTORRES" placeholder="ADCRLT01_FTORRES" type="text">
@@ -147,7 +158,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Naming Objects and Fingers Summary Score</h5>
+            <h3>ADAS-COG - Naming Objects and Fingers Summary Score</h3>
             <div class="item">
               <label>NAMING OBJECTS AND FINGERS</label>
               <select name="ADCOF-FTORRES">
@@ -174,7 +185,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Commands Summary Score</h5>
+            <h3>ADAS-COG - Commands Summary Score</h3>
             <div class="item">
               <label>COMMANDS</label>
               <select name="ADCCMD-FTORRES">
@@ -201,7 +212,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Delayed Word Recall Summary Score</h5>
+            <h3>ADAS-COG - Delayed Word Recall Summary Score</h3>
             <div class="item">
               <label>DELAYED WORD RECALL</label>
               <select name="ADCDRL-FTORRES">
@@ -233,7 +244,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Constructional Praxis Summary Score</h5>
+            <h3>ADAS-COG - Constructional Praxis Summary Score</h3>
             <div class="item">
               <label>CONSTRUCTIONAL PRAXIS</label>
               <select name="ADCCP-FTORRES">
@@ -260,7 +271,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Ideational Praxis Summary Score</h5>
+            <h3>ADAS-COG - Ideational Praxis Summary Score</h3>
             <div class="item">
               <label>IDEATIONAL PRAXIS</label>
               <select name="ADCIP-FTORRES">
@@ -287,7 +298,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Orientation Summary Score</h5>
+            <h3>ADAS-COG - Orientation Summary Score</h3>
             <div class="item">
               <label>ORIENTATION</label>
               <select name="ADCOR-FTORRES">
@@ -317,7 +328,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Word Recognition</h5>
+            <h3>ADAS-COG - Word Recognition</h3>
             <div class="item">
               <label>WORD RECOGNITION / TRIAL 1</label>
               <input name="IT.ADASCOGSC_08_9_ADCRGT01_1.ADCRGT01_FTORRES" placeholder="ADCRGT01_FTORRES" type="text">
@@ -423,7 +434,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Remembering Test Instructions</h5>
+            <h3>ADAS-COG - Remembering Test Instructions</h3>
             <div class="item">
               <label>REMEMBERING TEST INSTRUCTIONS</label>
               <select name="ADCRI-FTORRES">
@@ -450,7 +461,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Spoken Language Ability</h5>
+            <h3>ADAS-COG - Spoken Language Ability</h3>
             <div class="item">
               <label>SPOKEN LANGUAGE ABILITY</label>
               <select name="ADCSL-FTORRES">
@@ -466,7 +477,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Word Difficulty in Spontaneous Speech</h5>
+            <h3>ADAS-COG - Word Difficulty in Spontaneous Speech</h3>
             <div class="item">
               <label>WORD FINDING DIFFICULTY IN SPONTANEOUS SPEECH</label>
               <select name="ADCDIF-FTORRES">
@@ -493,7 +504,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Comprehension</h5>
+            <h3>ADAS-COG - Comprehension</h3>
             <div class="item">
               <label>COMPREHENSION</label>
               <select name="ADCCMP-FTORRES">
@@ -509,7 +520,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Concentration/Distractibility</h5>
+            <h3>ADAS-COG - Concentration/Distractibility</h3>
             <div class="item">
               <label>CONCENTRATION/DISTRACTABILITY</label>
               <select name="ADCCON-FTORRES">
@@ -536,7 +547,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Number Cancellation</h5>
+            <h3>ADAS-COG - Number Cancellation</h3>
             <div class="item">
               <label>NUMBER CANCELLATION: CORRECT</label>
               <input name="IT.ADASCOGSC_14_15_ADCNC01_1.ADCNC01_FTORRES" placeholder="ADCNC01_FTORRES" type="text">
@@ -603,7 +614,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>ADAS-COG - Executive Function Maze</h5>
+            <h3>ADAS-COG - Executive Function Maze</h3>
             <div class="item">
               <label>EXECUTIVE FUNCTION: NUMBER ERRORS</label>
               <select name="ADCMZ01-FTORRES">

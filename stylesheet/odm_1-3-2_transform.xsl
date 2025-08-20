@@ -55,10 +55,10 @@
             </head>
             <body>
                 <div class="container">
-                    <h1>Study:<xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName"/></h1>
-                    <p><strong>Protocol:</strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:ProtocolName"/></p>
-                    <p><strong>Description:</strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyDescription"/></p>
-                    <p><strong>Metadata Version:</strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/@Description"/></p>
+                    <h1>Study: <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName"/></h1>
+                    <p><strong>Protocol: </strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:ProtocolName"/></p>
+                    <p><strong>Description: </strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyDescription"/></p>
+                    <p><strong>Metadata Version: </strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/@Description"/></p>
 
                     <form id="cdashForm" method="post">
                         <xsl:apply-templates select="//odm:FormDef"/>

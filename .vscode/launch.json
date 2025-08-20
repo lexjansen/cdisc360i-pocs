@@ -49,6 +49,54 @@
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
         {
+          "name": "Create DEMOG_LZZT 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "DEMOG_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create DEMOG_LZZT 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "DEMOG_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create EC1 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "EC1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create EC1 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "EC1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
           "name": "Create ECG1 132 CRF",
           "type": "debugpy",
           "request": "launch",
@@ -97,6 +145,102 @@
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
         {
+          "name": "Create IE_LZZT 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "IE_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create IE_LZZT 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "IE_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create MH_LZZT 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "MH_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create MH_LZZT 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "MH_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create PR_LZZT 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "PR_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create PR_LZZT 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "PR_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create SC_LZZT 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "SC_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create SC_LZZT 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "SC_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
           "name": "Create SIXMW1 132 CRF",
           "type": "debugpy",
           "request": "launch",
@@ -117,6 +261,30 @@
           "args": [
             "--form",
             "SIXMW1"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create SU_LZZT 132 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm132.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "SU_LZZT"
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+          "name": "Create SU_LZZT 20 CRF",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "--form",
+            "SU_LZZT"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -150,9 +318,16 @@
       "name": "Create all 132 CRFs",
       "configurations": [
         "Create ADASCOGSC1 132 CRF",
+        "Create DEMOG_LZZT 132 CRF",
+        "Create EC1 132 CRF",
         "Create ECG1 132 CRF",
         "Create EQ5D02 132 CRF",
+        "Create IE_LZZT 132 CRF",
+        "Create MH_LZZT 132 CRF",
+        "Create PR_LZZT 132 CRF",
+        "Create SC_LZZT 132 CRF",
         "Create SIXMW1 132 CRF",
+        "Create SU_LZZT 132 CRF",
         "Create VS1 132 CRF"
       ]
     },
@@ -160,9 +335,16 @@
       "name": "Create all 20 CRFs",
       "configurations": [
         "Create ADASCOGSC1 20 CRF",
+        "Create DEMOG_LZZT 20 CRF",
+        "Create EC1 20 CRF",
         "Create ECG1 20 CRF",
         "Create EQ5D02 20 CRF",
+        "Create IE_LZZT 20 CRF",
+        "Create MH_LZZT 20 CRF",
+        "Create PR_LZZT 20 CRF",
+        "Create SC_LZZT 20 CRF",
         "Create SIXMW1 20 CRF",
+        "Create SU_LZZT 20 CRF",
         "Create VS1 20 CRF"
       ]
     }

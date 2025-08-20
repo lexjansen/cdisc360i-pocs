@@ -56,10 +56,10 @@
             </head>
             <body>
                 <div class="container">
-                    <h1>Study:<xsl:value-of select="//odm:Study/@StudyName"/></h1>
-                    <p><strong>Protocol:</strong> <xsl:value-of select="//odm:Study/@ProtocolName"/></p>
-                    <p><strong>Description:</strong> <xsl:value-of select="//odm:Study/odm:Description/odm:TranslatedText"/></p>
-                    <p><strong>Metadata Version:</strong> <xsl:value-of select="//odm:MetaDataVersion/odm:Description/odm:TranslatedText"/></p>
+                    <h1>Study: <xsl:value-of select="//odm:Study/@StudyName"/></h1>
+                    <p><strong>Protocol: </strong> <xsl:value-of select="//odm:Study/@ProtocolName"/></p>
+                    <p><strong>Description: </strong> <xsl:value-of select="//odm:Study/odm:Description/odm:TranslatedText"/></p>
+                    <p><strong>Metadata Version: </strong> <xsl:value-of select="//odm:MetaDataVersion/odm:Description/odm:TranslatedText"/></p>
 
                     <form id="cdashForm" method="post">
                         <xsl:apply-templates select="//odm:ItemGroupDef[@Type='Form']"/>

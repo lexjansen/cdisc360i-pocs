@@ -4,6 +4,10 @@
     <title>EQ-5D-5L Questionnaire</title>
     <style>
             body { font-family: Arial, sans-serif; margin: 20px; }
+            .study-section {max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
+            h3 { color: #2980b9; margin-top: 20px; }
             .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
             .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
             .item { margin: 5px 0; }
@@ -11,15 +15,22 @@
         </style>
   </head>
   <body>
-    <h1>360i ODM CRFs</h1>
     <div class="study-section">
-      <h2>Study: CDISC360i CDASH POC Study</h2>
+      <h1>Study: CDISC360i CDASH POC Study</h1>
       <div class="metadata-version">
-        <h3>Metadata Version: CDISC360i CDASH POC Study Metadata Version</h3>
+        <p>
+          <strong>Protocol: </strong>CDISC360i CDASH POC Study protocol
+        </p>
+        <p>
+          <strong>Description: </strong>CDISC360i CDASH POC Study
+        </p>
+        <p>
+          <strong>Metadata Version: </strong>CDISC360i CDASH POC Study protocol
+        </p>
         <div class="form-section">
-          <h5>Form: EQ-5D-5L Questionnaire</h5>
+          <h2>EQ-5D-5L Questionnaire</h2>
           <div class="item-group">
-            <h5>EQ-5D-5L Questionnaire - Lead Question</h5>
+            <h3>EQ-5D-5L Questionnaire - Lead Question</h3>
             <div class="item">
               <label>Category of Questionnaire</label>
               <select name="QSCAT">
@@ -49,7 +60,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>EQ-5D-5L Questionnaire - Question 1-5</h5>
+            <h3>EQ-5D-5L Questionnaire - Question 1-5</h3>
             <div class="item">
               <label>MOBILITY</label>
               <select name="EQ5D0201-QSORRES">
@@ -112,7 +123,7 @@
             </div>
           </div>
           <div class="item-group">
-            <h5>EQ-5D-5L Questionnaire - VAS</h5>
+            <h3>EQ-5D-5L Questionnaire - VAS</h3>
             <div class="item">
               <label>YOUR HEALTH TODAY</label>
               <input name="IT.QS_EQ5D02_03_3_EQ5D0206_1.EQ5D0206_QSORRES" placeholder="EQ5D0206_QSORRES" type="text">

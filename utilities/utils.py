@@ -93,6 +93,10 @@ def create_crf_html(odm_file, verbose=False):
         # Add some basic styling
         style('''
             body { font-family: Arial, sans-serif; margin: 20px; }
+            .study-section {max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
+            h3 { color: #2980b9; margin-top: 20px; }
             .form-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
             .item-group { margin: 10px 0; padding: 5px; background-color: #f9f9f9; }
             .item { margin: 5px 0; }
@@ -100,24 +104,32 @@ def create_crf_html(odm_file, verbose=False):
         ''')
 
     with doc.body:
-        h1('360i ODM CRFs')
         with div(cls='study-section'):
-            h2(f'Study: {study.GlobalVariables.StudyName}')
+            h1(f'Study: {study.GlobalVariables.StudyName}')
 
             # Process MetaDataVersion
             mdv = study.MetaDataVersion[0]
+            globalVariables = study.GlobalVariables
             with div(cls='metadata-version'):
-                h3(f'Metadata Version: {mdv.Name}')
+                paragraph = p()
+                paragraph += strong('Protocol: ')
+                paragraph += f'{globalVariables.ProtocolName}'
+                paragraph = p()
+                paragraph += strong('Description: ')
+                paragraph += f'{globalVariables.StudyDescription}'
+                paragraph = p()
+                paragraph += strong('Metadata Version: ')
+                paragraph += f'{globalVariables.ProtocolName}'
                 form_def = mdv.FormDef[0]
                 with div(cls='form-section'):
-                    h5(f'Form: {form_def.Description.TranslatedText[0]._content}')
+                    h2(f'{form_def.Description.TranslatedText[0]._content}')
 
                     # Process ItemGroups
                     for ig_ref in form_def.ItemGroupRef:
                         ig_def = mdv.find("ItemGroupDef", "OID", ig_ref.ItemGroupOID),
                         if ig_def:
                             with div(cls='item-group'):
-                                h5(f'{ig_def[0].Name}')
+                                h3(f'{ig_def[0].Name}')
 
                                 # Process Items
                                 for item_ref in ig_def[0].ItemRef:

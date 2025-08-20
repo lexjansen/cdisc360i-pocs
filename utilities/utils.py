@@ -78,11 +78,13 @@ def create_crf_html(odm_file, verbose):
     loader.open_odm_document(odm_file)
     odm = loader.load_odm()
     study = loader.Study()
+    mdv = study.MetaDataVersion[0]
+    form_def = mdv.FormDef[0]
     if verbose:
         print(f"Generating HTML CRF from {odm_file}")
 
     # Create HTML document
-    doc = document(title='360i ODM CRF View')
+    doc = document(title=f'{form_def.Name}', lang="en")
 
     with doc.head:
         # Add some basic styling

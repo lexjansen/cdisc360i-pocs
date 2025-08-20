@@ -4,7 +4,7 @@
     xmlns:odm="http://www.cdisc.org/ns/odm/v1.3"
     version="2.0"
     exclude-result-prefixes="odm">
-    <xsl:output method="html" doctype-system="about:legacy-compat" indent="no"/>
+    <xsl:output method="html" encoding="UTF-8" version="5" indent="no"/>
 
     <!-- Display DataType and Length (0/1)? -->
     <xsl:param name="displayDataTypeLength" select="0" />

@@ -2,6 +2,7 @@ import os
 import sys
 import click
 from pathlib import Path
+import logging
 
 # Add top-level folder to path so that project folder can be found
 SCRIPT_DIR = Path.cwd()
@@ -23,6 +24,9 @@ from utilities.utils import (
 )
 
 from config.config import AppSettings as CFG
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logger = logging.getLogger(__name__)
 
 __config = CFG()
 
@@ -218,7 +222,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
     df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
-        print(f"No data found in the forms metadata for the specified collection form ({collection_form}).")
+        logger.error(f"No data found in the forms metadata ({FORMS_METADATA_EXCEL}) for the specified collection form ({collection_form}).")
         sys.exit()
 
     form_name = df_forms_bcs.loc[0, 'form_label']
@@ -299,7 +303,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
 
         if row["form_section_id"] != form_section_id: # New Collection Group
             counter = 1
-            print(row["form_section_id"] + " - " + row["form_section_label"] + " - " + row["collection_group_id"] + " - " + str(row["bc_id"]))
+            logger.info(row["form_section_id"] + " - " + row["form_section_label"] + " - " + row["collection_group_id"] + " - " + str(row["bc_id"]))
 
             if form_section_id and item_group_def is not None:
                 item_group_defs.append(item_group_def)
@@ -429,7 +433,7 @@ def main(collection_form: str):
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 
-    doc = create_crf_html(ODM_XML_FILE, True)
+    doc = create_crf_html(ODM_XML_FILE, verbose=True)
     write_html_doc(doc, ODM_HTML_FILE_DOM, verbose=True)
 
     loader = LO.ODMLoader(OL.XMLODMLoader())

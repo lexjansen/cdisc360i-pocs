@@ -2,6 +2,7 @@ import os
 import sys
 import click
 from pathlib import Path
+import logging
 
 # Add top-level folder to path so that project folder can be found
 SCRIPT_DIR = Path.cwd()
@@ -17,6 +18,9 @@ from utilities.utils import (
     transform_xml_saxonche
 )
 from config.config import AppSettings as CFG
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logger = logging.getLogger(__name__)
 
 __config = CFG()
 
@@ -278,7 +282,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     df_forms_bcs = pd.read_excel(open(forms_metadata, 'rb'), sheet_name=FORMS_METADATA_EXCEL_SHEET, keep_default_na =False)
     df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
-        print(f"No data found in the forms metadata for the specified collection form ({collection_form}).")
+        logger.error(f"No data found in the forms metadata ({FORMS_METADATA_EXCEL}) for the specified collection form ({collection_form}).")
         sys.exit()
 
     form_name = df_forms_bcs.loc[0, 'form_label']
@@ -295,7 +299,7 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
 
     df = df.merge(df_forms_bcs, how='inner', left_on='collection_group_id', right_on='collection_group_id', suffixes=('', '_y'), validate='m:m')
     if len(df) == 0:
-        print(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
+        logger.error(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
         sys.exit()
     df.sort_values(['form_section_order_number', 'bc_order_number', 'order_number'], ascending=[True, True, True], inplace=True)
 
@@ -371,7 +375,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     for i, row in df.iterrows():
 
         if row["collection_group_id"] != collection_group_id: # New Collection Group
-            print(row["form_section_id"] + " - " + row["form_section_label"] + " - " + row["collection_group_id"] + " - " + str(row["bc_id"]))
+            logger.info(row["form_section_id"] + " - " + row["form_section_label"] + " - " + row["collection_group_id"] + " - " + str(row["bc_id"]))
 
             if collection_group_id:
                 item_group_defs.append(item_group_def)

@@ -22,7 +22,7 @@ These programs are designed to function as command-line applications that can ru
 **config**:
 
 - config.py loads the configuration settings
-- config-template.ini: template for configuration settings. Copy config-template.ini to config.ini, and update the paths.
+- config-relative-paths.ini, config-absolute-paths.ini: templates for configuration settings. Either copy config-relative-paths.ini to config.ini, or copy config-absolute-paths.ini to config.ini, and edit the paths to match your environment.
 
 **crf**: Output folder for generated CRF files. Every form gets it's own subfolder.
 

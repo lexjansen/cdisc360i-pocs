@@ -10,7 +10,7 @@ class AppSettings:
     Provides the configuration settings for the 360i code. Loads the settings from config.ini
     """
     def __init__(self):
-        logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+        logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
         self.logger = logging.getLogger(__name__)
         config = configparser.ConfigParser()
         config_file = self._get_config_file()
@@ -45,6 +45,11 @@ class AppSettings:
         """
         config_file =  Path(__file__).parent.joinpath("config.ini")
         if not Path(config_file).absolute().exists():
-            self.logger.error(f"360i {config_file} file not found. You cannot continue without the config.ini file.")
-            raise Exception("config.ini file not found. You cannot continue with the config.ini file.")
+            message = (
+                f"360i {config_file} file not found in the 'config' folder. You cannot continue without the config.ini file. " +
+                f"Either copy config-relative-paths.ini to config.ini, or copy config-absolute-paths.ini to config.ini, and edit the paths to match your environment."
+            )
+            self.logger.error(message)
+            exit()
+            raise Exception(message)
         return str(config_file)

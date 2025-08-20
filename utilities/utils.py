@@ -10,25 +10,28 @@ from lxml import etree
 from saxonche import PySaxonProcessor
 from dominate import document
 from dominate.tags import *
+import logging
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logger = logging.getLogger(__name__)
 
 def create_directory(directory_path):
     if not os.path.exists(directory_path):
-        print(f"Directory '{directory_path}' will be created.")
+        logger.info(f"Directory '{directory_path}' will be created.")
     try:
         os.makedirs(directory_path, exist_ok=True)
     except OSError as e:
-        print(f"Error creating directory: {e}")
+        logger.error(f"Error creating directory: {e}")
 
 def validate_odm_xml_file(odm_file, schema_file, verbose=False):
     validator = P.ODMSchemaValidator(schema_file)
     try:
         validator.validate_file(odm_file)
     except XSD.validators.exceptions.XMLSchemaChildrenValidationError as ve:
-        print(f"schema validation errors: {ve}")
+        logger.error(f"schema validation errors: {ve}")
     else:
         if verbose:
-            print("ODM XML schema validation completed successfully...")
+            logger.info("ODM XML schema validation completed successfully...")
 
 
 def transform_xml(xml_path, xsl_path, output_path):
@@ -56,7 +59,7 @@ def transform_xml(xml_path, xsl_path, output_path):
 def transform_xml_saxonche(file_path, xsl_path, output_path, **kwargs):
 
     saxonhe = PySaxonProcessor(license=False)
-    print(saxonhe.version)
+    logger.info(f"Saxon-HE version: {saxonhe.version}")
 
     saxonproc = saxonhe.new_xslt30_processor()
 
@@ -71,9 +74,9 @@ def transform_xml_saxonche(file_path, xsl_path, output_path, **kwargs):
 
     executable.transform_to_file(output_file=str(output_path), xdm_node=document)
 
-    print(f"HTML transformation completed successfully... {output_path}")
+    logger.info(f"HTML transformation completed successfully... {output_path}")
 
-def create_crf_html(odm_file, verbose):
+def create_crf_html(odm_file, verbose=False):
     loader = LO.ODMLoader(OL.XMLODMLoader())
     loader.open_odm_document(odm_file)
     odm = loader.load_odm()
@@ -81,7 +84,7 @@ def create_crf_html(odm_file, verbose):
     mdv = study.MetaDataVersion[0]
     form_def = mdv.FormDef[0]
     if verbose:
-        print(f"Generating HTML CRF from {odm_file}")
+        logger.info(f"Generating HTML CRF from {odm_file}")
 
     # Create HTML document
     doc = document(title=f'{form_def.Name}', lang="en")
@@ -147,7 +150,7 @@ def create_crf_html(odm_file, verbose):
 
 def write_html_doc(doc, output_file_path, verbose=False):
     if verbose:
-        print(f"Writing HTML CRF to {output_file_path}")
+        logger.info(f"Writing HTML CRF to {output_file_path}")
     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
     with open(output_file_path, 'w', encoding='utf-8') as f:
         f.write(str(doc))

@@ -1,22 +1,22 @@
 import sys
 from pathlib import Path
+
 # Add top-level folder to path so that odmlib and utilities folder can be found
 SCRIPT_DIR = Path.cwd()
 sys.path.append(str(SCRIPT_DIR))
 
-import click
-import logging
-import odmlib.odm_2_0.model as ODM
-from odmlib import odm_loader as OL, loader as LO
-
 import datetime
+import logging
+
+import click
 import pandas as pd
-from utilities.utils import (
-    create_directory,
-    validate_odm_xml_file,
-    transform_xml_saxonche
-)
+
+import odmlib.odm_2_0.model as ODM
 from config.config import AppSettings as CFG
+from odmlib import loader as LO
+from odmlib import odm_loader as OL
+from utilities.utils import (create_directory, transform_xml_saxonche,
+                             validate_odm_xml_file)
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -444,8 +444,6 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     item_defs = []
     codelists = []
     collection_group_id = ""
-    form_section_id = ""
-    bc_id = ""
     item_group_def = None
     for i, row in df.iterrows():
 
@@ -459,8 +457,6 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
                 item_group_defs.append(item_group_def)
 
             collection_group_id = row["collection_group_id"]
-            form_section_id = row["form_section_id"]
-            bc_id = row["bc_id"]
             item_refs = []
 
             if row["display_hidden"] != "Y":

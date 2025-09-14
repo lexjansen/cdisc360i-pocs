@@ -501,7 +501,6 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     odm = ODM.ODM(
         FileOID=create_oid("ODM", []),
         Granularity="Metadata",
-        AsOfDateTime=current_datetime,
         CreationDateTime=current_datetime,
         ODMVersion="2.0",
         FileType="Snapshot",

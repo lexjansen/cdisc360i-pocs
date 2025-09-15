@@ -10,3 +10,4 @@ venv/
 dist/
 config/config.ini
 config/config-save.ini
+_archive/

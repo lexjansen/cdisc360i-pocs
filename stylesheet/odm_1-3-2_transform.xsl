@@ -54,22 +54,23 @@
                 </style>
             </head>
             <body>
+                <!--
                 <div class="container">
                     <h1>Study: <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName"/></h1>
                     <p><strong>Protocol: </strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:ProtocolName"/></p>
                     <p><strong>Description: </strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyDescription"/></p>
                     <p><strong>Metadata Version: </strong> <xsl:value-of select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/@Description"/></p>
-
+                </div>
+                -->
                     <form id="cdashForm" method="post">
                         <xsl:apply-templates select="//odm:FormDef"/>
                     </form>
-                </div>
             </body>
         </html>
     </xsl:template>
 
     <xsl:template match="odm:FormDef">
-        <div class="form-section">
+        <div class="container">
             <h2><xsl:value-of select="@Name"/></h2>
             <!-- <p><xsl:value-of select="odm:Description/odm:TranslatedText"/></p> -->
             <xsl:if test="$displayAnnotations = 1">
@@ -134,6 +135,9 @@
 
                         <tr>
                             <td class="field-label">
+                                <xsl:if test="@Mandatory='Yes'">
+                                    <span class="mandatory">* </span>
+                                </xsl:if>
                                 <xsl:choose>
                                     <xsl:when test="$itemDef/odm:Alias[@Context='prompt']">
                                         <xsl:value-of select="$itemDef/odm:Alias[@Context='prompt']/@Name"/>
@@ -145,9 +149,6 @@
                                         <xsl:value-of select="$itemDef/@Name"/>
                                     </xsl:otherwise>
                                 </xsl:choose>
-                                <xsl:if test="@Mandatory='Yes'">
-                                    <span class="mandatory"> *</span>
-                                </xsl:if>
                             </td>
                             <td class="field-value">
                                 <xsl:choose>

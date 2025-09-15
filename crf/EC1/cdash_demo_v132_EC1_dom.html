@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Study Administration XANOMELINE or PLACEBO Daily Dose</title>
+    <title>Study Administration</title>
     <style>
             body { font-family: Arial, sans-serif; margin: 20px; }
             .study-section {max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
@@ -16,25 +16,32 @@
   </head>
   <body>
     <div class="study-section">
-      <h1>Study: CDISC360i CDASH POC Study</h1>
       <div class="metadata-version">
-        <p>
-          <strong>Protocol: </strong>CDISC360i CDASH POC Study protocol
-        </p>
-        <p>
-          <strong>Description: </strong>CDISC360i CDASH POC Study
-        </p>
-        <p>
-          <strong>Metadata Version: </strong>CDISC360i CDASH ODM 1.3.2 metadata version
-        </p>
         <div class="form-section">
-          <h2>Study Administration XANOMELINE or PLACEBO Daily Dose</h2>
+          <h2>Study Administration</h2>
+          <div class="item-group">
+            <h3>STUDY DRUG</h3>
+            <div class="item">
+              <label>Was any study treatment administered?</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.EC_1_EC_1.ECYN.SDTM" placeholder="SDTM: [NOT SUBMITTED]" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Collection Date</label>
+              <input name="IT.EC_1_EC_1.ECDAT" placeholder="ECDAT" type="text">
+              <input name="IT.EC_1_EC_1.ECDAT.SDTM" placeholder="SDTM: ECDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
           <div class="item-group">
             <h3>STUDY DRUG : DAILY PRESCRIBED DOSAGE</h3>
             <div class="item">
-              <label>Number of 25-cm2 patches prescribed/day</label>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECDOSE" placeholder="ECDOSE" type="text">
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECDOSE.SDTM" placeholder="SDTM: ECDOSE" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <label>Number of 25cm2 patches prescribed/day</label>
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECDOSE" placeholder="ECDOSE" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECDOSE.SDTM" placeholder="SDTM: ECDOSE" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Unit</label>
@@ -42,22 +49,22 @@
                 <option value="">--select--</option>
                 <option value="PATCH">PATCH</option>
               </select>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECDOSU.SDTM" placeholder="SDTM: ECDOSU" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECDOSU.SDTM" placeholder="SDTM: ECDOSU" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Start Date</label>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECSTDAT" placeholder="ECSTDAT" type="text">
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECSTDAT.SDTM" placeholder="SDTM: ECSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECSTDAT" placeholder="ECSTDAT" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECSTDAT.SDTM" placeholder="SDTM: ECSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>End Date</label>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECENDAT" placeholder="ECENDAT" type="text">
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO25_1.ECENDAT.SDTM" placeholder="SDTM: ECENDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECENDAT" placeholder="ECENDAT" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO25_DENORMALIZED_1.ECENDAT.SDTM" placeholder="SDTM: ECENDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
-              <label>Number of 50-cm2 patches prescribed/day</label>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECDOSE" placeholder="ECDOSE" type="text">
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECDOSE.SDTM" placeholder="SDTM: ECDOSE" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <label>Number of 50cm2 patches prescribed/day</label>
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECDOSE" placeholder="ECDOSE" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECDOSE.SDTM" placeholder="SDTM: ECDOSE" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Unit</label>
@@ -65,17 +72,17 @@
                 <option value="">--select--</option>
                 <option value="PATCH">PATCH</option>
               </select>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECDOSU.SDTM" placeholder="SDTM: ECDOSU" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECDOSU.SDTM" placeholder="SDTM: ECDOSU" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Start Date</label>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECSTDAT" placeholder="ECSTDAT" type="text">
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECSTDAT.SDTM" placeholder="SDTM: ECSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECSTDAT" placeholder="ECSTDAT" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECSTDAT.SDTM" placeholder="SDTM: ECSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>End Date</label>
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECENDAT" placeholder="ECENDAT" type="text">
-              <input name="IT.EXPOSCOLL_XANPLAC_1_EXPOSCOLL_XANOMELINEPLACEBO50_2.ECENDAT.SDTM" placeholder="SDTM: ECENDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECENDAT" placeholder="ECENDAT" type="text">
+              <input name="IT.EXPOSCOLL_XANPLAC_2_EXPOSCOLL_XANOMELINEPLACEBO50_DENORMALIZED_2.ECENDAT.SDTM" placeholder="SDTM: ECENDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
           </div>
         </div>

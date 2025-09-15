@@ -10,6 +10,7 @@ sys.path.append(str(SCRIPT_DIR))
 import datetime
 
 import pandas as pd
+# import pandasgui
 
 import odmlib.odm_1_3_2.model as ODM
 from config.config import AppSettings as CFG
@@ -311,6 +312,8 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
         ascending=[True, True, True],
         inplace=True
     )
+
+    # pandasgui.show(df)
 
     return df, df_forms, form_name, form_annotation
 

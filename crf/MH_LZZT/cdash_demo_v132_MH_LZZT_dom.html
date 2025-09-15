@@ -16,30 +16,37 @@
   </head>
   <body>
     <div class="study-section">
-      <h1>Study: CDISC360i CDASH POC Study</h1>
       <div class="metadata-version">
-        <p>
-          <strong>Protocol: </strong>CDISC360i CDASH POC Study protocol
-        </p>
-        <p>
-          <strong>Description: </strong>CDISC360i CDASH POC Study
-        </p>
-        <p>
-          <strong>Metadata Version: </strong>CDISC360i CDASH ODM 1.3.2 metadata version
-        </p>
         <div class="form-section">
           <h2>Alzheimer's Disease</h2>
+          <div class="item-group">
+            <h3>MH - Lead Question</h3>
+            <div class="item">
+              <label>Were any medical conditions or events reported?</label>
+              <select name="NY">
+                <option value="">--select--</option>
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+              <input name="IT.MH_1_MH_1.MHYN.SDTM" placeholder="SDTM: [NOT SUBMITTED]" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+            <div class="item">
+              <label>Collection Date</label>
+              <input name="IT.MH_1_MH_1.MHDAT" placeholder="MHDAT" type="text">
+              <input name="IT.MH_1_MH_1.MHDAT.SDTM" placeholder="SDTM: MHDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+            </div>
+          </div>
           <div class="item-group">
             <h3>PATIENT HISTORY : ALZHEIMER'S DISEASE ONSET DATE</h3>
             <div class="item">
               <label>Medical History Term</label>
-              <input name="IT.MH_AD_ONSET_1_MHALZHEIMERS_VERTICAL_1.MHTERM" placeholder="MHTERM" type="text">
-              <input name="IT.MH_AD_ONSET_1_MHALZHEIMERS_VERTICAL_1.MHTERM.SDTM" placeholder="SDTM: MHTERM = ALZHEIMER'S DISEASE" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.MH_AD_ONSET_2_MHALZHEIMERS_DENORMALIZED_1.MHTERM" placeholder="MHTERM" type="text">
+              <input name="IT.MH_AD_ONSET_2_MHALZHEIMERS_DENORMALIZED_1.MHTERM.SDTM" placeholder="SDTM: MHTERM = ALZHEIMER'S DISEASE" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
             <div class="item">
               <label>Alzheimer's Disease Symptom Start Date</label>
-              <input name="IT.MH_AD_ONSET_1_MHALZHEIMERS_VERTICAL_1.MHSTDAT" placeholder="MHSTDAT" type="text">
-              <input name="IT.MH_AD_ONSET_1_MHALZHEIMERS_VERTICAL_1.MHSTDAT.SDTM" placeholder="SDTM: MHSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
+              <input name="IT.MH_AD_ONSET_2_MHALZHEIMERS_DENORMALIZED_1.MHSTDAT" placeholder="MHSTDAT" type="text">
+              <input name="IT.MH_AD_ONSET_2_MHALZHEIMERS_DENORMALIZED_1.MHSTDAT.SDTM" placeholder="SDTM: MHSTDTC" style="background-color: LightYellow; border: 1px solid #ccc; field-sizing: content;" type="text">
             </div>
           </div>
         </div>

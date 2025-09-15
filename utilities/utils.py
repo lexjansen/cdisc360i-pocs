@@ -105,21 +105,21 @@ def create_crf_html(odm_file, verbose=False):
 
     with doc.body:
         with div(cls='study-section'):
-            h1(f'Study: {study.GlobalVariables.StudyName}')
+            # h1(f'Study: {study.GlobalVariables.StudyName}')
 
             # Process MetaDataVersion
             mdv = study.MetaDataVersion[0]
             globalVariables = study.GlobalVariables
             with div(cls='metadata-version'):
-                paragraph = p()
-                paragraph += strong('Protocol: ')
-                paragraph += f'{globalVariables.ProtocolName}'
-                paragraph = p()
-                paragraph += strong('Description: ')
-                paragraph += f'{globalVariables.StudyDescription}'
-                paragraph = p()
-                paragraph += strong('Metadata Version: ')
-                paragraph += f'{mdv.Description}'
+                # paragraph = p()
+                # paragraph += strong('Protocol: ')
+                # paragraph += f'{globalVariables.ProtocolName}'
+                # paragraph = p()
+                # paragraph += strong('Description: ')
+                # paragraph += f'{globalVariables.StudyDescription}'
+                # paragraph = p()
+                # paragraph += strong('Metadata Version: ')
+                # paragraph += f'{mdv.Description}'
                 form_def = mdv.FormDef[0]
                 with div(cls='form-section'):
                     h2(f'{form_def.Description.TranslatedText[0]._content}')

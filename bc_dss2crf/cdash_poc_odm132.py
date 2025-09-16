@@ -532,7 +532,7 @@ def main(collection_form: str):
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 
     doc = create_crf_html(ODM_XML_FILE, verbose=True)
-    write_html_doc(doc, ODM_HTML_FILE_DOM, verbose=True)
+    # write_html_doc(doc, ODM_HTML_FILE_DOM, verbose=True)
 
     loader = LO.ODMLoader(OL.XMLODMLoader())
     loader.open_odm_document(ODM_XML_FILE)

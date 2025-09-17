@@ -548,10 +548,18 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     "--form",
     "-f",
     "collection_form",
-    default="SIXMW1",
+    required=True,
+    default=None,
+    prompt=True,
     help="The ID of the collection form to process."
 )
-def main(collection_form: str):
+@click.option(
+    "--prefix",
+    "-p",
+    "file_name_prefix",
+    help="The lowercase prefix to use for the output filenames."
+)
+def main(collection_form: str, file_name_prefix: str):
     """
     Main function to generate, validate, and transform an ODM 2.0 XML file from Excel metadata.
     Args:
@@ -568,16 +576,18 @@ def main(collection_form: str):
         Any exceptions raised by the underlying functions (e.g., file I/O, validation, transformation).
     """
 
+    if file_name_prefix is None:
+        file_name_prefix = collection_form.lower().replace(" ", "_")
+    else:
+        file_name_prefix = file_name_prefix.lower().replace(" ", "_")
+
     ODM_XML_SCHEMA_FILE = Path(__config.odm20_schema)
     XSL_FILE = Path(__config.odm20_stylesheet)
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}.json")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v20_{collection_form}_xsl.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv2-0.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv2-0.json")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv2-0_crf.html")
     ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(
-        f"{collection_form}",
-        (
-            f"cdash_demo_v20_{collection_form}_xsl_annotated.html"
-        )
+        f"{collection_form}", f"{file_name_prefix}_odmv2-0_acrf.html"
     )
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(

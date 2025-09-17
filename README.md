@@ -8,6 +8,10 @@ This project consists of example programs to try out steps in the 360i pipeline.
 
 Here's the official [CDISC 360i repository](https://github.com/cdisc-org/360i)
 
+## Supported python versions
+
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120)
+
 ## Introduction
 
 These programs are designed to function as command-line applications that can run as standalone applications or can be chained together to function as a pipeline of sorts. Everything in this repo should be considered sandbox development work in support of the 360i program.

@@ -25,7 +25,8 @@ These programs are designed to function as command-line applications that can ru
 - config.ini: configuration settings withy relative paths (copy of config-relative-paths.ini)
 - config-relative-paths.ini, config-absolute-paths.ini: templates for configuration settings. Either copy config-relative-paths.ini to config.ini, or copy config-absolute-paths.ini to config.ini, and edit the paths to match your environment.
 
-**crf**: Output folder for generated CRF files. Every form gets it's own subfolder.
+**crf**: Output folder for generated CRF files. Every form will get it's own subfolder.
+**crf/examples**: ZIP file with output examples
 
 **metadata**:  Metadata used by the scripts.
 
@@ -54,7 +55,7 @@ These programs are designed to function as command-line applications that can ru
 `python -m venv <virtual-env-name>`
 
 - Activate the environment:  
-Linux: ` source <virtual-env-name>/bin/activate`  
+Linux: `source <virtual-env-name>/bin/activate`  
 Windows: `<virtual-env-name>/Scripts/Activate`
 
 - Install requirements:

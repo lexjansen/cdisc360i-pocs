@@ -35,8 +35,7 @@ These programs are designed to function as command-line applications that can ru
 
 **crf**: Output folder for generated CRF files. Every form will get it's own subfolder.
 
-**crf/examples**: ZIP files with output examples
-
+**crf/examples**: ZIP files with output examples  
 **metadata**:  Metadata used by the scripts.
 
 - cdisc_collection_dataset_specializations_draft.xlsx: Collection Dataset Specialization metadata. Generated from the draft CDISC Collection Dataset Specializations (see: [https://github.com/cdisc-org/COSMoS/tree/main/curation/draft](https://github.com/cdisc-org/COSMoS/tree/main/curation/draft)).

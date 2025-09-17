@@ -557,7 +557,11 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     "--prefix",
     "-p",
     "file_name_prefix",
-    help="The lowercase prefix to use for the output filenames."
+    required=False,
+    help=(
+        "The lowercase prefix to use for the output filenames. "
+        "When not specified, the collection lowercase form ID will be used."
+    )
 )
 def main(collection_form: str, file_name_prefix: str):
     """

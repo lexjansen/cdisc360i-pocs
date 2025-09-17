@@ -74,13 +74,13 @@ Windows: `<virtual-env-name>/Scripts/Activate`
 The following command-line example uses Collection Dataset Specializations and Forms metadata (VS1) to generate an ODM v2.0 XML CRF, and HTML renditions of the CRF and annotated CRF in the **crf/VS1** folder.:
 
 ```python
-python ./bc_dss2crf/cdash_poc_odm20.py -f VS1
+python ./bc_dss2crf/cdash_poc_odm20.py -f VS1 -p vital_signs
 ```
 
 The following command-line example does the same, but then for ODM v 1.3.2:
 
 ```python
-python ./bc_dss2crf/cdash_poc_odm132.py -f VS1
+python ./bc_dss2crf/cdash_poc_odm132.py -f VS1 -p vital_signs
 ```
 
 ## License

@@ -485,10 +485,22 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     "--form",
     "-f",
     "collection_form",
-    default="SIXMW1",
+    required=True,
+    default=None,
+    prompt=True,
     help="The ID of the collection form to process."
 )
-def main(collection_form: str):
+@click.option(
+    "--prefix",
+    "-p",
+    "file_name_prefix",
+    required=False,
+    help=(
+        "The lowercase prefix to use for the output filenames. "
+        "When not specified, the collection lowercase form ID will be used."
+    )
+)
+def main(collection_form: str, file_name_prefix: str):
     """
     Main function to generate and process ODM files for a given collection form and form name.
     This function performs the following steps:
@@ -506,12 +518,17 @@ def main(collection_form: str):
         None
     """
 
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}.json")
-    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_dom.html")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl.html")
+    if file_name_prefix is None:
+        file_name_prefix = collection_form.lower().replace(" ", "_")
+    else:
+        file_name_prefix = file_name_prefix.lower().replace(" ", "_")
+
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv1-3-2.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv1-3-2.json")
+    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv1-3-2_crf_dom.html")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv1-3-2_crf.html")
     ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(
-        f"{collection_form}", f"cdash_demo_v132_{collection_form}_xsl_annotated.html"
+        f"{collection_form}", f"{file_name_prefix}_odmv1-3-2_acrf.html"
     )
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(

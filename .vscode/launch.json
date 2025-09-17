@@ -32,7 +32,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "ADASCOGSC1"
+            "ADASCOGSC1",
+            "--prefix",
+            "adas-cog"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -44,7 +46,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "ADASCOGSC1"
+            "ADASCOGSC1",
+            "--prefix",
+            "adas-cog"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -56,7 +60,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "DEMOG_LZZT"
+            "DEMOG_LZZT",
+            "--prefix",
+            "demographics"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -68,7 +74,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "DEMOG_LZZT"
+            "DEMOG_LZZT",
+            "--prefix",
+            "demographics"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -80,7 +88,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "EC1"
+            "EC1",
+            "--prefix",
+            "study_administration"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -92,7 +102,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "EC1"
+            "EC1",
+            "--prefix",
+            "study_administration"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -104,7 +116,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "ECG1"
+            "ECG1",
+            "--prefix",
+            "ecg"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -116,7 +130,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "ECG1"
+            "ECG1",
+            "--prefix",
+            "ecg"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -128,7 +144,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "EQ5D02"
+            "EQ5D02",
+            "--prefix",
+            "eq-5d-5l"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -140,7 +158,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "EQ5D02"
+            "EQ5D02",
+            "--prefix",
+            "eq-5d-5l"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -152,7 +172,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "IE_LZZT"
+            "IE_LZZT",
+            "--prefix",
+            "inclusion_exclusion"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -164,7 +186,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "IE_LZZT"
+            "IE_LZZT",
+            "--prefix",
+            "inclusion_exclusion"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -176,7 +200,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "MH_LZZT"
+            "MH_LZZT",
+            "--prefix",
+            "medical_history"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -188,7 +214,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "MH_LZZT"
+            "MH_LZZT",
+            "--prefix",
+            "medical_history"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -200,7 +228,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "PR_LZZT"
+            "PR_LZZT",
+            "--prefix",
+            "procedures"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -212,7 +242,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "PR_LZZT"
+            "PR_LZZT",
+            "--prefix",
+            "procedures"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -224,7 +256,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "SC_LZZT"
+            "SC_LZZT",
+            "--prefix",
+            "subject_characteristics"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -236,7 +270,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "SC_LZZT"
+            "SC_LZZT",
+            "--prefix",
+            "subject_characteristics"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -248,7 +284,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "SIXMW1"
+            "SIXMW1",
+            "--prefix",
+            "six_minute_walk"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -260,7 +298,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "SIXMW1"
+            "SIXMW1",
+            "--prefix",
+            "six_minute_walk"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -272,7 +312,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "SU_LZZT"
+            "SU_LZZT",
+            "--prefix",
+            "substance_use"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -284,7 +326,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "SU_LZZT"
+            "SU_LZZT",
+            "--prefix",
+            "substance_use"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -296,7 +340,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "VS1"
+            "VS1",
+            "--prefix",
+            "vital_signs"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
@@ -308,7 +354,9 @@
           "console": "integratedTerminal",
           "args": [
             "--form",
-            "VS1"
+            "VS1",
+            "--prefix",
+            "vital_signs"
           ],
             "env": { "PYTHONPATH": "${workspaceRoot}"}
         }

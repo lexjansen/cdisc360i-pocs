@@ -33,9 +33,9 @@ These programs are designed to function as command-line applications that can ru
 - config.ini: configuration settings withy relative paths (copy of config-relative-paths.ini)
 - config-relative-paths.ini, config-absolute-paths.ini: templates for configuration settings. Either copy config-relative-paths.ini to config.ini, or copy config-absolute-paths.ini to config.ini, and edit the paths to match your environment.
 
-**crf**: Output folder for generated CRF files. Every form will get it's own subfolder.
+**crf**: Output folder for generated CRF files. Every form will get it's own subfolder.  
+**crf/examples**: ZIP files with output examples
 
-**crf/examples**: ZIP files with output examples  
 **metadata**:  Metadata used by the scripts.
 
 - cdisc_collection_dataset_specializations_draft.xlsx: Collection Dataset Specialization metadata. Generated from the draft CDISC Collection Dataset Specializations (see: [https://github.com/cdisc-org/COSMoS/tree/main/curation/draft](https://github.com/cdisc-org/COSMoS/tree/main/curation/draft)).

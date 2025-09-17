@@ -12,6 +12,10 @@ Here's the official [CDISC 360i repository](https://github.com/cdisc-org/360i)
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120)
 
+## Windows Command Compatibility
+
+Note: The Windows commands provided in this README are written for PowerShell. While most commands are compatible with both PowerShell and Command Prompt, some adjustments may be necessary when using Command Prompt. If you encounter any issues running these commands in Command Prompt, try using PowerShell or consult the Command Prompt documentation for equivalent commands.
+
 ## Introduction
 
 These programs are designed to function as command-line applications that can run as standalone applications or can be chained together to function as a pipeline of sorts. Everything in this repo should be considered sandbox development work in support of the 360i program.

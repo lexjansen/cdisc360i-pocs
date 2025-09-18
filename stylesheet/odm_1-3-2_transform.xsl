@@ -38,6 +38,7 @@
                     .coding-info { font-weight: bold; font-size: 13px; color: #00aa00; font-style: italic; margin-top: 5px; }
                     .prespecified { background-color: #e8f5e8; font-weight: bold; }
                     .mandatory { color: #e74c3c; }
+                    .footnote {font-size: 8pt;}
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
                     .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
                     .form-instruction {
@@ -152,11 +153,17 @@
                             </td>
                             <td class="field-value">
                                 <xsl:choose>
-                                    <!-- Pre-specified values (read-only) -->
-                                    <xsl:when test="@PreSpecifiedValue">
-                                        <input type="text" name="{$itemDef/@Name}" value="{@PreSpecifiedValue}"
-                                               class="prespecified" readonly="readonly"/>
+                                    <xsl:when test="$itemDef/odm:MeasurementUnitRef">
+                                        <xsl:variable name="muOID" select="$itemDef/odm:MeasurementUnitRef/@MeasurementUnitOID"/>
+                                        <xsl:variable name="mu" select="//odm:MeasurementUnit[@OID=$muOID]"/>
+                                        <xsl:variable name="muSymbol" select="$mu/odm:Symbol/odm:TranslatedText"/>
+
+                                        <xsl:if test="$mu">
+                                            <input type="text" name="{$itemDef/@Name}" value="{$muSymbol}"
+                                                   class="prespecified" readonly="readonly"/>
+                                        </xsl:if>
                                     </xsl:when>
+
 
                                     <!-- Date fields -->
                                     <xsl:when test="$itemDef/@DataType='date'">
@@ -202,6 +209,7 @@
                                                maxlength="{$itemDef/@Length}"/>
                                     </xsl:otherwise>
                                 </xsl:choose>
+
                             </td>
 
                             <xsl:if test="$displayAnnotations = 1">
@@ -236,6 +244,7 @@
                     </xsl:for-each>
                 </tbody>
             </table>
+            <div class="footnote"><span class="mandatory">*</span> Mandatory field</div>
         </div>
     </xsl:template>
 

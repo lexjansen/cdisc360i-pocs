@@ -25,7 +25,9 @@ These programs are designed to function as command-line applications that can ru
 **bc_dss2crf**:
 
 - cdash_poc_odm20.py: script to create ODM XML v2.0 XML, CRFs in HTML, and annotated CRFs in HTML.
-- cdash_poc_odm132.py: script to create ODM XML v1.3.2 XML, CRFs in HTML, and annotated CRFs in HTML.
+- cdash_poc_odm132.py: script to create ODM XML v1.3.2 XML, CRFs in HTML, and annotated CRFs in HTML.  
+
+The scripts use the [odmlib](https://pypi.org/project/odmlib/) Python library. A good introduction to this library can be found in Sam Hume's "Using odmlib to Create ODM and Define-XML Tools in Python" [paper](https://www.lexjansen.com/phuse-us/2022/os/PAP_OS01.pdf) and [presentation](https://www.lexjansen.com/phuse-us/2022/os/PRE_OS01.pdf).
 
 **config**:
 
@@ -43,7 +45,7 @@ These programs are designed to function as command-line applications that can ru
 
 **odmlib**:
 
-- Updates to the odmlib library to support the final ODM v2.0 schema. These updates are intendede to be merged with the odmlib library at [https://github.com/swhume/odmlib](https://github.com/swhume/odmlib).
+- Updates to the [odmlib](https://pypi.org/project/odmlib/) library to support the final ODM v2.0 schema. These updates are intended to be merged with the odmlib library at [https://github.com/swhume/odmlib](https://github.com/swhume/odmlib).
 
 **schema**:
 

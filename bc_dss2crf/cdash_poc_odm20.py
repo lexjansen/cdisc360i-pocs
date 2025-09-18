@@ -43,38 +43,34 @@ REPEATING_MAP = {
 
 
 def create_oid(type, row):
-    if type.upper() == "ODM":
-        return "ODM.CDASH.POC"
-    elif type.upper() == "STUDY":
-        return "ODM.CDASH.STUDY"
-    elif type.upper() == "MDV":
-        return "ODM.CDASH.STUDY.MDV"
-    elif type.upper() == "FORM":
-        return f"IG.{row['form_id']}"
-    elif type.upper() == "SECTION":
-        return f"IG.{row['form_section_id']}_{row['form_section_order_number']}"
-    elif type.upper() == "CONCEPT":
-        return (
-            f"IG.{row['form_section_id']}_{row['form_section_order_number']}_"
-            f"{row['collection_group_id']}_{row['bc_order_number']}"
-        )
-    elif type.upper() == "ITEM":
-        return (
-            f"IT.{row['form_section_id']}_{row['form_section_order_number']}_"
-            f"{row['collection_group_id']}_{row['bc_order_number']}."
-            f"{row['collection_item']}"
-        )
-    elif type.upper() == "CODELIST":
-        return (
-            f"CL.{row['form_section_id']}_{row['collection_group_id']}_{row['bc_order_number']}."
-            f"{row['collection_item']}.{row['codelist']}"
-        )
-    elif type.upper() == "CODELIST_VL":
-        return (
-            f"CL.{row['form_section_id']}_{row['collection_group_id']}_{row['bc_order_number']}."
-            f"{row['collection_item']}"
-        )
-    else:
+    type = type.upper()
+    oid_map = {
+        "ODM": lambda r: "ODM.CDASH.POC",
+        "STUDY": lambda r: "ODM.CDASH.STUDY",
+        "MDV": lambda r: "ODM.CDASH.STUDY.MDV",
+        "FORM": lambda r: f"IG.{r['form_id']}",
+        "SECTION": lambda r: f"IG.{r['form_section_id']}_{r['form_section_order_number']}",
+        "CONCEPT": lambda r: (
+            f"IG.{r['form_section_id']}_{r['form_section_order_number']}_"
+            f"{r['collection_group_id']}_{r['bc_order_number']}"
+        ),
+        "ITEM": lambda r: (
+            f"IT.{r['form_section_id']}_{r['form_section_order_number']}_"
+            f"{r['collection_group_id']}_{r['bc_order_number']}."
+            f"{r['collection_item']}"
+        ),
+        "CODELIST": lambda r: (
+            f"CL.{r['form_section_id']}_{r['collection_group_id']}_{r['bc_order_number']}."
+            f"{r['collection_item']}.{r['codelist']}"
+        ),
+        "CODELIST_VL": lambda r: (
+            f"CL.{r['form_section_id']}_{r['collection_group_id']}_{r['bc_order_number']}."
+            f"{r['collection_item']}"
+        ),
+    }
+    try:
+        return oid_map[type](row)
+    except KeyError:
         raise ValueError("Invalid type specified")
 
 

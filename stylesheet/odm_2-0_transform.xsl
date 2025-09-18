@@ -39,6 +39,7 @@
                     .coding-info { font-weight: bold; font-size: 13px; color: #00aa00; font-style: italic; margin-top: 5px; }
                     .prespecified { background-color: #e8f5e8; font-weight: bold; }
                     .mandatory { color: #e74c3c; }
+                    .footnote {font-size: 8pt;}
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
                     .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
                     .form-instruction {
@@ -240,7 +241,9 @@
                     </xsl:for-each>
                 </tbody>
             </table>
+            <div class="footnote"><span class="mandatory">*</span><span> Mandatory field</span></div>
         </div>
+
     </xsl:template>
 
 </xsl:stylesheet>

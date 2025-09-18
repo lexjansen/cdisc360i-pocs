@@ -53,7 +53,7 @@ DATATYPE_MAP = {
     "decimal": "float"}
 
 
-def create_oid(type, row):
+def create_oid(type, row, value=None):
     if type.upper() == "ODM":
         return "ODM.CDASH.POC"
     elif type.upper() == "STUDY":
@@ -74,6 +74,10 @@ def create_oid(type, row):
             f"IT.{row['form_section_id']}_{row['form_section_order_number']}_"
             f"{row['collection_group_id']}_{row['bc_order_number']}."
             f"{row['collection_item']}"
+        )
+    elif type.upper() == "MEASUREMENT_UNIT":
+        return (
+            f"mu.{value}"
         )
     elif type.upper() == "CODELIST":
         return (
@@ -99,6 +103,16 @@ def create_description(text, lang="en", type="text/plain"):
 def create_alias(context, name):
     alias = ODM.Alias(Context=context, Name=name)
     return alias
+
+
+def create_measurement_unit(mu):
+    symbol = ODM.Symbol()
+    translatedText = ODM.TranslatedText(_content=mu)
+    symbol.TranslatedText.append(translatedText)
+    measurement_unit = ODM.MeasurementUnit(OID=create_oid("MEASUREMENT_UNIT", [], mu),
+                                           Name=mu,
+                                           Symbol=symbol)
+    return measurement_unit
 
 
 def create_item_group_ref(row, type):
@@ -139,6 +153,17 @@ def create_item_def(row):
 
     if row["question_text"] != "":
         item_def.Question = create_question((row["question_text"]))
+
+    measurement_unit_ref_list = []
+    if row["prepopulated_term"] != "" and "ORRESU" in row["variable_name"]:
+        measurement_unit_ref = ODM.MeasurementUnitRef(
+            MeasurementUnitOID=create_oid(
+                "MEASUREMENT_UNIT", row, row["prepopulated_term"]
+            )
+        )
+        measurement_unit_ref_list.append(measurement_unit_ref)
+        item_def.MeasurementUnitRef = measurement_unit_ref_list
+
     if row["codelist"] != "":
         item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST", row))
     elif row["value_display_list"] != "":
@@ -233,6 +258,7 @@ def create_codelist_from_valuelist(row):
         if row["prepopulated_term"] != "":
             enumerated_item = ODM.EnumeratedItem(CodedValue=row["prepopulated_term"])
             enumerated_items.append(enumerated_item)
+
         codelist.EnumeratedItem = enumerated_items
     return codelist
 
@@ -370,6 +396,8 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         # Add the FormDef to the list of forms
         forms[row["form_section_id"]] = form_def
 
+    measurement_units = set()
+    # measurement_units = []
     item_group_refs = []
     item_group_defs = []
     item_refs = []
@@ -425,6 +453,10 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
             item_def = create_item_def(row)
             item_defs.append(item_def)
 
+        if row["prepopulated_term"] != "" and "ORRESU" in row["variable_name"]:
+            measurement_unit = row["prepopulated_term"]
+            measurement_units.add(measurement_unit)
+
         if row["codelist"] != "":
             codelist = create_codelist(row)
             codelists.append(codelist)
@@ -469,9 +501,16 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         ProtocolName=ODM.ProtocolName(_content="CDISC360i CDASH POC Study protocol")
     )
 
+    basicDefinitions = ODM.BasicDefinitions()
+    for mu in measurement_units:
+        if mu is not None:
+            measurement_unit = create_measurement_unit(mu)
+            basicDefinitions.MeasurementUnit.append(measurement_unit)
+
     study = ODM.Study(
         OID=create_oid("STUDY", []),
         GlobalVariables=globalVariables,
+        BasicDefinitions=basicDefinitions,
         MetaDataVersion=mdv
     )
 

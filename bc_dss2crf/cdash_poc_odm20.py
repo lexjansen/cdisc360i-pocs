@@ -179,11 +179,16 @@ def create_item_def(row):
     elif row["value_display_list"] != "":
         item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST_VL", row))
 
+    alias_list = []
     if row["sdtm_annotation"] != "":
-        alias_list = []
         sdtm_alias = create_alias("SDTM", row["sdtm_annotation"])
         alias_list.append(sdtm_alias)
-        item_def.Alias = alias_list
+
+    if row["collection_item"] != "":
+        sdtm_alias = create_alias("CDASH", row["collection_item"])
+        alias_list.append(sdtm_alias)
+
+    item_def.Alias = alias_list
     return item_def
 
 

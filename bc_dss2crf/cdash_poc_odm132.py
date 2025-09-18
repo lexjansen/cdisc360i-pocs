@@ -177,6 +177,11 @@ def create_item_def(row):
     if row["sdtm_annotation"] != "":
         sdtm_alias = create_alias("SDTM", row["sdtm_annotation"])
         alias_list.append(sdtm_alias)
+
+    if row["collection_item"] != "":
+        sdtm_alias = create_alias("CDASH", row["collection_item"])
+        alias_list.append(sdtm_alias)
+
     item_def.Alias = alias_list
     return item_def
 

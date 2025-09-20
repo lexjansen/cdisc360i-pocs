@@ -73,6 +73,16 @@ Windows: `<virtual-env-name>/Scripts/Activate`
 
 ## Running the Examples
 
+Parameters for the  `cdash_poc_odm20.py` and `cdash_poc_odm132.py` scripts:
+
+```text
+  --help               Show the parameters
+  -f, --form TEXT      The ID of the collection form to process
+  -p, --prefix TEXT    The lowercase prefix to use for the output filenames. 
+                       When not specified, the collection lowercase form ID will be used.
+
+```
+
 The following command-line example uses Collection Dataset Specializations and Forms metadata (VS1) to generate an ODM v2.0 XML CRF, and HTML renditions of the CRF and annotated CRF in the **crf/VS1** folder.:
 
 ```python

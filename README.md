@@ -61,6 +61,9 @@ The scripts use the [odmlib](https://pypi.org/project/odmlib/) Python library. A
 
 ## Environment Setup
 
+- Clone the repository:
+`git clone https://github.com/lexjansen/cdisc360i-pocs.git`
+
 - Create a virtual environment:
 `python -m venv <virtual-env-name>`
 

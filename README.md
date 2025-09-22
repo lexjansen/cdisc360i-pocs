@@ -65,11 +65,14 @@ The scripts use the [odmlib](https://pypi.org/project/odmlib/) Python library. A
 `git clone https://github.com/lexjansen/cdisc360i-pocs.git`
 
 - Create a virtual environment:
-`python -m venv <virtual-env-name>`
+`python -m venv <virtual_environment_name>`
+
+NOTE: if you have multiple versions of python on your machine, you can call python 3.12 for the virtual environment's creation instead of the above command:
+`python3.12 -m venv <virtual_environment_name>`
 
 - Activate the environment:  
-Linux: `source <virtual-env-name>/bin/activate`  
-Windows: `<virtual-env-name>/Scripts/Activate`
+Linux: `source <virtual_environment_name>/bin/activate`  
+Windows: `<virtual_environment_name>/Scripts/Activate`
 
 - Install requirements:
 `python -m pip install -r requirements.txt`

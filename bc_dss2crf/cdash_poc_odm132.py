@@ -480,8 +480,8 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     mdv = []
     mdv.append(ODM.MetaDataVersion(
         OID=create_oid("MDV", []),
-        Name="CDISC360i CDASH POC Study Metadata Version",
-        Description="CDISC360i CDASH ODM 1.3.2 metadata version"
+        Name=f"{form_name}",
+        Description=f"{form_name}"
     ))
 
     mdv[0].ItemGroupDef.append(form)
@@ -494,9 +494,9 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         mdv[0].CodeList.append(codelist)
 
     globalVariables = ODM.GlobalVariables(
-        StudyName=ODM.StudyName(_content="CDISC360i CDASH POC Study"),
-        StudyDescription=ODM.StudyDescription(_content="CDISC360i CDASH POC Study"),
-        ProtocolName=ODM.ProtocolName(_content="CDISC360i CDASH POC Study protocol")
+        StudyName=ODM.StudyName(_content=f"{form_name}"),
+        StudyDescription=ODM.StudyDescription(_content=f"{form_name}"),
+        ProtocolName=ODM.ProtocolName(_content=f"{form_name}")
     )
 
     basicDefinitions = ODM.BasicDefinitions()

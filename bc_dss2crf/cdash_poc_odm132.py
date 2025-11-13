@@ -141,6 +141,8 @@ def create_item_def(row):
         item_def.DataType = DATATYPE_MAP[row["data_type"]]
     if row["length"] != "":
         item_def.Length = int(row["length"])
+    if row["significant_digits"] != "":
+        item_def.SignificantDigits = int(row["significant_digits"])
 
     item_def.Description = create_description(row["variable_name"])
 
@@ -148,19 +150,19 @@ def create_item_def(row):
         item_def.Question = create_question((row["question_text"]))
 
     measurement_unit_ref_list = []
-    if row["prepopulated_term"] != "" and "ORRESU" in row["variable_name"]:
+    if row["variable_name"][-5:] == "ORRES" and row["prepopulated_term_units"] != "":
         measurement_unit_ref = ODM.MeasurementUnitRef(
             MeasurementUnitOID=create_oid(
-                "MEASUREMENT_UNIT", row, row["prepopulated_term"]
+                "MEASUREMENT_UNIT", row, row["prepopulated_term_units"]
             )
         )
         measurement_unit_ref_list.append(measurement_unit_ref)
         item_def.MeasurementUnitRef = measurement_unit_ref_list
-
-    if row["codelist"] != "":
-        item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST", row))
-    elif row["value_display_list"] != "":
-        item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST_VL", row))
+    else:
+        if row["codelist"] != "":
+            item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST", row))
+        elif row["value_display_list"] != "":
+            item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST_VL", row))
 
     alias_list = []
     if row["prompt"] != "":
@@ -331,6 +333,23 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
         suffixes=('', '_y'),
         validate='m:m'
     )
+
+    df_units = df[df['variable_name'].str.endswith('ORRESU')]
+    df_units = df_units[['collection_group_id', 'variable_name', 'prepopulated_term', 'value_list', 'value_display_list']]
+
+    df = df.merge(
+        df_units,
+        how='left',
+        left_on='collection_group_id',
+        right_on='collection_group_id',
+        suffixes=('', '_units'),
+        validate='m:1'
+    )
+
+    if len(df) == 0:
+        logger.error(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
+        sys.exit()
+
     df.sort_values(
         ['form_section_order_number', 'bc_order_number', 'order_number'],
         ascending=[True, True, True],

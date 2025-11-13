@@ -10,6 +10,7 @@ import logging
 
 import click
 import pandas as pd
+import numpy as np
 
 import odmlib.odm_2_0.model as ODM
 from config.config import AppSettings as CFG
@@ -153,6 +154,10 @@ def create_item_ref(row):
                            Mandatory=MANDATORY_MAP[row["mandatory_variable"]])
     if row["prepopulated_term"] != "":
         item_ref.PreSpecifiedValue = row["prepopulated_term"]
+    # Check if there actually is an ORRESU variable to reference
+    if row["variable_name"][-5:] == "ORRES" and row["variable_name_units"] != '':
+        if row["variable_name_units"][-6:] == "ORRESU":
+            item_ref.UnitsItemOID = create_oid("ITEM", row).replace("ORRES", "ORRESU")
     return item_ref
 
 
@@ -369,9 +374,24 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
         suffixes=('', '_y'),
         validate='m:m'
     )
+
+    df_units = df[df['variable_name'].str.endswith('ORRESU')]
+    df_units = df_units[['collection_group_id', 'variable_name', 'prepopulated_term', 'value_list', 'value_display_list']]
+
+    df = df.merge(
+        df_units,
+        how='left',
+        left_on='collection_group_id',
+        right_on='collection_group_id',
+        suffixes=('', '_units'),
+        validate='m:1'
+    )
+    df.variable_name_units = df.variable_name_units.fillna('')
+
     if len(df) == 0:
         logger.error(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
         sys.exit()
+
     df.sort_values(
         ['form_section_order_number', 'bc_order_number', 'order_number'],
         ascending=[True, True, True],

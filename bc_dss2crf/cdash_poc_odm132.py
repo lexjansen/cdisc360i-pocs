@@ -335,7 +335,10 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     )
 
     df_units = df[df['variable_name'].str.endswith('ORRESU')]
-    df_units = df_units[['collection_group_id', 'variable_name', 'prepopulated_term', 'value_list', 'value_display_list']]
+    df_units = df_units[[
+        'collection_group_id', 'variable_name', 'prepopulated_term',
+        'value_list', 'value_display_list'
+    ]]
 
     df = df.merge(
         df_units,

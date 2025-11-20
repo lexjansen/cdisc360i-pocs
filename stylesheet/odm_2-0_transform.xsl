@@ -127,6 +127,7 @@
             </xsl:if>
 
             <table>
+                <!--
                 <thead>
                     <tr>
                         <th>Field</th>
@@ -137,6 +138,7 @@
 
                     </tr>
                 </thead>
+                -->
                 <tbody>
                     <xsl:for-each select="odm:ItemRef">
                         <xsl:sort select="@OrderNumber" data-type="number"/>
@@ -183,22 +185,38 @@
                                     <xsl:when test="$itemDef/odm:CodeListRef">
                                         <xsl:variable name="codeListOID" select="$itemDef/odm:CodeListRef/@CodeListOID"/>
                                         <xsl:variable name="codeList" select="//odm:CodeList[@OID=$codeListOID]"/>
-
-                                        <select name="{$itemDef/@Name}">
-                                            <option value="">-- Select --</option>
-                                            <xsl:for-each select="$codeList/odm:CodeListItem">
-                                                <option value="{@CodedValue}">
-                                                    <xsl:choose>
-                                                        <xsl:when test="odm:Decode/odm:TranslatedText">
-                                                            <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
-                                                        </xsl:when>
-                                                        <xsl:otherwise>
-                                                            <xsl:value-of select="@CodedValue"/>
-                                                        </xsl:otherwise>
-                                                    </xsl:choose>
-                                                </option>
-                                            </xsl:for-each>
-                                        </select>
+                                        <xsl:variable name="codeListitems" select="count($codeList/odm:CodeListItem)"/>
+                                        <xsl:if test="$codeListitems > 2">
+                                            <select id="{$itemDef/@Name}" name="{$itemDef/@Name}" title="Field Name: {$itemDef/@Name}">
+                                                <option value="" title="Field Name: {$itemDef/@Name}">-- Select --</option>
+                                                <xsl:for-each select="$codeList/odm:CodeListItem">
+                                                    <option value="{@CodedValue}">
+                                                        <xsl:choose>
+                                                            <xsl:when test="odm:Decode/odm:TranslatedText">
+                                                                <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                                <xsl:value-of select="@CodedValue"/>
+                                                            </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </option>
+                                                </xsl:for-each>
+                                            </select>
+                                        </xsl:if>
+                                        <xsl:if test="$codeListitems &lt; 3">
+                                                <xsl:for-each select="$codeList/odm:CodeListItem">
+                                                    <input type="radio" name="{$itemDef/@Name}" title="Field Name: {$itemDef/@Name}" value="{@CodedValue}">
+                                                        <xsl:choose>
+                                                            <xsl:when test="odm:Decode/odm:TranslatedText">
+                                                                <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                                <xsl:value-of select="@CodedValue"/>
+                                                            </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </input>
+                                                </xsl:for-each>
+                                        </xsl:if>
                                     </xsl:when>
 
                                     <!-- Default text input -->

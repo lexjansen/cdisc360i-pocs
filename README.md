@@ -40,8 +40,8 @@ The scripts use the [odmlib](https://pypi.org/project/odmlib/) Python library. A
 
 **metadata**:  Metadata used by the scripts.
 
-- cdisc_collection_dataset_specializations_draft.xlsx: Collection Dataset Specialization metadata. Generated from the draft CDISC Collection Dataset Specializations (see: [https://github.com/cdisc-org/COSMoS/tree/main/curation/draft](https://github.com/cdisc-org/COSMoS/tree/main/curation/draft)).
-- cdisc_collection_forms.xlsx: Forms metadata.
+- cdisc_crf_specializations_draft.xlsx: CRF Specialization metadata. Generated from the draft CDISC CRF Specializations (see: [https://github.com/cdisc-org/COSMoS/tree/main/curation/draft](https://github.com/cdisc-org/COSMoS/tree/main/curation/draft)).
+- cdisc_crf_specilizations_forms.xlsx: Forms metadata.
 
 **odmlib**:
 
@@ -83,13 +83,13 @@ Parameters for the  `cdash_poc_odm20.py` and `cdash_poc_odm132.py` scripts:
 
 ```text
   --help               Show the parameters
-  -f, --form TEXT      The ID of the collection form to process
+  -f, --form TEXT      The ID of the CRF to process
   -p, --prefix TEXT    The lowercase prefix to use for the output filenames. 
-                       When not specified, the collection lowercase form ID will be used.
+                       When not specified, the lowercase CRF ID will be used.
 
 ```
 
-The following command-line example uses Collection Dataset Specializations and Forms metadata (VS1) to generate an ODM v2.0 XML CRF, and HTML renditions of the CRF and annotated CRF in the **crf/VS1** folder.:
+The following command-line example uses CRF Specializations and Forms metadata (VS1) to generate an ODM v2.0 XML CRF, and HTML renditions of the CRF and annotated CRF in the **crf/VS1** folder.:
 
 ```python
 python ./bc_dss2crf/cdash_poc_odm20.py -f VS1 -p vital_signs

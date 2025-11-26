@@ -26,8 +26,8 @@ __config = CFG()
 
 CRF_PATH = Path(__config.crf_path)
 
-COLLECTION_DSS_METADATA_EXCEL = Path(__config.collection_dss_metadata_excel)
-COLLECTION_DSS_METADATA_EXCEL_SHEET = __config.collection_dss_metadata_excel_sheet
+CRF_SPECIALIZATIONS_METADATA_EXCEL = Path(__config.crf_specializations_metadata_excel)
+CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET = __config.crf_specializations_metadata_excel_sheet
 FORMS_METADATA_EXCEL = Path(__config.forms_metadata_excel)
 FORMS_METADATA_EXCEL_SHEET = __config.forms_metadata_excel_sheet
 
@@ -52,20 +52,20 @@ def create_oid(type, row):
         "SECTION": lambda r: f"IG.{r['form_section_id']}_{r['form_section_order_number']}",
         "CONCEPT": lambda r: (
             f"IG.{r['form_section_id']}_{r['form_section_order_number']}_"
-            f"{r['collection_group_id']}_{r['bc_order_number']}"
+            f"{r['crf_group_id']}_{r['bc_order_number']}"
         ),
         "ITEM": lambda r: (
             f"IT.{r['form_section_id']}_{r['form_section_order_number']}_"
-            f"{r['collection_group_id']}_{r['bc_order_number']}."
-            f"{r['collection_item']}"
+            f"{r['crf_group_id']}_{r['bc_order_number']}."
+            f"{r['crf_item']}"
         ),
         "CODELIST": lambda r: (
-            f"CL.{r['form_section_id']}_{r['collection_group_id']}_{r['bc_order_number']}."
-            f"{r['collection_item']}.{r['codelist']}"
+            f"CL.{r['form_section_id']}_{r['crf_group_id']}_{r['bc_order_number']}."
+            f"{r['crf_item']}.{r['codelist']}"
         ),
         "CODELIST_VL": lambda r: (
-            f"CL.{r['form_section_id']}_{r['collection_group_id']}_{r['bc_order_number']}."
-            f"{r['collection_item']}"
+            f"CL.{r['form_section_id']}_{r['crf_group_id']}_{r['bc_order_number']}."
+            f"{r['crf_item']}"
         ),
     }
     try:
@@ -163,7 +163,7 @@ def create_item_ref(row):
 def create_item_def(row):
     item_def = ODM.ItemDef(
         OID=create_oid("ITEM", row),
-        Name=row["collection_item"],
+        Name=row["crf_item"],
         DataType=row["data_type"]
     )
     if row["data_type"] != "":
@@ -184,8 +184,8 @@ def create_item_def(row):
         sdtm_alias = create_alias("SDTM", row["sdtm_annotation"])
         alias_list.append(sdtm_alias)
 
-    if row["collection_item"] != "":
-        sdtm_alias = create_alias("CDASH", row["collection_item"])
+    if row["crf_item"] != "":
+        sdtm_alias = create_alias("CDASH", row["crf_item"])
         alias_list.append(sdtm_alias)
 
     item_def.Alias = alias_list
@@ -267,7 +267,7 @@ def create_codelist_from_valuelist(row):
                                 DataType=row["data_type"])
     else:
         codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
-                                Name=row["collection_group_id"] + "-" + row["variable_name"],
+                                Name=row["crf_group_id"] + "-" + row["variable_name"],
                                 DataType=row["data_type"])
     codelist_items = []
     if row["value_list"] != "":
@@ -311,19 +311,19 @@ def create_codelist_from_valuelist(row):
     return codelist
 
 
-def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
+def create_df_from_excel(forms_metadata, crf_metadata, crf_form):
     """
-    Reads form and collection metadata from Excel files, processes and merges the data,
+    Reads form and CRF metadata from Excel files, processes and merges the data,
     and returns the resulting DataFrames.
     Args:
         forms_metadata (str): Path to the Excel file containing forms metadata.
-        collection_metadata (str): Path to the Excel file containing collection metadata.
-        collection_form (str): Name of the sheet in the forms metadata Excel file to read.
+        crf_metadata (str): Path to the Excel file containing CRF metadata.
+        crf_form (str): Name of the sheet in the forms metadata Excel file to read.
     Returns:
         tuple:
-            - pd.DataFrame: Merged DataFrame of collection specializations and forms.
+            - pd.DataFrame: Merged DataFrame of CRF specializations and forms.
             - pd.DataFrame: DataFrame of unique forms with selected columns.
-            - str: Name of the form corresponding to the collection form.
+            - str: Name of the form corresponding to the CRF.
     Side Effects:
         Prints the processed forms DataFrame and the first 100 rows of the merged DataFrame for inspection.
     """
@@ -333,11 +333,11 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
         sheet_name=FORMS_METADATA_EXCEL_SHEET,
         keep_default_na=False
     )
-    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == collection_form].reset_index(drop=True)
+    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == crf_form].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
         logger.error(
             f"No data found in the forms metadata ({FORMS_METADATA_EXCEL}) "
-            f"for the specified collection form ({collection_form})."
+            f"for the specified CRF ({crf_form})."
         )
         sys.exit()
 
@@ -360,38 +360,38 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
 
     # Read Collection Specializations from Excel
     df = pd.read_excel(
-        open(collection_metadata, 'rb'),
-        sheet_name=COLLECTION_DSS_METADATA_EXCEL_SHEET,
+        open(crf_metadata, 'rb'),
+        sheet_name=CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET,
         keep_default_na=False
     )
 
     df = df.merge(
         df_forms_bcs,
         how='inner',
-        left_on='collection_group_id',
-        right_on='collection_group_id',
+        left_on='crf_group_id',
+        right_on='crf_group_id',
         suffixes=('', '_y'),
         validate='m:m'
     )
 
     df_units = df[df['variable_name'].str.endswith('ORRESU')]
     df_units = df_units[[
-        'collection_group_id', 'variable_name', 'prepopulated_term',
+        'crf_group_id', 'variable_name', 'prepopulated_term',
         'value_list', 'value_display_list'
     ]]
 
     df = df.merge(
         df_units,
         how='left',
-        left_on='collection_group_id',
-        right_on='collection_group_id',
+        left_on='crf_group_id',
+        right_on='crf_group_id',
         suffixes=('', '_units'),
         validate='m:1'
     )
     df.variable_name_units = df.variable_name_units.fillna('')
 
     if len(df) == 0:
-        logger.error(f"No data found in the collection metadata for the specified collection form ({collection_form}).")
+        logger.error(f"No data found in the CRF metadata for the specified CRF ({crf_form}).")
         sys.exit()
 
     df.sort_values(
@@ -403,17 +403,17 @@ def create_df_from_excel(forms_metadata, collection_metadata, collection_form):
     return df, df_forms, form_name, form_annotation
 
 
-def create_odm(df, df_forms, collection_form, form_name, form_annotation):
+def create_odm(df, df_forms, crf_form, form_name, form_annotation):
     """
     Creates an ODM (Operational Data Model) object from the provided dataframes and form information.
     This function constructs an ODM-compliant metadata structure using the input dataframes for forms and items,
-    and additional parameters specifying the collection form and form name. It builds the necessary ODM elements
+    and additional parameters specifying the CRF and form name. It builds the necessary ODM elements
     such as ItemGroupDefs, ItemDefs, CodeLists, and assembles them into a complete ODM object representing the
     study metadata.
     Args:
-        df (pd.DataFrame): DataFrame containing item-level metadata, including collection groups, items, and codelists.
+        df (pd.DataFrame): DataFrame containing item-level metadata, including CRF groups, items, and codelists.
         df_forms (pd.DataFrame): DataFrame containing form-level metadata, including form labels and order numbers.
-        collection_form (str): Identifier for the collection form to be used as the main form.
+        crf_form (str): Identifier for the CRF to be used as the main form.
         form_name (str): Name of the form to be used in the ODM metadata.
         form_annotation (str): Annotation on the form to be used in the ODM metadata.
     Returns:
@@ -423,7 +423,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         - Assumes the existence of helper functions such as `create_oid`, `create_description`, `create_item_ref`,
           `create_item_group_def`, `create_item_group_ref`, `create_item_def`, and `create_codelist`.
         - Relies on the ODM Python library (e.g., odmlib) for ODM element classes.
-        - The function prints collection group transitions for debugging purposes.
+        - The function prints CRF group transitions for debugging purposes.
     """
     item_group_refs = []
     for i, row in df_forms.iterrows():
@@ -434,7 +434,7 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
         item_group_refs.append(item_group_ref)
 
     form = ODM.ItemGroupDef(
-        OID=f"IG_FORM.{collection_form}",
+        OID=f"IG_FORM.{crf_form}",
         Name=f"{form_name}",
         Repeating="No",
         Type="Form",
@@ -466,20 +466,20 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     item_refs = []
     item_defs = []
     codelists = []
-    collection_group_id = ""
+    crf_group_id = ""
     item_group_def = None
     for i, row in df.iterrows():
 
-        if row["collection_group_id"] != collection_group_id:  # New Collection Group
+        if row["crf_group_id"] != crf_group_id:  # New Collection Group
             logger.info(
                 f"{row['form_section_id']} - {row['form_section_label']} - "
-                f"{row['collection_group_id']} - {row['bc_id']}"
+                f"{row['crf_group_id']} - {row['bc_id']}"
             )
 
-            if collection_group_id:
+            if crf_group_id:
                 item_group_defs.append(item_group_def)
 
-            collection_group_id = row["collection_group_id"]
+            crf_group_id = row["crf_group_id"]
             item_refs = []
 
             if row["display_hidden"] != "Y":
@@ -570,11 +570,11 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
 @click.option(
     "--form",
     "-f",
-    "collection_form",
+    "crf_form",
     required=True,
     default=None,
     prompt=True,
-    help="The ID of the collection form to process."
+    help="The ID of the CRF to process."
 )
 @click.option(
     "--prefix",
@@ -583,14 +583,14 @@ def create_odm(df, df_forms, collection_form, form_name, form_annotation):
     required=False,
     help=(
         "The lowercase prefix to use for the output filenames. "
-        "When not specified, the collection lowercase form ID will be used."
+        "When not specified, the lowercase CRF ID will be used."
     )
 )
-def main(collection_form: str, file_name_prefix: str):
+def main(crf_form: str, file_name_prefix: str):
     """
     Main function to generate, validate, and transform an ODM 2.0 XML file from Excel metadata.
     Args:
-        collection_form (str): The name or identifier of the collection form to process.
+        crf_form (str): The name or identifier of the CRF to process.
     Workflow:
         1. Loads configuration for schema, stylesheet, and output file paths.
         2. Reads metadata from Excel files and creates DataFrames.
@@ -604,28 +604,28 @@ def main(collection_form: str, file_name_prefix: str):
     """
 
     if file_name_prefix is None:
-        file_name_prefix = collection_form.lower().replace(" ", "_")
+        file_name_prefix = crf_form.lower().replace(" ", "_")
     else:
         file_name_prefix = file_name_prefix.lower().replace(" ", "_")
 
     ODM_XML_SCHEMA_FILE = Path(__config.odm20_schema)
     XSL_FILE = Path(__config.odm20_stylesheet)
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv2-0.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv2-0.json")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{collection_form}", f"{file_name_prefix}_odmv2-0_crf.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv2-0.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv2-0.json")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv2-0_crf.html")
     ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(
-        f"{collection_form}", f"{file_name_prefix}_odmv2-0_acrf.html"
+        f"{crf_form}", f"{file_name_prefix}_odmv2-0_acrf.html"
     )
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(
         FORMS_METADATA_EXCEL,
-        COLLECTION_DSS_METADATA_EXCEL,
-        collection_form
+        CRF_SPECIALIZATIONS_METADATA_EXCEL,
+        crf_form
     )
 
-    odm = create_odm(df, df_forms, collection_form, form_name, form_annotation)
+    odm = create_odm(df, df_forms, crf_form, form_name, form_annotation)
 
-    create_directory(Path(CRF_PATH).joinpath(f"{collection_form}"))
+    create_directory(Path(CRF_PATH).joinpath(f"{crf_form}"))
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)

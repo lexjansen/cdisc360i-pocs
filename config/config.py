@@ -17,10 +17,10 @@ class AppSettings:
         config.read(config_file)
         self.crf_path = config.get('CRF', 'crf_path')
         if config.has_section('Metadata'):
-            if config.has_option('Metadata', 'collection_dss_metadata_excel'):
-                self.collection_dss_metadata_excel = config.get('Metadata', 'collection_dss_metadata_excel')
-            if config.has_option('Metadata', 'collection_dss_metadata_excel_sheet'):
-                self.collection_dss_metadata_excel_sheet = config.get('Metadata', 'collection_dss_metadata_excel_sheet')
+            if config.has_option('Metadata', 'crf_specializations_metadata_excel'):
+                self.crf_specializations_metadata_excel = config.get('Metadata', 'crf_specializations_metadata_excel')
+            if config.has_option('Metadata', 'crf_specializations_metadata_excel_sheet'):
+                self.crf_specializations_metadata_excel_sheet = config.get('Metadata', 'crf_specializations_metadata_excel_sheet')
             if config.has_option('Metadata', 'forms_metadata_excel'):
                 self.forms_metadata_excel = config.get('Metadata', 'forms_metadata_excel')
             if config.has_option('Metadata', 'forms_metadata_excel_sheet'):

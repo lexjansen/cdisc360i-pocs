@@ -4,7 +4,7 @@
     xmlns:odm="http://www.cdisc.org/ns/odm/v1.3"
     version="2.0"
     exclude-result-prefixes="odm">
-    <xsl:output method="html" encoding="UTF-8" version="5" indent="no"/>
+    <xsl:output method="html" encoding="UTF-8" version="5" indent="yes"/>
 
     <!-- Display DataType and Length (0/1)? -->
     <xsl:param name="displayDataTypeLength" select="0" />
@@ -20,8 +20,9 @@
                     body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
                     .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
                     h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
-                    h2 { color: #34495e; margin-top: 30px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
-                    h3 { color: #2980b9; margin-top: 20px; }
+                    h2 { color: #34495e; margin: 0px; background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; }
+                    h3 { color: #2980b9; margin: 0px; }
+                    h4 { color: #2980b9; margin: 0px; }
                     .form { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
                     .concept-group { margin: 20px 0; padding: 15px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fafafa; }
                     table { width: 100%; border-collapse: collapse; margin: 10px 0; }
@@ -155,17 +156,6 @@
                             </td>
                             <td class="field-value">
                                 <xsl:choose>
-                                    <xsl:when test="$itemDef/odm:MeasurementUnitRef">
-                                        <xsl:variable name="muOID" select="$itemDef/odm:MeasurementUnitRef/@MeasurementUnitOID"/>
-                                        <xsl:variable name="mu" select="//odm:MeasurementUnit[@OID=$muOID]"/>
-                                        <xsl:variable name="muSymbol" select="$mu/odm:Symbol/odm:TranslatedText"/>
-
-                                        <xsl:if test="$mu">
-                                            <input type="text" name="{$itemDef/@Name}" value="{$muSymbol}"
-                                                   class="prespecified" readonly="readonly"/>
-                                        </xsl:if>
-                                    </xsl:when>
-
 
                                     <!-- Date fields -->
                                     <xsl:when test="$itemDef/@DataType='date'">
@@ -240,6 +230,17 @@
                                                maxlength="{$itemDef/@Length}"/>
                                     </xsl:otherwise>
                                 </xsl:choose>
+                                <xsl:if test="$itemDef/odm:MeasurementUnitRef">
+                                    <xsl:variable name="muOID" select="$itemDef/odm:MeasurementUnitRef/@MeasurementUnitOID"/>
+                                    <xsl:variable name="mu" select="//odm:MeasurementUnit[@OID=$muOID]"/>
+                                    <xsl:variable name="muSymbol" select="$mu/odm:Symbol/odm:TranslatedText"/>
+                                    <xsl:if test="$mu">
+                                        <span class="prespecified"><xsl:text> </xsl:text><xsl:value-of select="$muSymbol"/></span>
+                                        <!-- <input type="text" name="{$itemDef/@Name}" value="{$muSymbol}"
+                                               class="prespecified" readonly="readonly"/> -->
+                                    </xsl:if>
+
+                                </xsl:if>
 
                             </td>
 

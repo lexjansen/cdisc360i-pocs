@@ -16,7 +16,7 @@ from config.config import AppSettings as CFG
 from odmlib import loader as LO
 from odmlib import odm_loader as OL
 from utilities.utils import (create_directory, transform_xml_saxonche,
-                             validate_odm_xml_file)
+                             validate_odm_xml_file, update_zip_file)
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -638,6 +638,12 @@ def main(crf_form: str, file_name_prefix: str):
     loader = LO.ODMLoader(OL.XMLODMLoader(model_package="odm_2_0", ns_uri="http://www.cdisc.org/ns/odm/v2.0"))
     loader.open_odm_document(ODM_XML_FILE)
     odm = loader.load_odm()
+
+    ZIP_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odm.zip")
+    update_zip_file(ZIP_FILE, ODM_XML_FILE.name, ODM_XML_FILE)
+    update_zip_file(ZIP_FILE, ODM_JSON_FILE.name, ODM_JSON_FILE)
+    update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL.name, ODM_HTML_FILE_XSL)
+    update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL_ANNOTATED.name, ODM_HTML_FILE_XSL_ANNOTATED)
 
 
 if __name__ == "__main__":

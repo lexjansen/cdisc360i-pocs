@@ -11,9 +11,12 @@ from saxonche import PySaxonProcessor
 from dominate import document
 from dominate.tags import *
 import logging
+import zipfile
+import tempfile
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
+
 
 def create_directory(directory_path):
     if not os.path.exists(directory_path):
@@ -22,6 +25,7 @@ def create_directory(directory_path):
         os.makedirs(directory_path, exist_ok=True)
     except OSError as e:
         logger.error(f"Error creating directory: {e}")
+
 
 def validate_odm_xml_file(odm_file, schema_file, verbose=False):
     validator = P.ODMSchemaValidator(schema_file)
@@ -69,12 +73,12 @@ def transform_xml_saxonche(file_path, xsl_path, output_path, **kwargs):
 
     executable = saxonproc.compile_stylesheet(stylesheet_file=str(xsl_path))
 
-
     document = saxonhe.parse_xml(xml_file_name=str(file_path))
 
     executable.transform_to_file(output_file=str(output_path), xdm_node=document)
 
     logger.info(f"HTML transformation completed successfully... {output_path}")
+
 
 def create_crf_html(odm_file, verbose=False):
     loader = LO.ODMLoader(OL.XMLODMLoader())
@@ -167,6 +171,7 @@ def write_html_doc(doc, output_file_path, verbose=False):
     with open(output_file_path, 'w', encoding='utf-8') as f:
         f.write(str(doc))
 
+
 def gen_codelist_items(cl) -> list:
     options_list = [["--select--", ""]]
     if cl.EnumeratedItem:
@@ -176,3 +181,27 @@ def gen_codelist_items(cl) -> list:
         for cli in cl.CodeListItem:
             options_list.append([cli.Decode.TranslatedText[0]._content, cli.CodedValue])
     return options_list
+
+
+def update_zip_file(zip_path, file_to_replace, new_file_path):
+    if os.path.exists(zip_path):
+        # Create a temporary file to build the new ZIP archive
+        temp_zip_path = os.path.join(tempfile.gettempdir(), os.path.basename(zip_path) + ".tmp")
+
+        with zipfile.ZipFile(zip_path, 'r') as original_zip, \
+                zipfile.ZipFile(temp_zip_path, 'w', zipfile.ZIP_DEFLATED) as new_zip:
+
+            # Add the new/updated file to the new ZIP archive
+            new_zip.write(new_file_path, arcname=file_to_replace)
+
+            # Copy all other files from the original ZIP to the new ZIP
+            for item in original_zip.infolist():
+                if item.filename != file_to_replace:
+                    new_zip.writestr(item, original_zip.read(item.filename))
+
+        # Replace the original ZIP file with the new one
+        os.remove(zip_path)
+        os.rename(temp_zip_path, zip_path)
+    else:
+        with zipfile.ZipFile(zip_path, 'w') as zipf:
+            zipf.write(new_file_path, file_to_replace)

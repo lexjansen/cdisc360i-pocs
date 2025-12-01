@@ -18,7 +18,7 @@ from odmlib import loader as LO
 from odmlib import odm_loader as OL
 from utilities.utils import (create_crf_html, create_directory,
                              transform_xml_saxonche, validate_odm_xml_file,
-                             write_html_doc)
+                             write_html_doc, update_zip_file)
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -616,6 +616,12 @@ def main(crf_form: str, file_name_prefix: str):
     loader = LO.ODMLoader(OL.XMLODMLoader())
     loader.open_odm_document(ODM_XML_FILE)
     odm = loader.load_odm()
+
+    ZIP_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odm.zip")
+    update_zip_file(ZIP_FILE, ODM_XML_FILE.name, ODM_XML_FILE)
+    update_zip_file(ZIP_FILE, ODM_JSON_FILE.name, ODM_JSON_FILE)
+    update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL.name, ODM_HTML_FILE_XSL)
+    update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL_ANNOTATED.name, ODM_HTML_FILE_XSL_ANNOTATED)
 
 
 if __name__ == "__main__":

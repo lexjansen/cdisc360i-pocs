@@ -132,13 +132,14 @@ def create_item_ref(row, counter=0):
 
 
 def create_item_def(row):
+    DataType = row["data_type"]
+    if row["data_type"] in DATATYPE_MAP:
+        DataType = DATATYPE_MAP[row["data_type"]]
     item_def = ODM.ItemDef(
         OID=create_oid("ITEM", row),
         Name=row["crf_item"],
-        DataType=row["data_type"]
+        DataType=DataType
     )
-    if row["data_type"] in DATATYPE_MAP:
-        item_def.DataType = DATATYPE_MAP[row["data_type"]]
     if row["length"] != "":
         item_def.Length = int(row["length"])
     if row["significant_digits"] != "":
@@ -196,9 +197,12 @@ def create_decode(text, lang="en", type="text/plain"):
 
 
 def create_codelist(row):
+    DataType = row["data_type"]
+    if row["data_type"] in DATATYPE_MAP:
+        DataType = DATATYPE_MAP[row["data_type"]]
     codelist = ODM.CodeList(OID=create_oid("CODELIST", row),
                             Name=row["codelist_submission_value"],
-                            DataType=row["data_type"])
+                            DataType=DataType)
     if row["data_type"] in DATATYPE_MAP:
         codelist.DataType = DATATYPE_MAP[row["data_type"]]
     codelist_items = []
@@ -227,16 +231,17 @@ def create_codelist(row):
 
 
 def create_codelist_from_valuelist(row):
+    DataType = row["data_type"]
+    if row["data_type"] in DATATYPE_MAP:
+        DataType = DATATYPE_MAP[row["data_type"]]
     if row["vlm_group_id"] != "":
         codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
                                 Name=row["vlm_group_id"] + "-" + row["variable_name"],
-                                DataType=row["data_type"])
+                                DataType=DataType)
     else:
         codelist = ODM.CodeList(OID=create_oid("CODELIST_VL", row),
                                 Name=row["crf_group_id"] + "-" + row["variable_name"],
-                                DataType=row["data_type"])
-    if row["data_type"] in DATATYPE_MAP:
-        codelist.DataType = DATATYPE_MAP[row["data_type"]]
+                                DataType=DataType)
     codelist_items = []
     enumerated_items = []
     if row["value_list"] != "":

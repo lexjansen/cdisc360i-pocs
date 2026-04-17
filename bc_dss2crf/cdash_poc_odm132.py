@@ -13,12 +13,13 @@ import pandas as pd
 # import pandasgui
 
 import odmlib.odm_1_3_2.model as ODM
-from config.config import AppSettings as CFG
 from odmlib import loader as LO
 from odmlib import odm_loader as OL
-from utilities.utils import (create_crf_html, create_directory,
-                             transform_xml_saxonche, validate_odm_xml_file,
-                             write_html_doc, update_zip_file)
+from config.config import AppSettings as CFG
+from utilities.utils import (
+    # create_crf_html, write_html_doc,
+    create_directory, transform_xml_saxonche, validate_odm_xml_file, update_zip_file
+)
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -592,7 +593,7 @@ def main(crf_form: str, file_name_prefix: str):
 
     ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2.xml")
     ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2.json")
-    ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_crf_dom.html")
+    # ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_crf_dom.html")
     ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_crf.html")
     ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(
         f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_acrf.html"
@@ -615,7 +616,7 @@ def main(crf_form: str, file_name_prefix: str):
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 
-    doc = create_crf_html(ODM_XML_FILE, verbose=True)
+    # doc = create_crf_html(ODM_XML_FILE, verbose=True)
     # write_html_doc(doc, ODM_HTML_FILE_DOM, verbose=True)
 
     loader = LO.ODMLoader(OL.XMLODMLoader())

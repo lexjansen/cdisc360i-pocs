@@ -36,7 +36,6 @@ The scripts use the [odmlib](https://pypi.org/project/odmlib/) Python library. A
 - config-relative-paths.ini, config-absolute-paths.ini: templates for configuration settings. Either copy config-relative-paths.ini to config.ini, or copy config-absolute-paths.ini to config.ini, and edit the paths to match your environment.
 
 **crf**: Output folder for generated CRF files. Every form will get it's own subfolder.  
-**crf/examples**: ZIP files with output examples
 
 **metadata**:  Metadata used by the scripts.
 
@@ -82,10 +81,14 @@ Windows: `<virtual_environment_name>/Scripts/Activate`
 Parameters for the  `cdash_poc_odm20.py` and `cdash_poc_odm132.py` scripts:
 
 ```text
-  --help               Show the parameters
-  -f, --form TEXT      The ID of the CRF to process
-  -p, --prefix TEXT    The lowercase prefix to use for the output filenames. 
-                       When not specified, the lowercase CRF ID will be used.
+  --help                        Show the parameters
+  -cp, --crf-metadata-path      The path to the file with CRF metadata (optional)
+                                When not specified, the path from the configuration file will be used.
+  -fp, --form-metadata-path     The path to the file with form metadata (optional)
+                                When not specified, the path from the configuration file will be used.
+  -f, --form TEXT               The ID of the CRF to process (required)
+  -p, --prefix TEXT             The lowercase prefix to use for the output filenames (required)
+                                When not specified, the lowercase CRF ID will be used.
 
 ```
 
@@ -95,10 +98,18 @@ The following command-line example uses CRF Specializations and Forms metadata (
 python ./bc_dss2crf/cdash_poc_odm20.py -f VS1 -p vital_signs
 ```
 
-The following command-line example does the same, but then for ODM v 1.3.2:
+The same, but then additionally specifying CRF and form metadata:
+
+```python
+python ./bc_dss2crf/cdash_poc_odm20.py -cp metadata/crf_qrs_kfss_draft.xlsx  -fp metadata/form_qrs_kfss_draft.xlsx -f KFSS_01 -p kfss
+```
+
+The following command-line examples do the same, but then for ODM v 1.3.2:
 
 ```python
 python ./bc_dss2crf/cdash_poc_odm132.py -f VS1 -p vital_signs
+
+python ./bc_dss2crf/cdash_poc_odm132.py -cp metadata/crf_qrs_kfss_draft.xlsx  -fp metadata/form_qrs_kfss_draft.xlsx -f KFSS_01 -p kfss
 ```
 
 ## License

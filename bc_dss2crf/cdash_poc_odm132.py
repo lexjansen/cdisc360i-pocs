@@ -209,16 +209,27 @@ def create_codelist(row):
     codelist_items = []
     enumerated_items = []
     if row["value_list"] != "":
-        codelist_item_value_list = row["value_list"].split(";")
-        codelist_item_value_display_list = row["value_display_list"].split(";")
+        codelist_item_value_list = [v for v in row["value_list"].split(";") if v]
+        codelist_item_value_display_list = [v for v in row["value_display_list"].split(";") if v]
+        if len(codelist_item_value_list) != len(codelist_item_value_display_list):
+            logger.error(
+                f"Mismatch between number of codelist items and display values for row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+            )
+            sys.exit()
         for item in codelist_item_value_list:
             codelist_item = ODM.CodeListItem(CodedValue=item)
 
-            decode = create_decode(
-                codelist_item_value_display_list[codelist_item_value_list.index(item)],
-                lang="en",
-                type="text/plain"
-            )
+            try:
+                decode = create_decode(
+                    codelist_item_value_display_list[codelist_item_value_list.index(item)],
+                    lang="en",
+                    type="text/plain"
+                )
+            except IndexError:
+                logger.error(
+                    f"No display value found for codelist item '{item}' in row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+                )
+                sys.exit()
             codelist_item.Decode = decode
 
             codelist_items.append(codelist_item)
@@ -246,16 +257,22 @@ def create_codelist_from_valuelist(row):
     codelist_items = []
     enumerated_items = []
     if row["value_list"] != "":
-        codelist_item_value_list = row["value_list"].split(";")
-        codelist_item_value_display_list = row["value_display_list"].split(";")
+        codelist_item_value_list = [v for v in row["value_list"].split(";") if v]
+        codelist_item_value_display_list = [v for v in row["value_display_list"].split(";") if v]
         for item in codelist_item_value_list:
             codelist_item = ODM.CodeListItem(CodedValue=item)
 
-            decode = create_decode(
-                codelist_item_value_display_list[codelist_item_value_list.index(item)],
-                lang="en",
-                type="text/plain"
-            )
+            try:
+                decode = create_decode(
+                    codelist_item_value_display_list[codelist_item_value_list.index(item)],
+                    lang="en",
+                    type="text/plain"
+                )
+            except IndexError:
+                logger.error(
+                    f"No display value found for codelist item '{item}' in row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+                )
+                sys.exit()
             codelist_item.Decode = decode
 
             codelist_items.append(codelist_item)
@@ -269,12 +286,12 @@ def create_codelist_from_valuelist(row):
     return codelist
 
 
-def create_df_from_excel(forms_metadata, crf_metadata, crf_form):
+def create_df_from_excel(crf_metadata, forms_metadata, crf_form):
     """
     Reads form and CRF metadata from Excel files, processes and merges them into DataFrames.
     Args:
-        forms_metadata (str): Path to the Excel file containing form metadata.
         crf_metadata (str): Path to the Excel file containing CRF metadata.
+        forms_metadata (str): Path to the Excel file containing form metadata.
         crf_form (str): Name of the sheet in the forms metadata Excel file to read.
     Returns:
         tuple:
@@ -285,11 +302,18 @@ def create_df_from_excel(forms_metadata, crf_metadata, crf_form):
         Prints the intermediate DataFrames for debugging purposes.
     """
     # Read forms from Excel
-    df_forms_bcs = pd.read_excel(
-        open(forms_metadata, 'rb'),
-        sheet_name=FORMS_METADATA_EXCEL_SHEET,
-        keep_default_na=False
-    )
+    try:
+        df_forms_bcs = pd.read_excel(
+            open(forms_metadata, 'rb'),
+            sheet_name=FORMS_METADATA_EXCEL_SHEET,
+            keep_default_na=False
+        )
+    except FileNotFoundError:
+        logger.error(f"Forms metadata file not found: {forms_metadata}")
+        sys.exit()
+    except Exception as e:
+        logger.error(f"Error reading forms metadata ({forms_metadata}): {e}")
+        sys.exit()
     df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == crf_form].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
         logger.error(
@@ -323,12 +347,18 @@ def create_df_from_excel(forms_metadata, crf_metadata, crf_form):
     ]
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
-    # Read CRF Specializations from Excel
-    df = pd.read_excel(
-        open(crf_metadata, 'rb'),
-        sheet_name=CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET,
-        keep_default_na=False
-    )
+    try:
+        df = pd.read_excel(
+            open(crf_metadata, 'rb'),
+            sheet_name=CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET,
+            keep_default_na=False
+        )
+    except FileNotFoundError:
+        logger.error(f"CRF metadata file not found: {crf_metadata}")
+        sys.exit()
+    except Exception as e:
+        logger.error(f"Error reading CRF metadata ({crf_metadata}): {e}")
+        sys.exit()
 
     # Merge CRF Specializations with forms
     df = df.merge(
@@ -373,7 +403,7 @@ def create_df_from_excel(forms_metadata, crf_metadata, crf_form):
     return df, df_forms, form_name, form_annotation
 
 
-def create_odm(df, df_forms, crf_form, form_name, form_annotation):
+def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
     """
     Creates an ODM (Operational Data Model) object representing study metadata, forms, item groups,
     items, and codelists.
@@ -381,7 +411,7 @@ def create_odm(df, df_forms, crf_form, form_name, form_annotation):
         df (pandas.DataFrame): DataFrame containing item-level metadata, including form, group, item,
             and codelist information.
         df_forms (pandas.DataFrame): DataFrame containing form-level metadata.
-        crf_form (str): Identifier for the CRF to be used in the ODM FormDef OID.
+        crf_form_id (str): Identifier for the CRF to be used in the ODM FormDef OID.
         form_name (str): Name of the form to be used in the ODM FormDef Name and Description.
         form_annotation (str): Annotation on the form to be used in the ODM metadata.
     Returns:
@@ -399,7 +429,7 @@ def create_odm(df, df_forms, crf_form, form_name, form_annotation):
         item_group_refs.append(item_group_ref)
 
     form = ODM.FormDef(
-        OID=f"FORM.{crf_form}",
+        OID=f"FORM.{crf_form_id}",
         Name=f"{form_name}",
         Repeating="No",
         Description=create_description(f"{form_name}"),
@@ -503,7 +533,6 @@ def create_odm(df, df_forms, crf_form, form_name, form_annotation):
         CreationDateTime=current_datetime,
         ODMVersion="1.3.2",
         FileType="Snapshot",
-        Originator="Lex Jansen",
         SourceSystem="odmlib",
         SourceSystemVersion="0.1"
     )
@@ -550,9 +579,25 @@ def create_odm(df, df_forms, crf_form, form_name, form_annotation):
 
 @click.command(help="Generate ODM v1.3.2 eCRFs and their HTML renditions")
 @click.option(
+    "--crf-metadata-path",
+    "-cp",
+    "crf_metadata_path",
+    required=False,
+    default=CRF_SPECIALIZATIONS_METADATA_EXCEL,
+    help="The path to the file with CRF metadata."
+)
+@click.option(
+    "--form-metadata-path",
+    "-fp",
+    "form_metadata_path",
+    required=False,
+    default=FORMS_METADATA_EXCEL,
+    help="The path to the file with forms metadata."
+)
+@click.option(
     "--form",
     "-f",
-    "crf_form",
+    "crf_form_id",
     required=True,
     default=None,
     prompt=True,
@@ -568,7 +613,7 @@ def create_odm(df, df_forms, crf_form, form_name, form_annotation):
         "When not specified, the lowercase CRF ID will be used."
     )
 )
-def main(crf_form: str, file_name_prefix: str):
+def main(crf_metadata_path: str, form_metadata_path: str, crf_form_id: str, file_name_prefix: str):
     """
     Main function to generate and process ODM files for a given CRF and form name.
     This function performs the following steps:
@@ -579,40 +624,49 @@ def main(crf_form: str, file_name_prefix: str):
     5. Transforms the XML file into an HTML file using XSLT.
     6. Creates a CRF HTML document from the ODM XML and writes it to file.
     7. Loads the ODM XML file using an ODM loader for further processing.
+    Raises:
+        Any exceptions raised by the underlying functions (e.g., file I/O, validation, transformation).
     Args:
-        crf_form (str): The identifier for the CRF to process.
-        form_name (str): The name of the form to generate.
+        crf_metadata_path (str): The path to the Excel file containing CRF metadata.
+        form_metadata_path (str): The path to the Excel file containing form metadata.
+        crf_form_id (str): The identifier for the CRF to process.
+        file_name_prefix (str): The prefix to use for the output filenames.
     Returns:
         None
     """
 
     if file_name_prefix is None:
-        file_name_prefix = crf_form.lower().replace(" ", "_")
+        file_name_prefix = crf_form_id.lower().replace(" ", "_")
     else:
         file_name_prefix = file_name_prefix.lower().replace(" ", "_")
 
-    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2.xml")
-    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2.json")
-    # ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_crf_dom.html")
-    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_crf.html")
+    ODM_XML_FILE = Path(CRF_PATH).joinpath(f"{crf_form_id}", f"{file_name_prefix}_odmv1-3-2.xml")
+    ODM_JSON_FILE = Path(CRF_PATH).joinpath(f"{crf_form_id}", f"{file_name_prefix}_odmv1-3-2.json")
+    # ODM_HTML_FILE_DOM = Path(CRF_PATH).joinpath(f"{crf_form__id}", f"{file_name_prefix}_odmv1-3-2_crf_dom.html")
+    ODM_HTML_FILE_XSL = Path(CRF_PATH).joinpath(f"{crf_form_id}", f"{file_name_prefix}_odmv1-3-2_crf.html")
     ODM_HTML_FILE_XSL_ANNOTATED = Path(CRF_PATH).joinpath(
-        f"{crf_form}", f"{file_name_prefix}_odmv1-3-2_acrf.html"
+        f"{crf_form_id}", f"{file_name_prefix}_odmv1-3-2_acrf.html"
     )
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(
-        FORMS_METADATA_EXCEL,
-        CRF_SPECIALIZATIONS_METADATA_EXCEL,
-        crf_form
+        crf_metadata_path,
+        form_metadata_path,
+        crf_form_id
     )
 
-    odm = create_odm(df, df_forms, crf_form, form_name, form_annotation)
+    odm = create_odm(df, df_forms, crf_form_id, form_name, form_annotation)
 
-    create_directory(Path(CRF_PATH).joinpath(f"{crf_form}"))
+    create_directory(Path(CRF_PATH).joinpath(f"{crf_form_id}"))
 
     odm.write_xml(odm_file=ODM_XML_FILE)
     odm.write_json(odm_file=ODM_JSON_FILE)
 
-    validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=True)
+    try:
+        validate_odm_xml_file(ODM_XML_FILE, ODM_XML_SCHEMA_FILE, verbose=False)
+    except Exception as e:
+        logger.error(f"ODM XML validation failed for {ODM_XML_FILE}: {e}")
+        sys.exit()
+
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL, displayAnnotations=0)
     transform_xml_saxonche(ODM_XML_FILE, XSL_FILE, ODM_HTML_FILE_XSL_ANNOTATED)
 
@@ -623,7 +677,7 @@ def main(crf_form: str, file_name_prefix: str):
     loader.open_odm_document(ODM_XML_FILE)
     odm = loader.load_odm()
 
-    ZIP_FILE = Path(CRF_PATH).joinpath(f"{crf_form}", f"{file_name_prefix}_odm.zip")
+    ZIP_FILE = Path(CRF_PATH).joinpath(f"{crf_form_id}", f"{file_name_prefix}_odm.zip")
     update_zip_file(ZIP_FILE, ODM_XML_FILE.name, ODM_XML_FILE)
     update_zip_file(ZIP_FILE, ODM_JSON_FILE.name, ODM_JSON_FILE)
     update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL.name, ODM_HTML_FILE_XSL)

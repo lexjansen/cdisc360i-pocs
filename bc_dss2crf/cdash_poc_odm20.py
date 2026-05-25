@@ -284,6 +284,11 @@ def create_codelist_from_valuelist(row):
     if row["value_list"] != "":
         codelist_item_value_list = [v for v in row["value_list"].split(";") if v]
         codelist_item_value_display_list = [v for v in row["value_display_list"].split(";") if v]
+        if len(codelist_item_value_list) != len(codelist_item_value_display_list):
+            logger.error(
+                f"Mismatch between number of codelist items and display values for row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+            )
+            sys.exit()
         for item in codelist_item_value_list:
             codelist_item = ODM.CodeListItem(CodedValue=item)
 

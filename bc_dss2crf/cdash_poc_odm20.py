@@ -1,3 +1,4 @@
+import io
 import sys
 from pathlib import Path
 
@@ -7,9 +8,9 @@ sys.path.append(str(SCRIPT_DIR))
 
 import datetime
 import logging
-
 import click
 import pandas as pd
+import requests
 
 import odmlib.odm_2_0.model as ODM
 from config.config import AppSettings as CFG
@@ -26,9 +27,9 @@ __config = CFG()
 
 CRF_PATH = Path(__config.crf_path)
 
-CRF_SPECIALIZATIONS_METADATA_EXCEL = Path(__config.crf_specializations_metadata_excel)
+CRF_SPECIALIZATIONS_METADATA_EXCEL = __config.crf_specializations_metadata_excel
 CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET = __config.crf_specializations_metadata_excel_sheet
-FORMS_METADATA_EXCEL = Path(__config.forms_metadata_excel)
+FORMS_METADATA_EXCEL = __config.forms_metadata_excel
 FORMS_METADATA_EXCEL_SHEET = __config.forms_metadata_excel_sheet
 
 MANDATORY_MAP = {
@@ -369,11 +370,20 @@ def create_df_from_excel(crf_metadata, crf_metadata_sheet, forms_metadata, forms
         Prints the processed forms DataFrame and the first 100 rows of the merged DataFrame for inspection.
     """
     # Read forms from Excel
+    logger.info(f"Reading form metadata from {forms_metadata} (sheet: {forms_metadata_sheet})")
     try:
+        forms_metadata_str = str(crf_metadata)
+        if forms_metadata_str.startswith("https"):
+            response = requests.get(forms_metadata_str)
+            response.raise_for_status()
+            excel_source = io.BytesIO(response.content)
+        else:
+            excel_source = open(forms_metadata_str, 'rb')
         df_forms_bcs = pd.read_excel(
             open(forms_metadata, 'rb'),
             sheet_name=forms_metadata_sheet,
-            keep_default_na=False
+            keep_default_na=False,
+            engine='openpyxl'
         )
     except FileNotFoundError:
         logger.error(f"Forms metadata file not found: {forms_metadata}")
@@ -381,6 +391,7 @@ def create_df_from_excel(crf_metadata, crf_metadata_sheet, forms_metadata, forms
     except Exception as e:
         logger.error(f"Error reading forms metadata ({forms_metadata}): {e}")
         sys.exit()
+
     df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == crf_form_id].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
         logger.error(
@@ -407,19 +418,32 @@ def create_df_from_excel(crf_metadata, crf_metadata_sheet, forms_metadata, forms
     df_forms.sort_values(['form_section_order_number'], ascending=[True], inplace=True)
 
     # Read Collection Specializations from Excel
+    logger.info(f"Reading CRF metadata from {crf_metadata} (sheet: {crf_metadata_sheet})")
     try:
+        crf_metadata_str = str(crf_metadata)
+        if crf_metadata_str.startswith("https"):
+            response = requests.get(crf_metadata_str)
+            response.raise_for_status()
+            excel_source = io.BytesIO(response.content)
+        else:
+            excel_source = open(crf_metadata_str, 'rb')
         df = pd.read_excel(
-            open(crf_metadata, 'rb'),
+            excel_source,
             sheet_name=crf_metadata_sheet,
-            keep_default_na=False
+            keep_default_na=False,
+            engine='openpyxl'
         )
     except FileNotFoundError:
         logger.error(f"CRF metadata file not found: {crf_metadata}")
+        sys.exit()
+    except requests.RequestException as e:
+        logger.error(f"Error fetching CRF metadata from URL ({crf_metadata}): {e}")
         sys.exit()
     except Exception as e:
         logger.error(f"Error reading CRF metadata ({crf_metadata}): {e}")
         sys.exit()
 
+    # Merge CRF Specializations with forms
     df = df.merge(
         df_forms_bcs,
         how='inner',

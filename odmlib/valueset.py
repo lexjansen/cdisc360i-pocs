@@ -1,87 +1,259 @@
+import json
+import re
+from pathlib import Path
+from odmlib.exceptions import OdmlibValidationError
 
-class ValueSet:
-    _value_set = {
-        "ODM.FileType": ["Snapshot", "Transactional", "Query"],
-        "ODM.Granularity": ["All", "Metadata", "AdminData", "ReferenceData", "AllClinicalData", "SingleSite",
-                            "SingleSubject"],
-        "ODM.Context": ["Archive", "Submission", "Exchange", "Other"],
-        "ODM.Archival": ["Yes", "No"],
-        # May be better to convert the ODMVersion into a RegEx: 2.0(.(0|([1-9][0-9]*)))?(-([0-9a-zA-Z])+)*
-        "ODM.ODMVersion": ["1.2", "1.2.1", "1.3", "1.3.1", "1.3.2", "2.0"],
-        "MetaDataVersion.DefineVersion": ["2.0.0", "2.0", "2.1.0", "2.1"],
-        "PDFPageRef.Type": ["NamedDestination", "PhysicalRef"],
-        "Origin.Type": ["CRF", "Derived", "Assigned", "Protocol", "eDT", "Predecessor"],
-        "RangeCheck.Comparator": ["LT", "LE", "GT", "GE", "EQ", "NE", "IN", "NOTIN"],
-        "RangeCheck.SoftHard": ["Soft", "Hard"],
-        "StudyEventDef.Repeating": ["Yes", "No"],
-        "Branching.Type": ["Exclusive", "Parallel"],
-        "CodeListItem.ExtendedValue": ["Yes"],
-        "EnumeratedItem.ExtendedValue": ["Yes"],
-        "FormDef.Repeating": ["Yes", "No"],
-        "ItemGroupDef.Repeating": ["Yes", "No", "Simple", "Dynamic", "Static"],
-        "ItemGroupDef.IsReferenceData": ["Yes", "No"],
-        "ItemGroupDef.IsNonStandard": ["Yes"],
-        "ItemGroupDef.HasNoData": ["Yes"],
-        "ItemGroupDef.Type": ["Form", "Section", "Dataset", "Concept"],
-        "ItemGroupDef.Class": ["SPECIAL PURPOSE", "FINDINGS", "EVENTS", "INTERVENTIONS", "TRIAL DESIGN", "RELATIONSHIP",
-                               "SUBJECT LEVEL ANALYSIS DATASET", "BASIC DATA STRUCTURE", "ADAM OTHER"],
-        "FormRef.Mandatory": ["Yes", "No"],
-        "ItemGroupRef.Mandatory": ["Yes", "No"],
-        "ItemRef.Mandatory": ["Yes", "No"],
-        "ItemRef.Core": ["HR", "O", "RC", "Cond", "Exp", "Perm", "Req"],
-        "ItemRef.IsNonStandard": ["Yes"],
-        "ItemRef.HasNoData": ["Yes"],
-        "ItemRef.Repeat": ["Yes"],
-        "ItemRef.Other": ["Yes"],
-        "StudyEventRef.Mandatory": ["Yes", "No"],
-        "ItemDef.DataType": [
-            "text", "integer", "float", "decimal", "date", "time", "datetime", "string", "boolean", "double",
-            "hexBinary", "base64Binary", "hexFloat", "base64Float", "partialDate", "partialTime",
-            "partialDatetime", "durationDatetime", "intervalDatetime", "incompleteDatetime",
-            "incompleteDate", "incompleteTime", "URI"
-        ],
-        "CodeList.DataType": ["integer", "decimal", "text", "string", "float"],
-        "CodeList.IsNonStandard": ["Yes"],
-        "CodeList.CodeListExtensible": ["Yes", "No"],
-        "CodeListItem.Other": ["Yes"],
-        "MethodDef.Type": ["Computation", "Imputation", "Transpose", "Preload", "Other"],
-        "StudyEventDef.Type": ["Scheduled", "Unscheduled", "Common"],
-        "User.UserType": ["Sponsor", "Investigator", "Lab", "Other"],
-        "Location.LocationType": ["Sponsor", "Site", "CRO", "Lab", "Other"],
-        "SignatureDef.Methodology": ["Digital", "Electronic"],
-        "SubjectData.TransactionType": ["Insert", "Update", "Remove", "Upsert", "Context"],
-        "StudyEventData.TransactionType": ["Insert", "Update", "Remove", "Upsert", "Context"],
-        "FormData.TransactionType": ["Insert", "Update", "Remove", "Upsert", "Context"],
-        "ItemGroupData.TransactionType": ["Insert", "Update", "Remove", "Upsert", "Context"],
-        "ItemData.TransactionType": ["Insert", "Update", "Remove", "Upsert", "Context"],
-        "Annotation.TransactionType": ["Insert", "Update", "Remove", "Upsert", "Context"],
-        "ItemData.IsNull": ["Yes"],
-        "AuditRecord.EditPoint": ["Monitoring", "DataManagement", "DBAudit"],
-        "AuditRecord.UsedImputationMethod": ["Yes", "No"],
-        "Comment.SponsorOrSite": ["Sponsor", "Site"],
-        "Country._content": ['AF', 'AL', 'DZ', 'AS', 'AD', 'AO', 'AI', 'AQ', 'AG', 'AR', 'AM', 'AW', 'AU', 'AT', 'AZ',
-                             'BS', 'BH', 'BD', 'BB', 'BY', 'BE', 'BZ', 'BJ', 'BM', 'BT', 'BO', 'BO', 'BA', 'BW', 'BV',
-                             'BR', 'IO', 'BN', 'BN', 'BG', 'BF', 'BI', 'KH', 'CM', 'CA', 'CV', 'KY', 'CF', 'TD', 'CL',
-                             'CN', 'CX', 'CC', 'CO', 'KM', 'CG', 'CD', 'CK', 'CR', 'CI', 'CI', 'HR', 'CU', 'CY', 'CZ',
-                             'DK', 'DJ', 'DM', 'DO', 'EC', 'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FK', 'FO', 'FJ', 'FI',
-                             'FR', 'GF', 'PF', 'TF', 'GA', 'GM', 'GE', 'DE', 'GH', 'GI', 'GR', 'GL', 'GD', 'GP', 'GU',
-                             'GT', 'GG', 'GN', 'GW', 'GY', 'HT', 'HM', 'VA', 'HN', 'HK', 'HU', 'IS', 'IN', 'ID', 'IR',
-                             'IQ', 'IE', 'IM', 'IL', 'IT', 'JM', 'JP', 'JE', 'JO', 'KZ', 'KE', 'KI', 'KP', 'KR', 'KR',
-                             'KW', 'KG', 'LA', 'LV', 'LB', 'LS', 'LR', 'LY', 'LY', 'LI', 'LT', 'LU', 'MO', 'MK', 'MG',
-                             'MW', 'MY', 'MV', 'ML', 'MT', 'MH', 'MQ', 'MR', 'MU', 'YT', 'MX', 'FM', 'MD', 'MC', 'MN',
-                             'ME', 'MS', 'MA', 'MZ', 'MM', 'MM', 'NA', 'NR', 'NP', 'NL', 'AN', 'NC', 'NZ', 'NI', 'NE',
-                             'NG', 'NU', 'NF', 'MP', 'NO', 'OM', 'PK', 'PW', 'PS', 'PA', 'PG', 'PY', 'PE', 'PH', 'PN',
-                             'PL', 'PT', 'PR', 'QA', 'RE', 'RO', 'RU', 'RU', 'RW', 'SH', 'KN', 'LC', 'PM', 'VC', 'VC',
-                             'VC', 'WS', 'SM', 'ST', 'SA', 'SN', 'RS', 'SC', 'SL', 'SG', 'SK', 'SI', 'SB', 'SO', 'ZA',
-                             'GS', 'SS', 'ES', 'LK', 'SD', 'SR', 'SJ', 'SZ', 'SE', 'CH', 'SY', 'TW', 'TW', 'TJ', 'TZ',
-                             'TH', 'TL', 'TG', 'TK', 'TO', 'TT', 'TN', 'TR', 'TM', 'TC', 'TV', 'UG', 'UA', 'AE', 'GB',
-                             'US', 'UM', 'UY', 'UZ', 'VU', 'VE', 'VE', 'VN', 'VN', 'VG', 'VI', 'WF', 'EH', 'YE', 'ZM',
-                             'ZW']
-    }
+
+class _UnknownAttribute:
+    """Sentinel returned by :meth:`ValueSet.value_set` when an attribute key
+    is absent from the resolved version *and* every fallback version.
+
+    Distinct from an unknown *version*, which still raises
+    ``OdmlibValidationError``. Returning a sentinel (rather than raising)
+    lets ``validate()`` report ``False`` so the ``SKIP_VALUESET`` permissive
+    guard in ``ValidValues.__set__`` can take effect for unregistered keys.
+    """
+
+    __slots__ = ()
+
+    def __repr__(self):
+        return "<ValueSet.UNKNOWN_ATTRIBUTE>"
+
+
+UNKNOWN_ATTRIBUTE = _UnknownAttribute()
+
+
+class ValueSetLoader:
+    """Loads and caches valueset data from JSON file"""
+    _cache = None  # Class variable for singleton cache
+    _version_map = None  # Maps module paths to versions
 
     @classmethod
-    def value_set(cls, attribute):
-        if attribute in cls._value_set:
-            return cls._value_set[attribute]
-        else:
-            raise ValueError(f"Unknown value {attribute} in ValueSet. Unable to check value.")
+    def load_valuesets(cls):
+        """Load JSON once, cache in memory (lazy loading)"""
+        if cls._cache is None:
+            data_dir = Path(__file__).parent / 'data'
+            json_path = data_dir / 'valuesets.json'
+            with open(json_path, 'r') as f:
+                cls._cache = json.load(f)
+            cls._build_version_map()
+        return cls._cache
+
+    @classmethod
+    def _build_version_map(cls):
+        """Map module paths to version keys"""
+        cls._version_map = {
+            'odmlib.odm_1_3_2.model': 'odm_1_3_2',
+            'odmlib.odm_2_0.model': 'odm_2_0',
+            'odmlib.define_2_0.model': 'define_2_0',
+            'odmlib.define_2_1.model': 'define_2_1',
+            'odmlib.arm_1_0.model': 'define_2_1',      # ARM extends Define-XML 2.1
+            'odmlib.ct_1_1_1.model': 'ct_1_1_1',
+            'odmlib.dataset_1_0_1.model': 'dataset_1_0_1',
+            # Add test models
+            'tests.model_extended': 'odm_1_3_2',  # Test extension uses base
+        }
+
+    # Pattern markers checked against unknown module paths, in priority order.
+    # Order matters: 'odm_2_0' must be tried before 'odm_1_3_2' substrings, etc.
+    _MODULE_PATTERNS = (
+        ('odm_2_0', 'odm_2_0'),
+        ('define_2_1', 'define_2_1'),
+        ('arm_1_0', 'define_2_1'),
+        ('define_2_0', 'define_2_0'),
+        ('ct_1_1_1', 'ct_1_1_1'),
+        ('dataset_1_0_1', 'dataset_1_0_1'),
+    )
+
+    @classmethod
+    def get_version_for_module(cls, module_path, instance_class=None):
+        """Determine the valueset version for a module path.
+
+        Resolution order:
+        1. Exact match in the version map.
+        2. Substring marker match against the module path.
+        3. If ``instance_class`` is provided, walk its MRO and recurse on each
+           base class's module — this lets local models that subclass a shipped
+           odmlib model inherit the correct version.
+        4. Fallback: ``odm_1_3_2`` for backward compatibility.
+        """
+        if cls._version_map is None:
+            cls.load_valuesets()
+
+        if module_path in cls._version_map:
+            return cls._version_map[module_path]
+
+        for marker, version in cls._MODULE_PATTERNS:
+            if marker in module_path:
+                return version
+
+        if instance_class is not None:
+            for base in instance_class.__mro__[1:]:
+                base_module = getattr(base, '__module__', '')
+                if not base_module or base_module == 'builtins':
+                    continue
+                if base_module in cls._version_map:
+                    return cls._version_map[base_module]
+                for marker, version in cls._MODULE_PATTERNS:
+                    if marker in base_module:
+                        return version
+
+        return 'odm_1_3_2'
+
+
+class ValueSet:
+    """Backward-compatible interface to valueset data.
+
+    Supports two entry types in valuesets.json:
+    - **list**: A list of allowed string values (e.g., ``["Yes", "No"]``)
+    - **regex dict**: A dict with ``_regex`` key and optional ``_description``
+      (e.g., ``{"_regex": "^2\\\\.[01](\\\\.\\\\d+)?$", "_description": "..."}``).
+    """
+
+    #: Sentinel returned by :meth:`value_set` for an unknown attribute key
+    #: (see :class:`_UnknownAttribute`). Exposed for callers/tests.
+    UNKNOWN_ATTRIBUTE = UNKNOWN_ATTRIBUTE
+
+    _compiled_regex_cache = {}  # (version, attribute) -> compiled re.Pattern
+
+    # Versions tried (in order) when an attribute is missing from the resolved
+    # version. Hybrid local models (e.g. an ODM 1.3.2 base extended with
+    # Define-XML 2.x attributes) need this to find Define-only keys.
+    _FALLBACK_VERSIONS = (
+        'define_2_1', 'define_2_0', 'odm_2_0', 'odm_1_3_2',
+        'ct_1_1_1', 'dataset_1_0_1',
+    )
+
+    @classmethod
+    def _resolve_version(cls, version, instance):
+        """Resolve the version string from explicit value or instance."""
+        if version is None and instance is not None:
+            instance_class = type(instance)
+            module_path = instance_class.__module__
+            return ValueSetLoader.get_version_for_module(
+                module_path, instance_class=instance_class,
+            )
+        elif version is None:
+            return 'odm_1_3_2'
+        return version
+
+    @classmethod
+    def value_set(cls, attribute, version=None, instance=None):
+        """
+        Get the raw valueset entry for an attribute.
+
+        Args:
+            attribute: "ClassName.AttributeName" format
+            version: Explicit version (e.g., "odm_2_0") - optional
+            instance: ODMElement instance for automatic version detection - optional
+
+        Returns:
+            list or dict: A list of valid values, or a dict with ``_regex``
+            key for pattern-based validation. Returns the
+            :data:`UNKNOWN_ATTRIBUTE` sentinel if the attribute key is not
+            registered for the resolved version or any fallback version.
+
+        Raises:
+            OdmlibValidationError: If the *version* is not found in the
+            valueset. An unknown *attribute* no longer raises — it returns
+            the :data:`UNKNOWN_ATTRIBUTE` sentinel instead.
+        """
+        version = cls._resolve_version(version, instance)
+
+        # Load valuesets (cached)
+        valuesets = ValueSetLoader.load_valuesets()
+
+        # Get version-specific valueset
+        if version not in valuesets:
+            raise OdmlibValidationError(
+                f"Unknown version {version} in ValueSet",
+                hint=f"Valid versions are: {list(valuesets.keys())}",
+            )
+
+        version_valueset = valuesets[version]
+
+        # Get attribute values
+        if attribute in version_valueset:
+            return version_valueset[attribute]
+
+        # Cross-version fallback: hybrid local models (e.g. an ODM 1.3.2 base
+        # extended with def: attributes) may carry attribute keys that only
+        # exist in another shipped version's valueset. Search the others.
+        for other in cls._FALLBACK_VERSIONS:
+            if other == version:
+                continue
+            other_valueset = valuesets.get(other)
+            if other_valueset is not None and attribute in other_valueset:
+                return other_valueset[attribute]
+
+        # Unknown *attribute* (absent here and in every fallback version):
+        # return a sentinel rather than raising, so validate() can report
+        # False and the SKIP_VALUESET permissive guard can take effect.
+        # (Unknown *version* still raises, above.)
+        return UNKNOWN_ATTRIBUTE
+
+    @classmethod
+    def validate(cls, attribute, value, version=None, instance=None):
+        """
+        Check whether a value is valid for the given attribute.
+
+        Args:
+            attribute: "ClassName.AttributeName" format
+            value: The string value to validate
+            version: Explicit version (e.g., "odm_2_0") - optional
+            instance: ODMElement instance for automatic version detection - optional
+
+        Returns:
+            bool: True if the value is valid, False otherwise.
+        """
+        version = cls._resolve_version(version, instance)
+        entry = cls.value_set(attribute, version=version)
+
+        if entry is UNKNOWN_ATTRIBUTE:
+            # No registered value set for this attribute: not provably
+            # valid -> False. This lets ValidValues.__set__ reach the
+            # SKIP_VALUESET permissive guard instead of the old raise
+            # propagating out of value_set().
+            return False
+
+        if isinstance(entry, list):
+            return value in entry
+
+        # Regex dict entry
+        if isinstance(entry, dict) and "_regex" in entry:
+            cache_key = (version, attribute)
+            if cache_key not in cls._compiled_regex_cache:
+                cls._compiled_regex_cache[cache_key] = re.compile(entry["_regex"])
+            pattern = cls._compiled_regex_cache[cache_key]
+            return pattern.fullmatch(value) is not None
+
+        return False
+
+    @classmethod
+    def describe(cls, attribute, version=None, instance=None):
+        """
+        Return a human-readable description of valid values for an attribute.
+
+        Args:
+            attribute: "ClassName.AttributeName" format
+            version: Explicit version (e.g., "odm_2_0") - optional
+            instance: ODMElement instance for automatic version detection - optional
+
+        Returns:
+            str: Description suitable for error messages.
+        """
+        version = cls._resolve_version(version, instance)
+        entry = cls.value_set(attribute, version=version)
+
+        if entry is UNKNOWN_ATTRIBUTE:
+            return f"No registered value set for {attribute}"
+
+        if isinstance(entry, list):
+            return f"Value must be one of: {', '.join(entry)}"
+
+        if isinstance(entry, dict) and "_regex" in entry:
+            if "_description" in entry:
+                return entry["_description"]
+            return f"Value must match pattern: {entry['_regex']}"
+
+        return "Unknown valueset format"

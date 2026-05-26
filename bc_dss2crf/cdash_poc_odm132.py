@@ -213,7 +213,8 @@ def create_codelist(row):
         codelist_item_value_display_list = [v for v in row["value_display_list"].split(";") if v]
         if len(codelist_item_value_list) != len(codelist_item_value_display_list):
             logger.error(
-                f"Mismatch between number of codelist items and display values for row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+                "Mismatch between number of codelist items and display values for row: "
+                f"{row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
             )
             sys.exit()
         for item in codelist_item_value_list:
@@ -226,8 +227,11 @@ def create_codelist(row):
                     type="text/plain"
                 )
             except IndexError:
+                group_id = row.get('crf_group_id', '')
+                crf_item = row.get('crf_item', '')
                 logger.error(
-                    f"No display value found for codelist item '{item}' in row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+                    f"No display value found for codelist item '{item}' in row: "
+                    f"{group_id} - {crf_item}"
                 )
                 sys.exit()
             codelist_item.Decode = decode
@@ -261,7 +265,9 @@ def create_codelist_from_valuelist(row):
         codelist_item_value_display_list = [v for v in row["value_display_list"].split(";") if v]
         if len(codelist_item_value_list) != len(codelist_item_value_display_list):
             logger.error(
-                f"Mismatch between number of codelist items and display values for row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+                "Mismatch between number of codelist items and display values "
+                f"for row: {row.get('crf_group_id', '')} - "
+                f"{row.get('crf_item', '')}"
             )
             sys.exit()
         for item in codelist_item_value_list:
@@ -275,7 +281,8 @@ def create_codelist_from_valuelist(row):
                 )
             except IndexError:
                 logger.error(
-                    f"No display value found for codelist item '{item}' in row: {row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
+                    f"No display value found for codelist item '{item}' in row: "
+                    f"{row.get('crf_group_id', '')} - {row.get('crf_item', '')}"
                 )
                 sys.exit()
             codelist_item.Decode = decode
@@ -291,13 +298,15 @@ def create_codelist_from_valuelist(row):
     return codelist
 
 
-def create_df_from_excel(crf_metadata, forms_metadata, crf_form):
+def create_df_from_excel(crf_metadata, crf_metadata_sheet, forms_metadata, forms_metadata_sheet, crf_form_id):
     """
     Reads form and CRF metadata from Excel files, processes and merges them into DataFrames.
     Args:
         crf_metadata (str): Path to the Excel file containing CRF metadata.
+        crf_metadata_sheet (str): Name of the Excel sheet containing CRF metadata.
         forms_metadata (str): Path to the Excel file containing form metadata.
-        crf_form (str): Name of the sheet in the forms metadata Excel file to read.
+        forms_metadata_sheet (str): Name of the Excel sheet containing form metadata.
+        crf_form_id (str): The identifier for the CRF to process.
     Returns:
         tuple:
             - pd.DataFrame: Merged DataFrame containing CRF specializations and form metadata.
@@ -310,7 +319,7 @@ def create_df_from_excel(crf_metadata, forms_metadata, crf_form):
     try:
         df_forms_bcs = pd.read_excel(
             open(forms_metadata, 'rb'),
-            sheet_name=FORMS_METADATA_EXCEL_SHEET,
+            sheet_name=forms_metadata_sheet,
             keep_default_na=False
         )
     except FileNotFoundError:
@@ -319,11 +328,11 @@ def create_df_from_excel(crf_metadata, forms_metadata, crf_form):
     except Exception as e:
         logger.error(f"Error reading forms metadata ({forms_metadata}): {e}")
         sys.exit()
-    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == crf_form].reset_index(drop=True)
+    df_forms_bcs = df_forms_bcs[df_forms_bcs['form_id'] == crf_form_id].reset_index(drop=True)
     if len(df_forms_bcs) == 0:
         logger.error(
             f"No data found in the forms metadata ({FORMS_METADATA_EXCEL}) "
-            f"for the specified CRF ({crf_form})."
+            f"for the specified CRF ({crf_form_id})."
         )
         sys.exit()
 
@@ -355,7 +364,7 @@ def create_df_from_excel(crf_metadata, forms_metadata, crf_form):
     try:
         df = pd.read_excel(
             open(crf_metadata, 'rb'),
-            sheet_name=CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET,
+            sheet_name=crf_metadata_sheet,
             keep_default_na=False
         )
     except FileNotFoundError:
@@ -394,7 +403,7 @@ def create_df_from_excel(crf_metadata, forms_metadata, crf_form):
     df.prepopulated_term_units = df.prepopulated_term_units.fillna('')
 
     if len(df) == 0:
-        logger.error(f"No metadata for the specified CRF ({crf_form}).")
+        logger.error(f"No metadata for the specified CRF ({crf_form_id}).")
         sys.exit()
 
     df.sort_values(
@@ -592,12 +601,28 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
     help="The path to the file with CRF metadata."
 )
 @click.option(
+    "--crf-metadata-sheet",
+    "-cs",
+    "crf_metadata_sheet",
+    required=False,
+    default=CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET,
+    help="The name of the Excel sheet  with CRF metadata."
+)
+@click.option(
     "--form-metadata-path",
     "-fp",
     "form_metadata_path",
     required=False,
     default=FORMS_METADATA_EXCEL,
     help="The path to the file with forms metadata."
+)
+@click.option(
+    "--form-metadata-sheet",
+    "-fs",
+    "form_metadata_sheet",
+    required=False,
+    default=FORMS_METADATA_EXCEL_SHEET,
+    help="The name of Excel sheet with forms metadata."
 )
 @click.option(
     "--form",
@@ -618,7 +643,14 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
         "When not specified, the lowercase CRF ID will be used."
     )
 )
-def main(crf_metadata_path: str, form_metadata_path: str, crf_form_id: str, file_name_prefix: str):
+def main(
+    crf_metadata_path: str,
+    crf_metadata_sheet: str,
+    form_metadata_path: str,
+    form_metadata_sheet: str,
+    crf_form_id: str,
+    file_name_prefix: str,
+):
     """
     Main function to generate and process ODM files for a given CRF and form name.
     This function performs the following steps:
@@ -632,8 +664,10 @@ def main(crf_metadata_path: str, form_metadata_path: str, crf_form_id: str, file
     Raises:
         Any exceptions raised by the underlying functions (e.g., file I/O, validation, transformation).
     Args:
-        crf_metadata_path (str): The path to the Excel file containing CRF metadata.
+        crf_metadata_path (str): The path to the Excel file containing crf metadata.
+        crf_metadata_sheet (str): The name of the Excel sheet containing crf metadata.
         form_metadata_path (str): The path to the Excel file containing form metadata.
+        form_metadata_sheet (str): The name of the Excel sheet containing form metadata.
         crf_form_id (str): The identifier for the CRF to process.
         file_name_prefix (str): The prefix to use for the output filenames.
     Returns:
@@ -655,7 +689,9 @@ def main(crf_metadata_path: str, form_metadata_path: str, crf_form_id: str, file
 
     df, df_forms, form_name, form_annotation = create_df_from_excel(
         crf_metadata_path,
+        crf_metadata_sheet,
         form_metadata_path,
+        form_metadata_sheet,
         crf_form_id
     )
 
@@ -692,6 +728,3 @@ def main(crf_metadata_path: str, form_metadata_path: str, crf_form_id: str, file
 if __name__ == "__main__":
 
     main()
-    # main("SIXMW1")
-    # main("ECG1")
-    # main("QS_EQ5D02")

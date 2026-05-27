@@ -26,7 +26,9 @@ logger = logging.getLogger(__name__)
 __config = CFG()
 
 CRF_PATH = Path(__config.crf_path)
+METADATA_PATH = Path(__config.metadata_path)
 
+CRF_SPECIALIZATIONS_METADATA_EXCEL_REMOTE = __config.crf_specializations_metadata_excel_remote
 CRF_SPECIALIZATIONS_METADATA_EXCEL = __config.crf_specializations_metadata_excel
 CRF_SPECIALIZATIONS_METADATA_EXCEL_SHEET = __config.crf_specializations_metadata_excel_sheet
 FORMS_METADATA_EXCEL = __config.forms_metadata_excel
@@ -372,15 +374,15 @@ def create_df_from_excel(crf_metadata, crf_metadata_sheet, forms_metadata, forms
     # Read forms from Excel
     logger.info(f"Reading form metadata from {forms_metadata} (sheet: {forms_metadata_sheet})")
     try:
-        forms_metadata_str = str(crf_metadata)
+        forms_metadata_str = str(forms_metadata)
         if forms_metadata_str.startswith("https"):
             response = requests.get(forms_metadata_str)
             response.raise_for_status()
             excel_source = io.BytesIO(response.content)
         else:
-            excel_source = open(forms_metadata_str, 'rb')
+            excel_source = open(forms_metadata, 'rb')
         df_forms_bcs = pd.read_excel(
-            open(forms_metadata, 'rb'),
+            excel_source,
             sheet_name=forms_metadata_sheet,
             keep_default_na=False,
             engine='openpyxl'
@@ -426,7 +428,7 @@ def create_df_from_excel(crf_metadata, crf_metadata_sheet, forms_metadata, forms
             response.raise_for_status()
             excel_source = io.BytesIO(response.content)
         else:
-            excel_source = open(crf_metadata_str, 'rb')
+            excel_source = open(crf_metadata, 'rb')
         df = pd.read_excel(
             excel_source,
             sheet_name=crf_metadata_sheet,
@@ -643,6 +645,7 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
 
     return odm
 
+
 def update_crf_metadata(update_crf_metadata):
     if update_crf_metadata:
         logger.info("Updating CRF metadata...")
@@ -653,6 +656,7 @@ def update_crf_metadata(update_crf_metadata):
         logger.info("No update flag provided. Skipping CRF metadata update.")
     return
 
+
 @click.command(help="Generate ODM v2.0 eCRFs and their HTML renditions")
 @click.option(
     "--update-crf-metatadata",
@@ -660,7 +664,7 @@ def update_crf_metadata(update_crf_metadata):
     "update_crf_metadata",
     is_flag=True,
     required=False,
-    help="Update CRF metadata."
+    help="Update CRF metadata from the remote source."
 )
 @click.option(
     "--crf-metadata-path",
@@ -698,7 +702,7 @@ def update_crf_metadata(update_crf_metadata):
     "--form",
     "-f",
     "crf_form_id",
-    required=True,
+    required=False,
     default=None,
     help="The ID of the CRF to process."
 )
@@ -734,6 +738,7 @@ def main(
     Raises:
         Any exceptions raised by the underlying functions (e.g., file I/O, validation, transformation).
     Args:
+        update_crf_metadata (bool): Flag to indicate whether to update CRF metadata from the remote source.
         crf_metadata_path (str): The path to the Excel file containing crf metadata.
         crf_metadata_sheet (str): The name of the Excel sheet containing crf metadata.
         form_metadata_path (str): The path to the Excel file containing form metadata.
@@ -745,7 +750,18 @@ def main(
     """
 
     if update_crf_metadata:
-        print(f"To be iomplemented: Updating CRF metadata: {update_crf_metadata}")
+        response = requests.get(CRF_SPECIALIZATIONS_METADATA_EXCEL_REMOTE)
+        response.raise_for_status()
+        timestamp = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")
+        filename = CRF_SPECIALIZATIONS_METADATA_EXCEL_REMOTE.split("/")[-1].split(".")[-2]
+        save_path = Path(METADATA_PATH) / f"{filename}_{timestamp}.xlsx"
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+        save_path.write_bytes(response.content)
+        logger.info(f"Saved CRF metadata ({CRF_SPECIALIZATIONS_METADATA_EXCEL_REMOTE}) to {save_path}")
+        exit()
+
+    if crf_form_id is None:
+        logger.error("CRF form ID must be specified using the --form option.")
         exit()
 
     if file_name_prefix is None:
@@ -796,7 +812,7 @@ def main(
     update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL.name, ODM_HTML_FILE_XSL)
     update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL_ANNOTATED.name, ODM_HTML_FILE_XSL_ANNOTATED)
 
+
 if __name__ == "__main__":
 
     main()
-

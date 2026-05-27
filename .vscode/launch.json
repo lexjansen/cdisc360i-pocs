@@ -25,6 +25,17 @@
           }
         },
         {
+          "name": "Get latest CRF metadata",
+          "type": "debugpy",
+          "request": "launch",
+          "program": "${workspaceFolder}/bc_dss2crf/cdash_poc_odm20.py",
+          "console": "integratedTerminal",
+          "args": [
+            "-ucm",
+          ],
+            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+        },
+        {
           "name": "Create ADASCOGSC1 132 CRF",
           "type": "debugpy",
           "request": "launch",

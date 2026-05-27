@@ -5,37 +5,62 @@ import configparser
 from pathlib import Path
 import logging
 
+
 class AppSettings:
     """
     Provides the configuration settings for the 360i code. Loads the settings from config.ini
     """
     def __init__(self):
-        logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
         self.logger = logging.getLogger(__name__)
         config = configparser.ConfigParser()
         config_file = self._get_config_file()
         config.read(config_file)
         self.crf_path = config.get('CRF', 'crf_path')
-        if config.has_section('Metadata'):
-            if config.has_option('Metadata', 'crf_specializations_metadata_excel'):
-                self.crf_specializations_metadata_excel = config.get('Metadata', 'crf_specializations_metadata_excel')
-            if config.has_option('Metadata', 'crf_specializations_metadata_excel_sheet'):
-                self.crf_specializations_metadata_excel_sheet = config.get('Metadata', 'crf_specializations_metadata_excel_sheet')
-            if config.has_option('Metadata', 'forms_metadata_excel'):
-                self.forms_metadata_excel = config.get('Metadata', 'forms_metadata_excel')
-            if config.has_option('Metadata', 'forms_metadata_excel_sheet'):
-                self.forms_metadata_excel_sheet = config.get('Metadata', 'forms_metadata_excel_sheet')
-        if config.has_section('Schema'):
-            if config.has_option('Schema', 'odm132_xml'):
-                self.odm132_schema = config.get('Schema', 'odm132_xml')
-            if config.has_option('Schema', 'odm20_xml'):
-                self.odm20_schema = config.get('Schema', 'odm20_xml')
-        if config.has_section('Stylesheet'):
-            if config.has_option('Stylesheet', 'odm132_xsl'):
-                self.odm132_stylesheet = config.get('Stylesheet', 'odm132_xsl')
-            if config.has_option('Stylesheet', 'odm20_xsl'):
-                self.odm20_stylesheet = config.get('Stylesheet', 'odm20_xsl')
 
+        self._load_section_options(
+            config,
+            'Metadata',
+            {
+                'metadata_path': 'metadata_path',
+                'crf_specializations_metadata_excel_remote': 'crf_specializations_metadata_excel_remote',
+                'crf_specializations_metadata_excel': 'crf_specializations_metadata_excel',
+                'crf_specializations_metadata_excel_sheet': 'crf_specializations_metadata_excel_sheet',
+                'forms_metadata_excel': 'forms_metadata_excel',
+                'forms_metadata_excel_sheet': 'forms_metadata_excel_sheet',
+            }
+        )
+        self._load_section_options(
+            config,
+            'Schema',
+            {
+                'odm132_xml': 'odm132_schema',
+                'odm20_xml': 'odm20_schema',
+            }
+        )
+        self._load_section_options(
+            config,
+            'Stylesheet',
+            {
+                'odm132_xsl': 'odm132_stylesheet',
+                'odm20_xsl': 'odm20_stylesheet',
+            }
+        )
+
+    def _load_section_options(self, config: configparser.ConfigParser, section: str, option_map: dict):
+        """
+        Loads configured options from a section and assigns them to AppSettings attributes.
+        """
+        if not config.has_section(section):
+            return
+
+        for option_name, attr_name in option_map.items():
+            if config.has_option(section, option_name):
+                setattr(self, attr_name, config.get(section, option_name))
 
     def _get_config_file(self) -> str:
         """
@@ -43,11 +68,13 @@ class AppSettings:
         :raises Exception: If 'config.ini' is not found; the application is unable to cannot proceed without it.
         :return: The absolute path to the 'config.ini' configuration file.
         """
-        config_file =  Path(__file__).parent.joinpath("config.ini")
+        config_file = Path(__file__).parent.joinpath("config.ini")
         if not Path(config_file).absolute().exists():
             message = (
-                f"360i {config_file} file not found in the 'config' folder. You cannot continue without the config.ini file. " +
-                f"Either copy config-relative-paths.ini to config.ini, or copy config-absolute-paths.ini to config.ini, and edit the paths to match your environment."
+                f"360i {config_file} file not found in the 'config' folder. "
+                f"You cannot continue without the config.ini file. "
+                f"Either copy config-relative-paths.ini to config.ini, or copy "
+                f"config-absolute-paths.ini to config.ini, and edit the paths to match your environment."
             )
             self.logger.error(message)
             exit()

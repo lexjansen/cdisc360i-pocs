@@ -82,17 +82,19 @@ Parameters for the  `cdash_poc_odm20.py` and `cdash_poc_odm132.py` scripts:
 
 ```text
   --help                        Show the parameters
-  -cp, --crf-metadata-path      The path to the file with CRF metadata (optional)
-                                When not specified, the path from the configuration file will be used.
-  -cs, --crf-metadata-sheet     TThe name of the Excel sheet containing crf metadata (optional)
-                                When not specified, the sheet namefrom the configuration file will be used.
-  -fp, --form-metadata-path     The path to the file with form metadata (optional)
-                                When not specified, the path from the configuration file will be used.
-  -fs, --form-metadata-sheet    The name of the Excel sheet containing form metadata (optional)
-                                When not specified, the sheet name from the configuration file will be used.
-  -f, --form TEXT               The ID of the CRF to process (required)
-  -p, --prefix TEXT             The lowercase prefix to use for the output filenames (required)
-                                When not specified, the lowercase CRF ID will be used.
+  -ucm, --update-crf-metatadata  Update CRF metadata from the remote source.
+                                 The file will be save in the metadata folder with a timestamp in the name
+  -cp, --crf-metadata-path       The path to the file with CRF metadata (optional)
+                                 When not specified, the path from the configuration file will be used.
+  -cs, --crf-metadata-sheet      The name of the Excel sheet containing crf metadata (optional)
+                                 When not specified, the sheet namefrom the configuration file will be used.
+  -fp, --form-metadata-path      The path to the file with form metadata (optional)
+                                 When not specified, the path from the configuration file will be used.
+  -fs, --form-metadata-sheet     The name of the Excel sheet containing form metadata (optional)
+                                 When not specified, the sheet name from the configuration file will be used.
+  -f, --form TEXT                The ID of the CRF to process (required)
+  -p, --prefix TEXT              The lowercase prefix to use for the output filenames (required)
+                                 When not specified, the lowercase CRF ID will be used.
 
 ```
 
@@ -114,6 +116,17 @@ The following command-line examples do the same, but then for ODM v 1.3.2:
 python ./bc_dss2crf/cdash_poc_odm132.py -f VS1 -p vital_signs
 
 python ./bc_dss2crf/cdash_poc_odm132.py -cp metadata/crf_qrs_kfss_draft.xlsx -cs CRF_QRS_KFSS -fp metadata/form_qrs_kfss_draft.xlsx -fs Forms-KFSS-f KFSS_01 -p kfss
+```
+
+The following command-line examples get the latest CRF metadata spreadsheet from the COSMoS GitHub repo.
+The file wil be saved as ```metadata\cdisc_crf_specializations_draft_<time stamp>.xlsx```:
+
+```python
+python ./bc_dss2crf/cdash_poc_odm132.py --update-crf-metatadata
+python ./bc_dss2crf/cdash_poc_odm132.py -ucm
+
+python ./bc_dss2crf/cdash_poc_odm20.py --update-crf-metatadata
+python ./bc_dss2crf/cdash_poc_odm20.py -ucm
 ```
 
 ## License

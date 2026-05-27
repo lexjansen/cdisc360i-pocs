@@ -643,8 +643,25 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
 
     return odm
 
+def update_crf_metadata(update_crf_metadata):
+    if update_crf_metadata:
+        logger.info("Updating CRF metadata...")
+        # Implement the logic to update CRF metadata here
+        # This could involve fetching new metadata, processing it, and saving it to the appropriate location
+        logger.info("CRF metadata updated successfully.")
+    else:
+        logger.info("No update flag provided. Skipping CRF metadata update.")
+    return
 
 @click.command(help="Generate ODM v2.0 eCRFs and their HTML renditions")
+@click.option(
+    "--update-crf-metatadata",
+    "-ucm",
+    "update_crf_metadata",
+    is_flag=True,
+    required=False,
+    help="Update CRF metadata."
+)
 @click.option(
     "--crf-metadata-path",
     "-cp",
@@ -683,7 +700,6 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
     "crf_form_id",
     required=True,
     default=None,
-    prompt=True,
     help="The ID of the CRF to process."
 )
 @click.option(
@@ -697,6 +713,7 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
     )
 )
 def main(
+    update_crf_metadata: bool,
     crf_metadata_path: str,
     crf_metadata_sheet: str,
     form_metadata_path: str,
@@ -726,6 +743,10 @@ def main(
     Returns:
         None
     """
+
+    if update_crf_metadata:
+        print(f"To be iomplemented: Updating CRF metadata: {update_crf_metadata}")
+        exit()
 
     if file_name_prefix is None:
         file_name_prefix = crf_form_id.lower().replace(" ", "_")
@@ -775,7 +796,7 @@ def main(
     update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL.name, ODM_HTML_FILE_XSL)
     update_zip_file(ZIP_FILE, ODM_HTML_FILE_XSL_ANNOTATED.name, ODM_HTML_FILE_XSL_ANNOTATED)
 
-
 if __name__ == "__main__":
 
     main()
+

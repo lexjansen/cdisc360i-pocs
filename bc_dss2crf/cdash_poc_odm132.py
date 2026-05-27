@@ -615,6 +615,14 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
 
 @click.command(help="Generate ODM v1.3.2 eCRFs and their HTML renditions")
 @click.option(
+    "--update-crf-metatadata",
+    "-ucm",
+    "update_crf_metadata",
+    is_flag=True,
+    required=False,
+    help="Update CRF metadata."
+)
+@click.option(
     "--crf-metadata-path",
     "-cp",
     "crf_metadata_path",
@@ -666,6 +674,7 @@ def create_odm(df, df_forms, crf_form_id, form_name, form_annotation):
     )
 )
 def main(
+    update_crf_metadata: bool,
     crf_metadata_path: str,
     crf_metadata_sheet: str,
     form_metadata_path: str,
@@ -695,6 +704,10 @@ def main(
     Returns:
         None
     """
+
+    if update_crf_metadata:
+        print(f"To be iomplemented: Updating CRF metadata: {update_crf_metadata}")
+        exit()
 
     if file_name_prefix is None:
         file_name_prefix = crf_form_id.lower().replace(" ", "_")

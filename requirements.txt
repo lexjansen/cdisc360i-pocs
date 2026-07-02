@@ -8,3 +8,4 @@ requests==2.34.2
 saxonche==12.8.0
 validators==0.35.0
 xmlschema==4.1.0
+odmlib==0.2.0

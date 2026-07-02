@@ -13,7 +13,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            // "env": {"PYTHONPATH": ".;../odmlib"}
+            // "env": {"PYTHONPATH": ".;"}
         },
         {
           "name": "Python Debugger: Attach",
@@ -33,7 +33,7 @@
           "args": [
             "-ucm",
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create ADASCOGSC1 132 CRF",
@@ -47,7 +47,7 @@
             "--prefix",
             "adas-cog"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create ADASCOGSC1 20 CRF",
@@ -61,7 +61,7 @@
             "--prefix",
             "adas-cog"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create CES01 132 CRF",
@@ -75,7 +75,7 @@
             "--prefix",
             "CES"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create CES01 20 CRF",
@@ -89,7 +89,7 @@
             "--prefix",
             "CES"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create DEMOG_LZZT 132 CRF",
@@ -103,7 +103,7 @@
             "--prefix",
             "demographics"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create DEMOG_LZZT 20 CRF",
@@ -117,7 +117,7 @@
             "--prefix",
             "demographics"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create EC1 132 CRF",
@@ -131,7 +131,7 @@
             "--prefix",
             "study_administration"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create EC1 20 CRF",
@@ -145,7 +145,7 @@
             "--prefix",
             "study_administration"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create ECG1 132 CRF",
@@ -159,7 +159,7 @@
             "--prefix",
             "ecg"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create ECG1 20 CRF",
@@ -173,7 +173,7 @@
             "--prefix",
             "ecg"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create EQ5D02 132 CRF",
@@ -187,7 +187,7 @@
             "--prefix",
             "eq-5d-5l"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create EQ5D02 20 CRF",
@@ -201,7 +201,7 @@
             "--prefix",
             "eq-5d-5l"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create IE_LZZT 132 CRF",
@@ -215,7 +215,7 @@
             "--prefix",
             "inclusion_exclusion"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create IE_LZZT 20 CRF",
@@ -229,7 +229,7 @@
             "--prefix",
             "inclusion_exclusion"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create KFSS01 132 CRF",
@@ -243,7 +243,7 @@
             "--prefix",
             "KFSS"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create KFSS01 20 CRF",
@@ -257,7 +257,7 @@
             "--prefix",
             "KFSS"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create MH_LZZT 132 CRF",
@@ -271,7 +271,7 @@
             "--prefix",
             "medical_history"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create MH_LZZT 20 CRF",
@@ -285,7 +285,7 @@
             "--prefix",
             "medical_history"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create PR_LZZT 132 CRF",
@@ -299,7 +299,7 @@
             "--prefix",
             "procedures"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create PR_LZZT 20 CRF",
@@ -313,7 +313,7 @@
             "--prefix",
             "procedures"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create SC_LZZT 132 CRF",
@@ -327,7 +327,7 @@
             "--prefix",
             "subject_characteristics"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create SC_LZZT 20 CRF",
@@ -341,7 +341,7 @@
             "--prefix",
             "subject_characteristics"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create SIXMW1 132 CRF",
@@ -355,7 +355,7 @@
             "--prefix",
             "six_minute_walk"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create SIXMW1 20 CRF",
@@ -369,7 +369,7 @@
             "--prefix",
             "six_minute_walk"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create SU_LZZT 132 CRF",
@@ -383,7 +383,7 @@
             "--prefix",
             "substance_use"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create SU_LZZT 20 CRF",
@@ -397,7 +397,7 @@
             "--prefix",
             "substance_use"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot};"}
         },
         {
           "name": "Create VS1 132 CRF",
@@ -411,7 +411,7 @@
             "--prefix",
             "vital_signs"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
         },
         {
           "name": "Create VS1 20 CRF",
@@ -425,7 +425,7 @@
             "--prefix",
             "vital_signs"
           ],
-            "env": { "PYTHONPATH": "${workspaceRoot};../odmlib"}
+            "env": { "PYTHONPATH": "${workspaceRoot}"}
         }
     ],
   "compounds": [

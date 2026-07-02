@@ -42,10 +42,6 @@ The scripts use the [odmlib](https://pypi.org/project/odmlib/) Python library. A
 - cdisc_crf_specializations_draft.xlsx: CRF Specialization metadata. Generated from the draft CDISC CRF Specializations (see: [https://github.com/cdisc-org/COSMoS/tree/main/curation/draft](https://github.com/cdisc-org/COSMoS/tree/main/curation/draft)).
 - cdisc_crf_specilizations_forms.xlsx: Forms metadata.
 
-**odmlib**:
-
-- Updates to the [odmlib](https://pypi.org/project/odmlib/) library to support the final ODM v2.0 schema. These updates are intended to be merged with the odmlib library at [https://github.com/swhume/odmlib](https://github.com/swhume/odmlib).
-
 **schema**:
 
 - XML Schema files to validate ODM XML v1.3.2 and v2.0 files.

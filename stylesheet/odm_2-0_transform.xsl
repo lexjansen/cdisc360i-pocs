@@ -263,10 +263,6 @@
                                   <xsl:if test="$itemDef/odm:Alias[@Context='SDTM']">
                                       <div class='annotation'><xsl:value-of select="$itemDef/odm:Alias[@Context='SDTM']/@Name"/></div>
                                   </xsl:if>
-                                  <xsl:if test="$itemDef/odm:Alias[@Context!='SDTM']">
-                                      <div class='coding-info'><strong><xsl:value-of select="$itemDef/odm:Alias/@Context"/><xsl:text>: </xsl:text</strong>><xsl:value-of select="$itemDef/odm:Alias/@Name"/></div>
-                                  </xsl:if>
-
                                   <xsl:if test="$itemDef/odm:CodeListRef">
                                       <xsl:variable name="codeListOID" select="$itemDef/odm:CodeListRef/@CodeListOID"/>
                                       <xsl:variable name="codeList" select="//odm:CodeList[@OID=$codeListOID]"/>

@@ -176,12 +176,6 @@
                                         <input type="date" name="{$itemDef/@Name}" />
                                     </xsl:when>
 
-                                    <!-- Numeric fields (ORRES) -->
-                                    <xsl:when test="$itemDef/@DataType='integer'">
-                                        <input type="number" name="{$itemDef/@Name}"
-                                               />
-                                    </xsl:when>
-
                                     <!-- Dropdown for coded values -->
                                     <xsl:when test="$itemDef/odm:CodeListRef">
                                         <xsl:variable name="codeListOID" select="$itemDef/odm:CodeListRef/@CodeListOID"/>
@@ -220,6 +214,32 @@
                                         </xsl:if>
                                     </xsl:when>
 
+                                    <!-- Numeric fields (ORRES) -->
+                                    <xsl:when test="$itemDef/@DataType='integer'">
+                                        <input type="number" name="{$itemDef/@Name}"
+                                               />
+                                    </xsl:when>
+
+                                    <!-- Numeric fields (ORRES) -->
+                                    <xsl:when test="$itemDef/@DataType='float'">
+                                        <input type="number" name="{$itemDef/@Name}"
+                                               />
+                                    </xsl:when>
+
+                                    <!-- Boolean fields -->
+                                    <xsl:when test="$itemDef/@DataType='boolean'">
+                                        <div>
+                                          <span>
+                                            <input type="radio" id="{$itemDef/@Name}/yes" value="" name="{$itemDef/@Name}" class="form-check-input"/>
+                                            <label for="{$itemDef/@Name}"> Yes </label>
+                                          </span>
+                                          <span class="radio col">
+                                            <input type="radio" id="{$itemDef/@Name}/no" value="" name="{$itemDef/@Name}" class="form-check-input"/>
+                                            <label for="{$itemDef/@Name}/no" class="form-check-label"> No </label>
+                                          </span>
+                                        </div>
+                                    </xsl:when>
+
                                     <!-- Default text input -->
                                     <xsl:otherwise>
                                         <input type="text" name="{$itemDef/@Name}"
@@ -242,6 +262,9 @@
 
                                   <xsl:if test="$itemDef/odm:Alias[@Context='SDTM']">
                                       <div class='annotation'><xsl:value-of select="$itemDef/odm:Alias[@Context='SDTM']/@Name"/></div>
+                                  </xsl:if>
+                                  <xsl:if test="$itemDef/odm:Alias[@Context!='SDTM']">
+                                      <div class='coding-info'><strong><xsl:value-of select="$itemDef/odm:Alias/@Context"/><xsl:text>: </xsl:text</strong>><xsl:value-of select="$itemDef/odm:Alias/@Name"/></div>
                                   </xsl:if>
 
                                   <xsl:if test="$itemDef/odm:CodeListRef">

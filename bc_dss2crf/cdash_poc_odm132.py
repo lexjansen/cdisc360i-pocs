@@ -173,6 +173,10 @@ def create_item_def(row):
         prompt_alias = create_alias("prompt", row["prompt"])
         alias_list.append(prompt_alias)
 
+    if row["completion_instructions"] != "":
+        completion_instructions_alias = create_alias("completionInstructions", row["completion_instructions"])
+        alias_list.append(completion_instructions_alias)
+
     if row["sdtm_annotation"] != "":
         sdtm_alias = create_alias("SDTM", row["sdtm_annotation"])
         alias_list.append(sdtm_alias)

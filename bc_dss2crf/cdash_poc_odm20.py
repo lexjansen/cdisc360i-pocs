@@ -177,6 +177,8 @@ def create_item_def(row):
         item_def.Question = create_question((row["question_text"]))
     if row["prompt"] != "":
         item_def.Prompt = create_prompt((row["prompt"]))
+    if row["completion_instructions"] != "":
+        item_def.CRFCompletionInstructions = create_completion_instructions((row["completion_instructions"]))
     if row["codelist"] != "":
         item_def.CodeListRef = ODM.CodeListRef(CodeListOID=create_oid("CODELIST", row))
     elif row["value_display_list"] != "":
@@ -207,6 +209,13 @@ def create_prompt(text, lang="en", type="text/plain"):
     translatedText = ODM.TranslatedText(_content=text, Type=type, lang=lang)
     prompt.TranslatedText.append(translatedText)
     return prompt
+
+
+def create_completion_instructions(text, lang="en", type="text/plain"):
+    completionInstructions = ODM.CRFCompletionInstructions()
+    translatedText = ODM.TranslatedText(_content=text, Type=type, lang=lang)
+    completionInstructions.TranslatedText.append(translatedText)
+    return completionInstructions
 
 
 def create_decode(text, lang="en", type="text/plain"):

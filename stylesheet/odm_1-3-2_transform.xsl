@@ -41,6 +41,7 @@
                     .mandatory { color: #e74c3c; }
                     .footnote {font-size: 8pt;}
                     .question { font-weight: bold; color: #2980b9; margin-bottom: 10px; }
+                    .instruction { font-weight: hormal; color: #01070b; margin-bottom: 10px; font-size: 8pt;}
                     .annotation {background-color: LightYellow; border: 1px solid #ccc; padding: 5px; }
                     .form-instruction {
                       vertical-align: top;
@@ -153,6 +154,13 @@
                                         <xsl:value-of select="$itemDef/@Name"/>
                                     </xsl:otherwise>
                                 </xsl:choose>
+
+                                <xsl:if test="$itemDef/odm:Alias[@Context='completionInstructions']">
+                                    <div class="instruction">
+                                        <xsl:value-of select="$itemDef/odm:Alias[@Context='completionInstructions']/@Name"/>
+                                    </div>
+                                </xsl:if>
+
                             </td>
                             <td class="field-value">
                                 <xsl:choose>
